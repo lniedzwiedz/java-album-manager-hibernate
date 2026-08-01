@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/hibernate-blank/hibernate.iml" filepath="$PROJECT_DIR$/hibernate-blank/hibernate.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/hibernate-blank.iml" filepath="$PROJECT_DIR$/.idea/hibernate-blank.iml" />
     </modules>
   </component>

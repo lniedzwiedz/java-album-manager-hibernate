@@ -1,4 +1,4 @@
-package pl.edu.agh.mwo.hibernate.FileAlbumManagerVo1;
+package pl.edu.agh.mwo.hibernate.filealbummanager.entity;
 
 import javax.persistence.*;
 import java.util.HashSet;

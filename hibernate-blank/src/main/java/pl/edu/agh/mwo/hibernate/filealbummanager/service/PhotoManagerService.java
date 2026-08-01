@@ -1,0 +1,60 @@
+package pl.edu.agh.mwo.hibernate.filealbummanager.service;
+
+import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
+import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
+import pl.edu.agh.mwo.hibernate.filealbummanager.repository.PhotoRepository;
+
+import java.util.List;
+
+public class PhotoManagerService {
+
+    private final PhotoRepository photoRepository;
+
+    public PhotoManagerService(PhotoRepository photoRepository) {
+        this.photoRepository = photoRepository;
+    }
+
+    public Photo getPhotoFromDatabase(String photoName, int albumId) {
+        return photoRepository.getPhotoFromDatabase(photoName, albumId);
+    }
+
+    public List<Photo> getPhotosFromDatabase(int albumId) {
+        return photoRepository.getPhotosFromDatabase(albumId);
+    }
+
+    public boolean isPictureBelongToUser(User user, String albumName, String photoName) {
+        return photoRepository.isPictureBelongToUser(user, albumName, photoName);
+    }
+
+    public int getProcessingStatusWhileAddingPhoto(User user, String albumName, String photoName) {
+        return photoRepository.getProcessingStatusWhileAddingPhoto(user, albumName, photoName);
+    }
+
+    public void addPhoto(String photoName, String albumName, User user) {
+        photoRepository.addPhoto(photoName, albumName, user);
+    }
+
+    public void deletePhoto(String photoName, String albumName, User user) {
+        photoRepository.deletePhoto(photoName, albumName, user);
+    }
+
+    public void printPhoto(User user, String albumName) {
+        photoRepository.printPhoto(user, albumName);
+    }
+
+    public int getProcessingStatusForPhotoLike(User user, String albumName, String photoName) {
+        return photoRepository.getProcessingStatusForPhotoLike(user, albumName, photoName);
+    }
+
+    public void addPhotoLike(User user, String albumName, String photoName) {
+        photoRepository.addPhotoLike(user, albumName, photoName);
+    }
+
+    public void deletePhotoLike(User user, String albumName, String photoName) {
+        photoRepository.deletePhotoLike(user, albumName, photoName);
+    }
+
+    public int countedPhotoLikes(Photo photo) {
+        return photoRepository.countedPhotoLikes(photo);
+    }
+}
