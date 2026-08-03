@@ -41,8 +41,7 @@ public class FriendManagerService {
             System.out.println(String.format(Messages.FRIEND_NOT_EXIST, friendName));
             return;
         }
-        if (!friendRepository.areFriends(user, friend))
-            return;
+        if (!friendRepository.areFriends(user, friend)) return;
         friendRepository.deleteFriend(user, friend);
     }
 
