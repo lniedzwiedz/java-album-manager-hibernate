@@ -1,6 +1,8 @@
-# 📸 Album Manager 
+# 📸 Album Manager
 
-A simple console application for managing photo albums.
+A simple console application for managing photo albums. The application ensures consistent management of relationships between users, albums, photos, and likes.
+
+---
 
 ## Features
 
@@ -18,6 +20,10 @@ A simple console application for managing photo albums.
 * Removing an album deletes all photos inside it.
 * Removing a user deletes all their albums.
 
-#
+---
 
-This structure ensures consistent management of relationships between users, albums, photos, and likes.
+### Technologies
+
+* Java 🍵
+* Hibernate
+* SQLite
