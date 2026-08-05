@@ -1,55 +1,35 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.photo;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumManagerService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoManagerService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.Messages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.album.AlbumMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.photo.PhotoMessages;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public class ShowPhotosAction {
 
-    private final AlbumManagerService albumManager;
-    private final PhotoManagerService photoManager;
+    private final AlbumService albumService;
+    private final PhotoService photoService;
 
-    public ShowPhotosAction(
-            AlbumManagerService albumManager,
-            PhotoManagerService photoManager
-    ) {
-        this.albumManager = albumManager;
-        this.photoManager = photoManager;
+    public ShowPhotosAction(AlbumService albumService, PhotoService photoService) {
+        this.albumService = albumService;
+        this.photoService = photoService;
     }
 
-    public void execute(
-            BufferedReader br,
-            User userLogged
-    ) throws IOException {
+    public void execute(BufferedReader br, User userLogged) throws IOException {
+        if (userLogged == null)
+            return;
 
-        System.out.println(
-                Messages.ENTER_ALBUM_PHOTO
-        );
+        System.out.println(PhotoMessages.ENTER_ALBUM_PHOTO);
+        String albumName = br.readLine();
 
-        String albumName =
-                br.readLine();
-
-        if (
-                albumManager.isAlbumBelongToUser(
-                        userLogged,
-                        albumName
-                )
-        ) {
-
-            photoManager.printPhoto(
-                    userLogged,
-                    albumName
-            );
-
+        if (albumService.isAlbumBelongToUser(userLogged, albumName)) {
+            photoService.printPhoto(userLogged, albumName);
         } else {
-
-            System.out.println(
-                    Messages.ALBUM_NOT_FOUND
-            );
+            System.out.println(AlbumMessages.ALBUM_NOT_FOUND);
         }
     }
 }

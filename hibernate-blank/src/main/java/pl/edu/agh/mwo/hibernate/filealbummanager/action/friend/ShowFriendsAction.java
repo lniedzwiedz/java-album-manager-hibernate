@@ -1,17 +1,17 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.friend;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.FriendManagerService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.FriendService;
 
 public class ShowFriendsAction {
 
-    private final FriendManagerService friendManager;
+    private final FriendService friendService;
 
-    public ShowFriendsAction(FriendManagerService friendManager) {
-        this.friendManager = friendManager;
+    public ShowFriendsAction(FriendService friendService) {
+        this.friendService = friendService;
     }
 
     public void execute(User userLogged) {
-        friendManager.printMyFriends(userLogged);
+        friendService.printMyFriends(userLogged);
     }
 }

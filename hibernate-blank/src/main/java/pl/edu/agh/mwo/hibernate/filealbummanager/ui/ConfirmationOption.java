@@ -1,13 +1,13 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.ui;
 
-public enum BinaryOption {
+public enum ConfirmationOption {
 
     YES(1),
     NO(2);
 
     private final int value;
 
-    BinaryOption(int value) {
+    ConfirmationOption(int value) {
         this.value = value;
     }
 
@@ -15,10 +15,11 @@ public enum BinaryOption {
         return value;
     }
 
-    public static BinaryOption fromInt(int value) {
-        for (BinaryOption option : BinaryOption.values()) {
-            if (option.value == value)
+    public static ConfirmationOption fromInt(int value) {
+        for (ConfirmationOption option : values()) {
+            if (option.value == value) {
                 return option;
+            }
         }
         return null;
     }

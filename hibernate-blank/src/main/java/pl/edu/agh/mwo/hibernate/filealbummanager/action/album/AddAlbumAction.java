@@ -1,29 +1,37 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.album;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumManagerService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.Messages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.account.AccountMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.album.AlbumMessages;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public class AddAlbumAction {
 
-    private final AlbumManagerService albumManager;
+    private final AlbumService albumService;
 
-    public AddAlbumAction(AlbumManagerService albumManager) {
-        this.albumManager = albumManager;
+    public AddAlbumAction(AlbumService albumService) {
+        this.albumService = albumService;
     }
 
     public void execute(BufferedReader br, User userLogged) throws IOException {
-        System.out.println(Messages.ADD_ALBUM_NAME);
+        System.out.println(AlbumMessages.ADD_ALBUM_NAME);
+
         String albumName = br.readLine();
-        int albumResult = albumManager.getProcessingStatusWhileAddingAlbum(userLogged, albumName);
-        if (albumResult == 1) {
-            albumManager.createNewAlbum(userLogged, albumName);
-            System.out.println(Messages.ALBUM_ADDED);
-        } else if (albumResult == 2) {
-            System.out.println(Messages.ALBUM_EXISTS);
+        AlbumAddResult result = albumService.getProcessingStatusWhileAddingAlbum(userLogged, albumName);
+
+        switch (result) {
+
+            case CAN_BE_ADDED -> {
+                albumService.createNewAlbum(userLogged, albumName);
+                System.out.println(AlbumMessages.ALBUM_ADDED);
+            }
+
+            case ALREADY_EXISTS -> System.out.println(AlbumMessages.ALBUM_EXISTS);
+
+            case INVALID_USER -> System.out.println(AccountMessages.USER_NOT_FOUND);
         }
     }
 }

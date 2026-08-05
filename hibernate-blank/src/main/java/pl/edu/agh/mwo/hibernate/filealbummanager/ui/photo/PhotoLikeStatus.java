@@ -1,4 +1,4 @@
-package pl.edu.agh.mwo.hibernate.filealbummanager.ui;
+package pl.edu.agh.mwo.hibernate.filealbummanager.ui.photo;
 
 public enum PhotoLikeStatus {
 
@@ -19,9 +19,7 @@ public enum PhotoLikeStatus {
     }
 
     public static PhotoLikeStatus fromInt(int value) {
-
         for (PhotoLikeStatus status : values()) {
-
             if (status.value == value) {
                 return status;
             }

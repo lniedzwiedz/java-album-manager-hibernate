@@ -6,11 +6,11 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.repository.PhotoRepository;
 
 import java.util.List;
 
-public class PhotoManagerService {
+public class PhotoService {
 
     private final PhotoRepository photoRepository;
 
-    public PhotoManagerService(PhotoRepository photoRepository) {
+    public PhotoService(PhotoRepository photoRepository) {
         this.photoRepository = photoRepository;
     }
 
@@ -22,8 +22,8 @@ public class PhotoManagerService {
         return photoRepository.getPhotosFromDatabase(albumId);
     }
 
-    public boolean isPictureBelongToUser(User user, String albumName, String photoName) {
-        return photoRepository.isPictureBelongToUser(user, albumName, photoName);
+    public boolean isPhotoBelongToUser(User user, String albumName, String photoName) {
+        return photoRepository.isPhotoBelongToUser(user, albumName, photoName);
     }
 
     public int getProcessingStatusWhileAddingPhoto(User user, String albumName, String photoName) {

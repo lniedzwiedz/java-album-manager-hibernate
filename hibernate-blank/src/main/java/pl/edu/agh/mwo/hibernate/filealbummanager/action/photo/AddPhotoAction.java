@@ -1,87 +1,49 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.photo;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumManagerService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoManagerService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.Messages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.photo.PhotoMessages;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public class AddPhotoAction {
 
-    private final AlbumManagerService albumManager;
-    private final PhotoManagerService photoManager;
+    private final AlbumService albumService;
+    private final PhotoService photoService;
 
-    public AddPhotoAction(
-            AlbumManagerService albumManager,
-            PhotoManagerService photoManager
-    ) {
-        this.albumManager = albumManager;
-        this.photoManager = photoManager;
+    public AddPhotoAction(AlbumService albumService, PhotoService photoService) {
+        this.albumService = albumService;
+        this.photoService = photoService;
     }
 
-    public void execute(
-            BufferedReader br,
-            User userLogged
-    ) throws IOException {
+    public void execute(BufferedReader br, User userLogged) throws IOException {
+        if (userLogged == null)
+            return;
 
-        System.out.println(
-                Messages.ENTER_ALBUM_ADD_PHOTO
-        );
+        System.out.println(PhotoMessages.ENTER_ALBUM_ADD_PHOTO);
+        String albumName = br.readLine();
 
-        String albumName =
-                br.readLine();
-
-        if (
-                !albumManager.isAlbumBelongToUser(
-                        userLogged,
-                        albumName
-                )
-        ) {
-
-            System.out.println(
-                    String.format(
-                            Messages.PHOTO_ADD_FORBIDDEN,
-                            userLogged.getName()
-                    )
-            );
-
+        if (!albumService.isAlbumBelongToUser(userLogged, albumName)) {
+            System.out.println(String.format(PhotoMessages.PHOTO_ADD_FORBIDDEN, userLogged.getName()));
             return;
         }
 
-        System.out.println(
-                Messages.ADD_PHOTO_NAME
-        );
+        System.out.println(PhotoMessages.ADD_PHOTO_NAME);
+        String photoName = br.readLine();
+        int photoResult = photoService.getProcessingStatusWhileAddingPhoto(userLogged, albumName, photoName);
 
-        String photoName =
-                br.readLine();
+        switch (photoResult) {
+            case 1 -> {
+                photoService.addPhoto(photoName, albumName, userLogged);
+                System.out.println(PhotoMessages.PHOTO_ADDED);
+            }
 
-        int photoResult =
-                photoManager
-                        .getProcessingStatusWhileAddingPhoto(
-                                userLogged,
-                                albumName,
-                                photoName
-                        );
-
-        if (photoResult == 1) {
-
-            photoManager.addPhoto(
-                    photoName,
-                    albumName,
-                    userLogged
-            );
-
-            System.out.println(
-                    Messages.PHOTO_ADDED
-            );
-
-        } else if (photoResult == 2) {
-
-            System.out.println(
-                    Messages.PHOTO_EXISTS
-            );
+            case 2 -> System.out.println(PhotoMessages.PHOTO_EXISTS);
+            default -> {
+                // Upsss to fix.
+            }
         }
     }
 }

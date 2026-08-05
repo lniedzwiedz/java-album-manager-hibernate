@@ -1,31 +1,34 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.album;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumManagerService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserManagerService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.Messages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.account.AccountMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.album.AlbumMessages;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public class ShowUserAlbumsAction {
 
-    private final AlbumManagerService albumManager;
-    private final UserManagerService userManager;
+    private final AlbumService albumService;
+    private final UserService userService;
 
-    public ShowUserAlbumsAction(AlbumManagerService albumManager, UserManagerService userManager) {
-        this.albumManager = albumManager;
-        this.userManager = userManager;
+    public ShowUserAlbumsAction(AlbumService albumService, UserService userService) {
+        this.albumService = albumService;
+        this.userService = userService;
     }
 
     public void execute(BufferedReader br) throws IOException {
-        System.out.println(Messages.ENTER_USERNAME_ALBUMS);
+        System.out.println(AlbumMessages.ENTER_USERNAME_ALBUMS);
+
         String userName = br.readLine();
-        User user = userManager.getUserFromDatabase(userName);
+        User user = userService.getUserFromDatabase(userName);
+
         if (user != null) {
-            albumManager.printUserAlbums(user);
+            albumService.printUserAlbums(user);
         } else {
-            System.out.println(Messages.USER_NOT_FOUND);
+            System.out.println(AccountMessages.USER_NOT_FOUND);
         }
     }
 }

@@ -1,9 +1,10 @@
-package pl.edu.agh.mwo.hibernate.filealbummanager.ui;
+package pl.edu.agh.mwo.hibernate.filealbummanager.ui.account;
 
 public enum LoginOption {
 
     LOGIN(1),
-    CREATE_ACCOUNT(2);
+    CREATE_ACCOUNT(2),
+    TRY_AGAIN(3);
 
     private final int value;
 
@@ -17,8 +18,9 @@ public enum LoginOption {
 
     public static LoginOption fromInt(int value) {
         for (LoginOption option : values()) {
-            if (option.value == value)
+            if (option.value == value) {
                 return option;
+            }
         }
         return null;
     }

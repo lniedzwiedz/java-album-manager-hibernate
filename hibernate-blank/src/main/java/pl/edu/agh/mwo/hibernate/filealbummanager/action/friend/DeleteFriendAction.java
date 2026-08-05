@@ -1,34 +1,40 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.friend;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.FriendManagerService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserManagerService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.Messages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.FriendService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.account.AccountMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.friend.FriendMessages;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public class DeleteFriendAction {
 
-    private final UserManagerService userManager;
-    private final FriendManagerService friendManager;
+    private final UserService userService;
+    private final FriendService friendService;
 
-    public DeleteFriendAction(UserManagerService userManager, FriendManagerService friendManager) {
-        this.userManager = userManager;
-        this.friendManager = friendManager;
+    public DeleteFriendAction(UserService userService, FriendService friendService) {
+        this.userService = userService;
+        this.friendService = friendService;
     }
 
     public void execute(BufferedReader br, User userLogged) throws IOException {
-        System.out.println(Messages.DELETE_FRIEND_USERNAME);
+        if (userLogged == null)
+            return;
+
+        System.out.println(FriendMessages.DELETE_FRIEND_USERNAME);
         String friendName = br.readLine();
-        if (!userManager.isUserExistsInDatabase(friendName)) {
-            System.out.println(String.format(Messages.USER_DOES_NOT_EXIST, friendName));
+
+        if (!userService.isUserExistsInDatabase(friendName)) {
+            System.out.println(String.format(AccountMessages.USER_DOES_NOT_EXIST, friendName));
             return;
         }
-        if (friendManager.areWeFriends(userLogged, friendName)) {
-            friendManager.deleteFriend(userLogged, friendName);
+
+        if (friendService.areWeFriends(userLogged, friendName)) {
+            friendService.deleteFriend(userLogged, friendName);
         } else {
-            System.out.println(String.format(Messages.NOT_FRIEND, friendName));
+            System.out.println(String.format(FriendMessages.NOT_FRIEND, friendName));
         }
     }
 }

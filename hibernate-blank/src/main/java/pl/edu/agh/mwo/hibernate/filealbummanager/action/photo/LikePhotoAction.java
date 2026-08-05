@@ -1,104 +1,62 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.photo;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoManagerService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.Messages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.PhotoLikeStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.photo.PhotoLikeStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.photo.PhotoMessages;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public class LikePhotoAction {
 
-    private final PhotoManagerService photoManager;
+    private final PhotoService photoService;
 
-    public LikePhotoAction(
-            PhotoManagerService photoManager
-    ) {
-        this.photoManager = photoManager;
+    public LikePhotoAction(PhotoService photoService) {
+        this.photoService = photoService;
     }
 
-    public void execute(
-            BufferedReader br,
-            User userLogged
-    ) throws IOException {
+    public void execute(BufferedReader br, User userLogged) throws IOException {
+        if (userLogged == null)
+            return;
 
-        System.out.println(
-                Messages.ADD_LIKE_PHOTO_NAME
-        );
+        System.out.println(PhotoMessages.ADD_LIKE_PHOTO_NAME);
 
-        String photoName =
-                br.readLine();
+        String photoName = br.readLine();
+        System.out.println(PhotoMessages.ALBUM_NAME_LIKE);
 
-        System.out.println(
-                Messages.ALBUM_NAME_LIKE
-        );
+        String albumName = br.readLine();
+        int status = photoService.getProcessingStatusForPhotoLike(userLogged, albumName, photoName);
+        PhotoLikeStatus likeResult = PhotoLikeStatus.fromInt(status);
 
-        String albumName =
-                br.readLine();
+        if (likeResult == null)
+            return;
 
-        PhotoLikeStatus likeResult =
-                PhotoLikeStatus.fromInt(
-                        photoManager.getProcessingStatusForPhotoLike(
-                                userLogged,
-                                albumName,
-                                photoName
-                        )
-                );
+        switch (likeResult) {
 
-        if (
-                likeResult ==
-                        PhotoLikeStatus.NEVER_LIKED
-        ) {
+            case NEVER_LIKED:
+                photoService.addPhotoLike(userLogged, albumName, photoName);
+                System.out.println(PhotoMessages.PHOTO_LIKE_ADDED);
+                break;
 
-            photoManager.addPhotoLike(
-                    userLogged,
-                    albumName,
-                    photoName
-            );
+            case ALREADY_LIKED:
+                System.out.println(String.format(PhotoMessages.ALREADY_LIKE_PHOTO, userLogged.getName()));
+                break;
 
-            System.out.println(
-                    Messages.PHOTO_LIKE_ADDED
-            );
+            case PHOTO_NOT_IN_ALBUM:
+                System.out.println(PhotoMessages.PHOTO_NOT_IN_ALBUM);
+                break;
 
-        } else if (
-                likeResult ==
-                        PhotoLikeStatus.ALREADY_LIKED
-        ) {
+            case ALBUM_DOES_NOT_EXIST:
+                System.out.println(PhotoMessages.ALBUM_DOES_NOT_EXIST);
+                break;
 
-            System.out.println(
-                    String.format(
-                            Messages.ALREADY_LIKE_PHOTO,
-                            userLogged.getName()
-                    )
-            );
+            case NOT_FRIEND_PHOTO_OWNER:
+                System.out.println(PhotoMessages.NOT_FRIEND_PHOTO_OWNER);
+                break;
 
-        } else if (
-                likeResult ==
-                        PhotoLikeStatus.PHOTO_NOT_IN_ALBUM
-        ) {
-
-            System.out.println(
-                    Messages.PHOTO_NOT_IN_ALBUM
-            );
-
-        } else if (
-                likeResult ==
-                        PhotoLikeStatus.ALBUM_DOES_NOT_EXIST
-        ) {
-
-            System.out.println(
-                    Messages.ALBUM_DOES_NOT_EXIST
-            );
-
-        } else if (
-                likeResult ==
-                        PhotoLikeStatus.NOT_FRIEND_PHOTO_OWNER
-        ) {
-
-            System.out.println(
-                    Messages.NOT_FRIEND_PHOTO_OWNER
-            );
+            default:
+                break;
         }
     }
 }

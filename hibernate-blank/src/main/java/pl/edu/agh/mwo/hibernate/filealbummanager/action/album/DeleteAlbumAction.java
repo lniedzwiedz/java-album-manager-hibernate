@@ -1,28 +1,35 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.album;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumManagerService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.Messages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.album.AlbumMessages;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public class DeleteAlbumAction {
 
-    private final AlbumManagerService albumManager;
+    private final AlbumService albumService;
 
-    public DeleteAlbumAction(AlbumManagerService albumManager) {
-        this.albumManager = albumManager;
+    public DeleteAlbumAction(AlbumService albumService) {
+        this.albumService = albumService;
     }
 
     public void execute(BufferedReader br, User userLogged) throws IOException {
-        System.out.println(Messages.REMOVE_ALBUM_NAME);
+        System.out.println(AlbumMessages.REMOVE_ALBUM_NAME);
+
         String albumName = br.readLine();
-        if (albumManager.isAlbumBelongToUser(userLogged, albumName)) {
-            albumManager.deleteAlbum(userLogged, albumName);
-            System.out.println(Messages.ALBUM_REMOVED);
+
+        if (albumService.isAlbumBelongToUser(userLogged, albumName)) {
+            albumService.deleteAlbum(userLogged, albumName);
+            System.out.println(AlbumMessages.ALBUM_REMOVED);
         } else {
-            System.out.println(String.format(Messages.ALBUM_DELETE_FORBIDDEN, userLogged.getName()));
+            System.out.println(
+                    String.format(
+                            AlbumMessages.ALBUM_DELETE_FORBIDDEN,
+                            userLogged.getName()
+                    )
+            );
         }
     }
 }

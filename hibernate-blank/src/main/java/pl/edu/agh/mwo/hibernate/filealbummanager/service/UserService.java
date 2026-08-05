@@ -5,11 +5,11 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.repository.UserRepository;
 
 import java.util.List;
 
-public class UserManagerService {
+public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserManagerService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
