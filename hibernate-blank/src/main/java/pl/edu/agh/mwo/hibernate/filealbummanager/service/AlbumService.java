@@ -2,7 +2,7 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.service;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.album.AlbumAddResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.AlbumAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
@@ -58,9 +58,8 @@ public class AlbumService {
     }
 
     public AlbumAddResult getProcessingStatusWhileAddingAlbum(User userLogged, String albumName) {
-        if (userLogged == null || userLogged.getId() <= 0) {
+        if (userLogged == null || userLogged.getId() <= 0)
             return AlbumAddResult.INVALID_USER;
-        }
 
         Album album = albumRepository.getAlbumFromDatabase(albumName, userLogged.getId());
 
@@ -71,9 +70,8 @@ public class AlbumService {
     }
 
     public boolean isAlbumBelongToUser(User userLogged, String albumName) {
-        if (userLogged == null) {
+        if (userLogged == null)
             return false;
-        }
 
         return albumRepository.getAlbumFromDatabase(albumName, userLogged.getId()) != null;
     }

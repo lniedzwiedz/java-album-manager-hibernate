@@ -1,8 +1,10 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.service;
 
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.repository.PhotoRepository;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoLikeStatus;
 
 import java.util.List;
 
@@ -22,11 +24,15 @@ public class PhotoService {
         return photoRepository.getPhotosFromDatabase(albumId);
     }
 
+    public List<Photo> getPhotosForUserAlbum(User user, String albumName) {
+        return photoRepository.getPhotosForUserAlbum(user, albumName);
+    }
+
     public boolean isPhotoBelongToUser(User user, String albumName, String photoName) {
         return photoRepository.isPhotoBelongToUser(user, albumName, photoName);
     }
 
-    public int getProcessingStatusWhileAddingPhoto(User user, String albumName, String photoName) {
+    public PhotoAddResult getProcessingStatusWhileAddingPhoto(User user, String albumName, String photoName) {
         return photoRepository.getProcessingStatusWhileAddingPhoto(user, albumName, photoName);
     }
 
@@ -38,11 +44,7 @@ public class PhotoService {
         photoRepository.deletePhoto(photoName, albumName, user);
     }
 
-    public void printPhoto(User user, String albumName) {
-        photoRepository.printPhoto(user, albumName);
-    }
-
-    public int getProcessingStatusForPhotoLike(User user, String albumName, String photoName) {
+    public PhotoLikeStatus getProcessingStatusForPhotoLike(User user, String albumName, String photoName) {
         return photoRepository.getProcessingStatusForPhotoLike(user, albumName, photoName);
     }
 

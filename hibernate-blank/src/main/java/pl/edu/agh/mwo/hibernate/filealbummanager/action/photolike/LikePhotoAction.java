@@ -1,8 +1,9 @@
-package pl.edu.agh.mwo.hibernate.filealbummanager.action.photo;
+package pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.photo.PhotoLikeStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.photo.PhotoLikeMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoLikeStatus;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.photo.PhotoMessages;
 
 import java.io.BufferedReader;
@@ -20,27 +21,26 @@ public class LikePhotoAction {
         if (userLogged == null)
             return;
 
-        System.out.println(PhotoMessages.ADD_LIKE_PHOTO_NAME);
-
+        System.out.println(PhotoLikeMessages.ADD_LIKE_PHOTO_NAME);
         String photoName = br.readLine();
-        System.out.println(PhotoMessages.ALBUM_NAME_LIKE);
-
+        System.out.println(PhotoLikeMessages.ALBUM_NAME_LIKE);
         String albumName = br.readLine();
-        int status = photoService.getProcessingStatusForPhotoLike(userLogged, albumName, photoName);
-        PhotoLikeStatus likeResult = PhotoLikeStatus.fromInt(status);
+        PhotoLikeStatus likeResult = photoService.getProcessingStatusForPhotoLike(userLogged, albumName, photoName);
 
-        if (likeResult == null)
+        if (likeResult == null) {
+            System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
             return;
+        }
 
         switch (likeResult) {
 
             case NEVER_LIKED:
                 photoService.addPhotoLike(userLogged, albumName, photoName);
-                System.out.println(PhotoMessages.PHOTO_LIKE_ADDED);
+                System.out.println(PhotoLikeMessages.PHOTO_LIKE_ADDED);
                 break;
 
             case ALREADY_LIKED:
-                System.out.println(String.format(PhotoMessages.ALREADY_LIKE_PHOTO, userLogged.getName()));
+                System.out.println(String.format(PhotoLikeMessages.ALREADY_LIKE_PHOTO, userLogged.getName()));
                 break;
 
             case PHOTO_NOT_IN_ALBUM:
@@ -52,10 +52,11 @@ public class LikePhotoAction {
                 break;
 
             case NOT_FRIEND_PHOTO_OWNER:
-                System.out.println(PhotoMessages.NOT_FRIEND_PHOTO_OWNER);
+                System.out.println(PhotoLikeMessages.NOT_FRIEND_PHOTO_OWNER);
                 break;
 
             default:
+                System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
                 break;
         }
     }

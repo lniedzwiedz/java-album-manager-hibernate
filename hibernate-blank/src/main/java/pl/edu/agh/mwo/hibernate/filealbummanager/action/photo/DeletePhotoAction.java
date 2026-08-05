@@ -21,7 +21,6 @@ public class DeletePhotoAction {
             return;
 
         System.out.println(PhotoMessages.REMOVE_PHOTO_NAME);
-
         String photoName = br.readLine();
         System.out.println(AlbumMessages.ALBUM_NAME);
 

@@ -1,6 +1,7 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.album;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.AlbumAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.account.AccountMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.album.AlbumMessages;

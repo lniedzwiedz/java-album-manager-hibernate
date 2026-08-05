@@ -27,7 +27,6 @@ public class AlbumRepository {
         Query<Album> query = session.createQuery("FROM Album a " + "WHERE a.name = :name " + "AND a.userId = :userId", Album.class);
         query.setParameter("name", albumName);
         query.setParameter("userId", userId);
-
         return query.uniqueResult();
     }
 
@@ -44,26 +43,6 @@ public class AlbumRepository {
         return getAlbumFromDatabase(albumName, user.getId()) != null;
     }
 
-//    public int getProcessingStatusWhileAddingAlbum(
-//            User user,
-//            String albumName
-//    ) {
-//        if (user == null || user.getId() <= 0) {
-//            return 3;
-//        }
-//
-//        Album album = getAlbumFromDatabase(
-//                albumName,
-//                user.getId()
-//        );
-//
-//        if (album == null) {
-//            return 1;
-//        }
-//
-//        return 2;
-//    }
-
     public void createNewAlbum(User user, String albumName) {
         if (user == null)
             return;
@@ -77,7 +56,6 @@ public class AlbumRepository {
         try {
             session.save(album);
             transaction.commit();
-
         } catch (Exception e) {
             if (transaction.isActive())
                 transaction.rollback();
@@ -91,7 +69,6 @@ public class AlbumRepository {
             return;
 
         Album album = getAlbumFromDatabase(albumName, user.getId());
-
         if (album == null) {
             System.out.println(String.format(AlbumMessages.ALBUM_NOT_EXIST, albumName));
             return;
@@ -102,11 +79,9 @@ public class AlbumRepository {
         try {
             session.delete(album);
             transaction.commit();
-
         } catch (Exception e) {
             if (transaction.isActive())
                 transaction.rollback();
-
             throw e;
         }
     }

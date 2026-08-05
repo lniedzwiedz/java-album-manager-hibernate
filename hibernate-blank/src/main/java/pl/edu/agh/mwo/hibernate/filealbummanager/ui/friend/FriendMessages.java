@@ -6,29 +6,29 @@ public final class FriendMessages {
     }
 
     public static final String ADD_FRIEND_USERNAME =
-            "ADD FRIEND user name: ";
+            "Enter username to add as a friend: ";
 
     public static final String ALREADY_FRIEND =
-            "You are already friend of %s.";
+            "You are already friends with %s.";
 
     public static final String NOW_FRIEND =
-            "You are now friend of %s.";
+            "You are now friends with %s.";
 
     public static final String DELETE_FRIEND_USERNAME =
-            "DELETE FRIEND, user name: ";
+            "Enter the username of the friend you want to remove: ";
 
     public static final String NOT_FRIEND =
-            "You are not friend of %s.";
+            "You are not friends with %s.";
 
     public static final String FRIEND_NOT_EXIST =
-            "[Friend %s does not exist]";
+            "Friend %s not found.";
 
     public static final String FRIEND_NOT_EXIST_DATABASE =
-            "[Friend %s does not exist in database]";
+            "User %s not found in the database.";
 
     public static final String FRIENDS_HEADER =
             "### Friends";
 
     public static final String NO_FRIENDS =
-            "No friends.";
+            "You don't have any friends yet.";
 }

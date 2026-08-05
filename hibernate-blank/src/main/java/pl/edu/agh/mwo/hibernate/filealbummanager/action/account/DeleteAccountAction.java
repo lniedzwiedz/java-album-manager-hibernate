@@ -39,6 +39,7 @@ public class DeleteAccountAction {
             String deletedUserName = userLogged.getName();
             userService.deleteUser(userLogged);
             System.out.println(String.format(AccountMessages.GOODBYE, deletedUserName));
+            System.out.println(String.format(AccountMessages.ACCOUNT_NOT_DELETED));
             return true;
         } else if (deleteOption == ConfirmationOption.NO) {
             System.out.println(AccountMessages.ACCOUNT_NOT_DELETED);

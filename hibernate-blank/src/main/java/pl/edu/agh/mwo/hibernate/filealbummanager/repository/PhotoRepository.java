@@ -3,12 +3,12 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.repository;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.FriendService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.album.AlbumMessages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.photo.PhotoMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoLikeStatus;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,10 +28,8 @@ public class PhotoRepository {
 
     public Photo getPhotoFromDatabase(String photoName, int albumId) {
         Query<Photo> query = session.createQuery("FROM Photo p " + "WHERE p.name = :name " + "AND p.albumId = :albumId", Photo.class);
-
         query.setParameter("name", photoName);
         query.setParameter("albumId", albumId);
-
         return query.uniqueResult();
     }
 
@@ -42,53 +40,42 @@ public class PhotoRepository {
     }
 
     public boolean isPhotoBelongToUser(User user, String albumName, String photoName) {
-        if (user == null) {
+        if (user == null)
             return false;
-        }
 
         Album album = albumRepository.getAlbumFromDatabase(albumName, user.getId());
-
-        if (album == null) {
+        if (album == null)
             return false;
-        }
+
 
         return getPhotoFromDatabase(photoName, album.getId()) != null;
     }
 
-    public int getProcessingStatusWhileAddingPhoto(User user, String albumName, String photoName) {
-        if (user == null) {
-            return 3;
-        }
+    public PhotoAddResult getProcessingStatusWhileAddingPhoto(User user, String albumName, String photoName) {
+        if (user == null)
+            return PhotoAddResult.INVALID_USER_OR_ALBUM;
 
         Album album = albumRepository.getAlbumFromDatabase(albumName, user.getId());
-
-        if (album == null) {
-            return 3;
-        }
+        if (album == null)
+            return PhotoAddResult.INVALID_USER_OR_ALBUM;
 
         Photo photo = getPhotoFromDatabase(photoName, album.getId());
+        if (photo == null)
+            return PhotoAddResult.CAN_BE_ADDED;
 
-        if (photo == null) {
-            return 1;
-        }
-
-        return 2;
+        return PhotoAddResult.ALREADY_EXISTS;
     }
 
     public void addPhoto(String photoName, String albumName, User user) {
-        if (user == null) {
+        if (user == null)
             return;
-        }
 
         Album album = albumRepository.getAlbumFromDatabase(albumName, user.getId());
 
-        if (album == null) {
-            System.out.println(String.format(AlbumMessages.ALBUM_NOT_EXIST, albumName));
+        if (album == null)
             return;
-        }
 
         Photo photo = new Photo();
-
         photo.setName(photoName);
         photo.setAlbumId(album.getId());
         photo.setDate(LocalDate.now().toString());
@@ -101,102 +88,78 @@ public class PhotoRepository {
 
         } catch (Exception e) {
 
-            if (transaction.isActive()) {
+            if (transaction.isActive())
                 transaction.rollback();
-            }
 
             throw e;
         }
     }
 
     public void deletePhoto(String photoName, String albumName, User user) {
-        if (user == null) {
+        if (user == null)
             return;
-        }
 
         Album album = albumRepository.getAlbumFromDatabase(albumName, user.getId());
-
-        if (album == null) {
-            System.out.println(AlbumMessages.ALBUM_OR_PHOTO_NOT_EXIST);
+        if (album == null)
             return;
-        }
 
         Photo photo = getPhotoFromDatabase(photoName, album.getId());
-
-        if (photo == null) {
-            System.out.println(AlbumMessages.ALBUM_OR_PHOTO_NOT_EXIST);
+        if (photo == null)
             return;
-        }
 
         Transaction transaction = session.beginTransaction();
 
         try {
             deleteRelationBetweenPhotoAndUser(photo);
-
             album.removePhoto(photo);
             session.save(album);
-
             session.delete(photo);
-
             transaction.commit();
 
         } catch (Exception e) {
-
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-
             throw e;
         }
     }
 
-    public void printPhoto(User user, String albumName) {
+    public List<Photo> getPhotosForUserAlbum(User user, String albumName) {
         if (user == null)
-            return;
+            return new ArrayList<>();
 
         Album album = albumRepository.getAlbumFromDatabase(albumName, user.getId());
+        if (album == null)
+            return new ArrayList<>();
 
-        if (album == null) {
-            System.out.println(AlbumMessages.ALBUM_NOT_FOUND);
-            return;
-        }
-
-        List<Photo> photos = getPhotosFromDatabase(album.getId());
-
-        for (Photo photo : photos) {
-            System.out.println(photo);
-            System.out.println(String.format(PhotoMessages.PHOTO_LIKES, countedPhotoLikes(photo)));
-        }
+        return getPhotosFromDatabase(album.getId());
     }
 
-    public int getProcessingStatusForPhotoLike(User user, String albumName, String photoName) {
+    public PhotoLikeStatus getProcessingStatusForPhotoLike(User user, String albumName, String photoName) {
         if (user == null)
-            return 3;
+            return PhotoLikeStatus.ALBUM_DOES_NOT_EXIST;
 
         Album album = albumRepository.getAlbumFromDatabase(albumName);
-
         if (album == null)
-            return 3;
+            return PhotoLikeStatus.ALBUM_DOES_NOT_EXIST;
 
         User owner = getUserById(album.getUserId());
-
         if (owner == null)
-            return 3;
+            return PhotoLikeStatus.ALBUM_DOES_NOT_EXIST;
 
         boolean allowed = user.equals(owner) || friendService.areWeFriends(user, owner.getName());
 
         if (!allowed)
-            return 5;
+            return PhotoLikeStatus.NOT_FRIEND_PHOTO_OWNER;
 
         Photo photo = getPhotoFromDatabase(photoName, album.getId());
-
         if (photo == null)
-            return 2;
+            return PhotoLikeStatus.PHOTO_NOT_IN_ALBUM;
 
         if (photo.getUsers().contains(user))
-            return 1;
+            return PhotoLikeStatus.ALREADY_LIKED;
 
-        return 4;
+        return PhotoLikeStatus.NEVER_LIKED;
     }
 
     private User getUserById(int userId) {
@@ -210,12 +173,10 @@ public class PhotoRepository {
             return;
 
         Album album = albumRepository.getAlbumFromDatabase(albumName);
-
         if (album == null)
             return;
 
         Photo photo = getPhotoFromDatabase(photoName, album.getId());
-
         if (photo == null)
             return;
 
@@ -243,12 +204,10 @@ public class PhotoRepository {
             return;
 
         Album album = albumRepository.getAlbumFromDatabase(albumName);
-
         if (album == null)
             return;
 
         Photo photo = getPhotoFromDatabase(photoName, album.getId());
-
         if (photo == null)
             return;
 
@@ -289,16 +248,6 @@ public class PhotoRepository {
             photo.removeUser(user);
             user.removePhoto(photo);
             session.save(user);
-        }
-
-        List<User> allUsers = session.createQuery("FROM User", User.class).list();
-
-        for (User user : allUsers) {
-            if (user.getPhotos().contains(photo)) {
-                user.removePhoto(photo);
-                photo.removeUser(user);
-                session.save(user);
-            }
         }
 
         session.save(photo);

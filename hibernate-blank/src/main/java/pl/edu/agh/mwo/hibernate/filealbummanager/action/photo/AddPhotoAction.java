@@ -1,6 +1,7 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.photo;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.photo.PhotoMessages;
@@ -32,18 +33,21 @@ public class AddPhotoAction {
 
         System.out.println(PhotoMessages.ADD_PHOTO_NAME);
         String photoName = br.readLine();
-        int photoResult = photoService.getProcessingStatusWhileAddingPhoto(userLogged, albumName, photoName);
+        PhotoAddResult result = photoService.getProcessingStatusWhileAddingPhoto(userLogged, albumName, photoName);
 
-        switch (photoResult) {
-            case 1 -> {
+        switch (result) {
+
+            case CAN_BE_ADDED -> {
                 photoService.addPhoto(photoName, albumName, userLogged);
                 System.out.println(PhotoMessages.PHOTO_ADDED);
             }
 
-            case 2 -> System.out.println(PhotoMessages.PHOTO_EXISTS);
-            default -> {
-                // Upsss to fix.
-            }
+            case ALREADY_EXISTS -> System.out.println(PhotoMessages.PHOTO_EXISTS);
+
+            case INVALID_USER_OR_ALBUM ->
+                    System.out.println(String.format(PhotoMessages.PHOTO_ADD_FORBIDDEN, userLogged.getName()));
+
+            default -> System.out.println(PhotoMessages.PHOTO_ADD_ERROR);
         }
     }
 }

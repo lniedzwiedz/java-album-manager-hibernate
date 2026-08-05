@@ -8,24 +8,24 @@ public final class AccountMessages {
     }
 
     public static final String SELECT_LOGIN_OR_CREATE =
-            "select option: "
+            "Choose an option: "
                     + LoginOption.LOGIN.getValue()
                     + " - log in, "
                     + LoginOption.CREATE_ACCOUNT.getValue()
-                    + " - create account";
+                    + " - create a new account";
 
     public static final String SELECT_CREATE_RETRY =
-            "select option: "
+            "What would you like to do? "
                     + LoginOption.CREATE_ACCOUNT.getValue()
-                    + " - create account, "
+                    + " - create a new account, "
                     + LoginOption.TRY_AGAIN.getValue()
-                    + " - try again";
+                    + " - try logging in again";
 
     public static final String LOGIN_USERNAME =
-            "log in. user name: ";
+            "Log in. Please enter your username: ";
 
     public static final String CREATE_ACCOUNT_USERNAME =
-            "Create account. user name: ";
+            "Create a new account. Please choose a username: ";
 
     public static final String WELCOME =
             "Welcome %s";
@@ -34,22 +34,22 @@ public final class AccountMessages {
             "User not found.";
 
     public static final String USER_NOT_FOUND_RETRY =
-            "User not found. Do you want to try login again or create account?";
+            "User not found. Would you like to try again or create a new account?";
 
     public static final String USER_DOES_NOT_EXIST =
             "User %s does not exist.";
 
     public static final String WELCOME_ACCOUNT_CREATED =
-            "Welcome %s. User account created.";
+            "Welcome, %s! Your new account is ready.";
 
     public static final String ACCOUNT_EXISTS_AUTO_LOGIN =
-            "Account exists. You have been automatically logged in.";
+            "Welcome back! Your account already exists, so you have been logged in automatically.";
 
     public static final String USERS_HEADER =
             "### Users";
 
     public static final String CONFIRM_DELETE_ACCOUNT =
-            "Are you sure you want to remove yourself from database? "
+            "Are you sure you want to permanently delete your account? "
                     + ConfirmationOption.YES.getValue()
                     + "-yes, "
                     + ConfirmationOption.NO.getValue()
@@ -59,10 +59,10 @@ public final class AccountMessages {
             "Goodbye %s!";
 
     public static final String ACCOUNT_NOT_DELETED =
-            "Account has not been deleted. Wise choice!";
+            "Your account has not been deleted.";
 
     public static final String CONFIRM_LOGOUT =
-            "Are you sure you want to logout? "
+            "Are you sure you want to log out? "
                     + ConfirmationOption.YES.getValue()
                     + "-yes, "
                     + ConfirmationOption.NO.getValue()

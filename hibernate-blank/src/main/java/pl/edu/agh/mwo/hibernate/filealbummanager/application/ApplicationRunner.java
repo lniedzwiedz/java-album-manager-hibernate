@@ -23,12 +23,9 @@ public class ApplicationRunner {
         boolean running = true;
 
         while (running) {
-
             printApplicationTitle();
             User userLogged = loginAction.execute(br);
-            if (userLogged == null)
-                continue;
-
+            if (userLogged == null) continue;
             runMenu(br, userLogged);
         }
     }
@@ -41,8 +38,7 @@ public class ApplicationRunner {
             String input = br.readLine();
             Integer inputValue = parseInteger(input);
 
-            if (inputValue == null)
-                continue;
+            if (inputValue == null) continue;
 
             MenuOption inputOption = MenuOption.fromInt(inputValue);
             if (inputOption == null) {
@@ -51,8 +47,7 @@ public class ApplicationRunner {
             }
 
             boolean shouldExit = menuActionHandler.execute(inputOption, br, userLogged);
-            if (shouldExit)
-                menuRunning = false;
+            if (shouldExit) menuRunning = false;
 
         }
     }

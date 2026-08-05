@@ -14,9 +14,9 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.action.friend.ShowFriendsAction
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.AddPhotoAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.DeletePhotoAction;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.LikePhotoAction;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike.LikePhotoAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.ShowPhotosAction;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.UnlikePhotoAction;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike.UnlikePhotoAction;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.FriendService;
