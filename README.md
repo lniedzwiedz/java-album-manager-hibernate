@@ -22,7 +22,7 @@ A simple console application for managing photo albums. The application ensures 
 
 ---
 
-### Technologies
+## Technologies
 
 * Java 🍵
 * Hibernate
