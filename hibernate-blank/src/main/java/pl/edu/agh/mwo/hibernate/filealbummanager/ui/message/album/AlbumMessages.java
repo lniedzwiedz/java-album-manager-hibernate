@@ -1,4 +1,4 @@
-package pl.edu.agh.mwo.hibernate.filealbummanager.ui.album;
+package pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album;
 
 public final class AlbumMessages {
 
@@ -26,7 +26,7 @@ public final class AlbumMessages {
     public static final String ENTER_USERNAME_ALBUMS =
             "Enter the username of the user whose albums you want to view: ";
 
-    public static final String ALBUM_NOT_FOUND =
+    public static final String ALBUM_DOES_NOT_EXIST =
             "Album not found.";
 
     public static final String ALBUM_NAME =

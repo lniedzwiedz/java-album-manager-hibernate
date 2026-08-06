@@ -32,23 +32,23 @@ public class AlbumService {
         return albumRepository.getAlbumsFromDatabase(userId);
     }
 
-    public void printAlbums() {
-        albumRepository.printAlbums();
-    }
-
-    public void printMyAlbums(User user) {
-        if (user == null)
-            return;
-
-        albumRepository.printUserAlbums(user);
-    }
-
-    public void printUserAlbums(User user) {
-        if (user == null)
-            return;
-
-        albumRepository.printUserAlbums(user);
-    }
+//    public void printAlbums() {
+//        albumRepository.printAlbums();
+//    }
+//
+//    public void printMyAlbums(User user) {
+//        if (user == null)
+//            return;
+//
+//        albumRepository.printUserAlbums(user);
+//    }
+//
+//    public void printUserAlbums(User user) {
+//        if (user == null)
+//            return;
+//
+//        albumRepository.printUserAlbums(user);
+//    }
 
     public void createNewAlbum(User user, String albumName) {
         if (user == null)
@@ -62,7 +62,6 @@ public class AlbumService {
             return AlbumAddResult.INVALID_USER;
 
         Album album = albumRepository.getAlbumFromDatabase(albumName, userLogged.getId());
-
         if (album == null)
             return AlbumAddResult.CAN_BE_ADDED;
 
@@ -81,7 +80,6 @@ public class AlbumService {
             return;
 
         Album album = albumRepository.getAlbumFromDatabase(albumName, userLogged.getId());
-
         if (album == null)
             return;
 
@@ -116,7 +114,6 @@ public class AlbumService {
             return;
 
         List<User> users = session.createQuery("FROM User", User.class).list();
-
         for (User user : users) {
             if (user.getPhotos().contains(photo)) {
                 user.removePhoto(photo);

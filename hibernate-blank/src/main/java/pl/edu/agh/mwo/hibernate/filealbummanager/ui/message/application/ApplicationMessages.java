@@ -1,4 +1,6 @@
-package pl.edu.agh.mwo.hibernate.filealbummanager.ui.application;
+package pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application;
+
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.option.MenuOption;
 
 public final class ApplicationMessages {
 

@@ -1,4 +1,4 @@
-package pl.edu.agh.mwo.hibernate.filealbummanager.ui.friend;
+package pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.friend;
 
 public final class FriendMessages {
 
@@ -20,11 +20,11 @@ public final class FriendMessages {
     public static final String NOT_FRIEND =
             "You are not friends with %s.";
 
-    public static final String FRIEND_NOT_EXIST =
-            "Friend %s not found.";
+    public static final String FRIEND_REMOVED =
+            "Friend has been removed.";
 
-    public static final String FRIEND_NOT_EXIST_DATABASE =
-            "User %s not found in the database.";
+    public static final String FRIEND_NOT_FOUND =
+            "Friend %s not found.";
 
     public static final String FRIENDS_HEADER =
             "### Friends";

@@ -4,7 +4,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.account.AccountMessages;
 
 import java.util.List;
 
@@ -18,23 +17,18 @@ public class UserRepository {
 
     public User getUserFromDatabase(String userName) {
         Query<User> query = session.createQuery("FROM User u WHERE u.name = :name", User.class);
-
         query.setParameter("name", userName);
-
         return query.uniqueResult();
     }
 
     public User getUserFromDatabase(int userId) {
         Query<User> query = session.createQuery("FROM User u WHERE u.id = :id", User.class);
-
         query.setParameter("id", userId);
-
         return query.uniqueResult();
     }
 
     public List<User> getUsersFromDatabase() {
         Query<User> query = session.createQuery("FROM User", User.class);
-
         return query.list();
     }
 
@@ -47,7 +41,6 @@ public class UserRepository {
         user.setName(userName);
 
         Transaction transaction = session.beginTransaction();
-
         try {
             session.save(user);
             transaction.commit();
@@ -65,7 +58,6 @@ public class UserRepository {
         }
 
         Transaction transaction = session.beginTransaction();
-
         try {
             session.delete(user);
             transaction.commit();
@@ -76,14 +68,14 @@ public class UserRepository {
             throw e;
         }
     }
-
-    public void printUsers() {
-        List<User> users = getUsersFromDatabase();
-
-        System.out.println(AccountMessages.USERS_HEADER);
-
-        for (User user : users) {
-            System.out.println(user);
-        }
-    }
+//
+//    public void printUsers() {
+//        List<User> users = getUsersFromDatabase();
+//
+//        System.out.println(AccountMessages.USERS_HEADER);
+//
+//        for (User user : users) {
+//            System.out.println(user);
+//        }
+//    }
 }

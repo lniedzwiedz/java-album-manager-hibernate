@@ -2,7 +2,8 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.action.account;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.account.AccountMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account.AccountMessages;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,10 +16,10 @@ public class CreateAccountAction {
         this.userService = userService;
     }
 
-    public User execute(BufferedReader br) throws IOException {
+    public User execute(ConsoleReader reader) throws IOException {
 
         System.out.println(AccountMessages.CREATE_ACCOUNT_USERNAME);
-        String userName = br.readLine();
+        String userName = reader.readLine();
         User userLogged = userService.getUserFromDatabase(userName);
 
         if (userLogged != null) {

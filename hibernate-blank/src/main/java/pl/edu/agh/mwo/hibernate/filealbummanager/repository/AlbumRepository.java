@@ -5,7 +5,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.album.AlbumMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
 
 import java.util.List;
 
@@ -36,37 +36,26 @@ public class AlbumRepository {
         return query.list();
     }
 
-    public boolean isAlbumBelongToUser(User user, String albumName) {
-        if (user == null)
-            return false;
-
-        return getAlbumFromDatabase(albumName, user.getId()) != null;
-    }
-
     public void createNewAlbum(User user, String albumName) {
-        if (user == null)
-            return;
+        if (user == null) return;
 
         Album album = new Album();
         album.setName(albumName);
         album.setUserId(user.getId());
 
         Transaction transaction = session.beginTransaction();
-
         try {
             session.save(album);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction.isActive())
-                transaction.rollback();
+            if (transaction.isActive()) transaction.rollback();
 
             throw e;
         }
     }
 
     public void deleteAlbum(User user, String albumName) {
-        if (user == null)
-            return;
+        if (user == null) return;
 
         Album album = getAlbumFromDatabase(albumName, user.getId());
         if (album == null) {
@@ -75,37 +64,35 @@ public class AlbumRepository {
         }
 
         Transaction transaction = session.beginTransaction();
-
         try {
             session.delete(album);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction.isActive())
-                transaction.rollback();
+            if (transaction.isActive()) transaction.rollback();
             throw e;
         }
     }
 
-    public void printAlbums() {
-        Query<Album> query = session.createQuery("FROM Album", Album.class);
-        List<Album> albums = query.list();
-
-        System.out.println(AlbumMessages.ALBUMS_HEADER);
-
-        for (Album album : albums) {
-            System.out.println(album);
-        }
-    }
-
-    public void printUserAlbums(User user) {
-        if (user == null)
-            return;
-
-        System.out.println(String.format(AlbumMessages.ALBUMS_OWNER_HEADER, user.getName()));
-        List<Album> albums = getAlbumsFromDatabase(user.getId());
-
-        for (Album album : albums) {
-            System.out.println(album);
-        }
-    }
+//    public void printAlbums() {
+//        Query<Album> query = session.createQuery("FROM Album", Album.class);
+//        List<Album> albums = query.list();
+//
+//        System.out.println(AlbumMessages.ALBUMS_HEADER);
+//
+//        for (Album album : albums) {
+//            System.out.println(album);
+//        }
+//    }
+//
+//    public void printUserAlbums(User user) {
+//        if (user == null)
+//            return;
+//
+//        System.out.println(String.format(AlbumMessages.ALBUMS_OWNER_HEADER, user.getName()));
+//        List<Album> albums = getAlbumsFromDatabase(user.getId());
+//
+//        for (Album album : albums) {
+//            System.out.println(album);
+//        }
+//    }
 }

@@ -2,9 +2,10 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.action.account;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.ConfirmationOption;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.account.AccountMessages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.application.ApplicationMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.option.ConfirmationOption;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account.AccountMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,13 +18,13 @@ public class DeleteAccountAction {
         this.userService = userService;
     }
 
-    public boolean execute(BufferedReader br, User userLogged) throws IOException {
+    public boolean execute(ConsoleReader reader, User userLogged) throws IOException {
         if (userLogged == null)
             return false;
 
         System.out.println(AccountMessages.CONFIRM_DELETE_ACCOUNT);
 
-        String deleteDecision = br.readLine();
+        String deleteDecision = reader.readLine();
         int deleteValue;
 
         try {
@@ -39,7 +40,7 @@ public class DeleteAccountAction {
             String deletedUserName = userLogged.getName();
             userService.deleteUser(userLogged);
             System.out.println(String.format(AccountMessages.GOODBYE, deletedUserName));
-            System.out.println(String.format(AccountMessages.ACCOUNT_NOT_DELETED));
+            System.out.println(AccountMessages.ACCOUNT_DELETED);
             return true;
         } else if (deleteOption == ConfirmationOption.NO) {
             System.out.println(AccountMessages.ACCOUNT_NOT_DELETED);

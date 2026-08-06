@@ -22,6 +22,7 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.FriendService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsolePrinter;
 
 public class ActionFactory {
 
@@ -43,12 +44,12 @@ public class ActionFactory {
     private final DeleteAccountAction deleteAccountAction;
     private final LogoutAction logoutAction;
 
-    public ActionFactory(AlbumService albumService, PhotoService photoService, FriendService friendService, UserService userService) {
+    public ActionFactory(AlbumService albumService, PhotoService photoService, FriendService friendService, UserService userService, ConsolePrinter consolePrinter) {
 
         this.addAlbumAction = new AddAlbumAction(albumService);
         this.deleteAlbumAction = new DeleteAlbumAction(albumService);
-        this.showMyAlbumsAction = new ShowMyAlbumsAction(albumService);
-        this.showUserAlbumsAction = new ShowUserAlbumsAction(albumService, userService);
+        this.showMyAlbumsAction = new ShowMyAlbumsAction(albumService, consolePrinter);
+        this.showUserAlbumsAction = new ShowUserAlbumsAction(albumService, userService, consolePrinter);
 
         this.showPhotosAction = new ShowPhotosAction(albumService, photoService);
         this.addPhotoAction = new AddPhotoAction(albumService, photoService);
@@ -58,7 +59,7 @@ public class ActionFactory {
         this.unlikePhotoAction = new UnlikePhotoAction(photoService);
         this.addFriendAction = new AddFriendAction(userService, friendService);
         this.deleteFriendAction = new DeleteFriendAction(userService, friendService);
-        this.showFriendsAction = new ShowFriendsAction(friendService);
+        this.showFriendsAction = new ShowFriendsAction(friendService, consolePrinter);
 
         this.deleteAccountAction = new DeleteAccountAction(userService);
         this.logoutAction = new LogoutAction();

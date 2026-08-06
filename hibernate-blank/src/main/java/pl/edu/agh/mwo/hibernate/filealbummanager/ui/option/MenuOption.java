@@ -1,4 +1,4 @@
-package pl.edu.agh.mwo.hibernate.filealbummanager.ui.application;
+package pl.edu.agh.mwo.hibernate.filealbummanager.ui.option;
 
 public enum MenuOption {
 

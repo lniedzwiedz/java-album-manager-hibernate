@@ -1,6 +1,7 @@
-package pl.edu.agh.mwo.hibernate.filealbummanager.ui.account;
+package pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.ConfirmationOption;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.option.ConfirmationOption;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.option.LoginOption;
 
 public final class AccountMessages {
 
@@ -36,8 +37,8 @@ public final class AccountMessages {
     public static final String USER_NOT_FOUND_RETRY =
             "User not found. Would you like to try again or create a new account?";
 
-    public static final String USER_DOES_NOT_EXIST =
-            "User %s does not exist.";
+    public static final String USER_NOT_FOUND_BY_NAME =
+            "User %s not found.";
 
     public static final String WELCOME_ACCOUNT_CREATED =
             "Welcome, %s! Your new account is ready.";
@@ -61,10 +62,16 @@ public final class AccountMessages {
     public static final String ACCOUNT_NOT_DELETED =
             "Your account has not been deleted.";
 
+    public static final String ACCOUNT_DELETED =
+            "Account %s has been deleted.";
+
     public static final String CONFIRM_LOGOUT =
             "Are you sure you want to log out? "
                     + ConfirmationOption.YES.getValue()
                     + "-yes, "
                     + ConfirmationOption.NO.getValue()
                     + "-no";
+
+    public static final String LOGOUT_CANCELLED =
+            "Logout cancelled. You are still logged in.";
 }

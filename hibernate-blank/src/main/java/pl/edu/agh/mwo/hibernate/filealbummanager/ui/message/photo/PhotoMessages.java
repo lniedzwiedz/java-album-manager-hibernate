@@ -1,4 +1,4 @@
-package pl.edu.agh.mwo.hibernate.filealbummanager.ui.photo;
+package pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo;
 
 public final class PhotoMessages {
 
@@ -34,9 +34,6 @@ public final class PhotoMessages {
 
     public static final String PHOTO_NOT_IN_ALBUM =
             "Photo not found in the specified album.";
-
-    public static final String ALBUM_DOES_NOT_EXIST =
-            "Album not found.";
 
     public static final String PHOTO_ADD_ERROR =
             "An unexpected error occurred while adding the photo.";

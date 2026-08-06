@@ -2,12 +2,12 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.action.account;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.ConfirmationOption;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.account.AccountMessages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.account.LoginOption;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.application.ApplicationMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.option.ConfirmationOption;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account.AccountMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.option.LoginOption;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 public class LoginAction {
@@ -20,12 +20,12 @@ public class LoginAction {
         this.createAccountAction = createAccountAction;
     }
 
-    public User execute(BufferedReader br) throws IOException {
+    public User execute(ConsoleReader reader) throws IOException {
 
         while (true) {
             System.out.println(AccountMessages.SELECT_LOGIN_OR_CREATE);
 
-            String decision = br.readLine();
+            String decision = reader.readLine();
             Integer decisionValue = parseInteger(decision);
 
             if (decisionValue == null) {
@@ -40,13 +40,13 @@ public class LoginAction {
             }
 
             if (loginOption == LoginOption.LOGIN) {
-                User userLogged = loginExistingUser(br);
+                User userLogged = loginExistingUser(reader);
                 if (userLogged != null) {
                     return userLogged;
                 }
 
             } else if (loginOption == LoginOption.CREATE_ACCOUNT) {
-                User userLogged = createAccountAction.execute(br);
+                User userLogged = createAccountAction.execute(reader);
                 if (userLogged != null) {
                     return userLogged;
                 }
@@ -54,11 +54,11 @@ public class LoginAction {
         }
     }
 
-    private User loginExistingUser(BufferedReader br) throws IOException {
+    private User loginExistingUser(ConsoleReader reader) throws IOException {
 
         System.out.println(AccountMessages.LOGIN_USERNAME);
 
-        String userName = br.readLine();
+        String userName = reader.readLine();
         User userLogged = userService.getUserFromDatabase(userName);
 
         if (userLogged != null) {
@@ -69,7 +69,7 @@ public class LoginAction {
         System.out.println(AccountMessages.USER_NOT_FOUND_RETRY);
         System.out.println(AccountMessages.SELECT_CREATE_RETRY);
 
-        String retry = br.readLine();
+        String retry = reader.readLine();
         Integer retryValue = parseInteger(retry);
 
         if (retryValue == null) {

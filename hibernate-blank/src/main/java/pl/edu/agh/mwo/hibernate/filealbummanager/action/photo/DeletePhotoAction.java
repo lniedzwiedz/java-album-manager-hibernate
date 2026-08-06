@@ -2,8 +2,9 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.action.photo;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.album.AlbumMessages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.photo.PhotoMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,18 +17,18 @@ public class DeletePhotoAction {
         this.photoService = photoService;
     }
 
-    public void execute(BufferedReader br, User userLogged) throws IOException {
+    public void execute(ConsoleReader reader, User userLogged) throws IOException {
         if (userLogged == null)
             return;
 
         System.out.println(PhotoMessages.REMOVE_PHOTO_NAME);
-        String photoName = br.readLine();
+        String photoName = reader.readLine();
         System.out.println(AlbumMessages.ALBUM_NAME);
 
-        String albumName = br.readLine();
-        boolean photoBelongs = photoService.isPhotoBelongToUser(userLogged, albumName, photoName);
+        String albumName = reader.readLine();
+        boolean isPhotoBelongToUser = photoService.isPhotoBelongToUser(userLogged, albumName, photoName);
 
-        if (photoBelongs) {
+        if (isPhotoBelongToUser) {
             photoService.deletePhoto(photoName, albumName, userLogged);
             System.out.println(PhotoMessages.PHOTO_DELETED);
         } else {

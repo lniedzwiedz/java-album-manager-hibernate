@@ -1,4 +1,4 @@
-package pl.edu.agh.mwo.hibernate.filealbummanager.ui;
+package pl.edu.agh.mwo.hibernate.filealbummanager.ui.option;
 
 public enum ConfirmationOption {
 

@@ -47,7 +47,6 @@ public class PhotoRepository {
         if (album == null)
             return false;
 
-
         return getPhotoFromDatabase(photoName, album.getId()) != null;
     }
 
@@ -81,7 +80,6 @@ public class PhotoRepository {
         photo.setDate(LocalDate.now().toString());
 
         Transaction transaction = session.beginTransaction();
-
         try {
             session.save(photo);
             transaction.commit();
@@ -108,7 +106,6 @@ public class PhotoRepository {
             return;
 
         Transaction transaction = session.beginTransaction();
-
         try {
             deleteRelationBetweenPhotoAndUser(photo);
             album.removePhoto(photo);
@@ -148,7 +145,6 @@ public class PhotoRepository {
             return PhotoLikeStatus.ALBUM_DOES_NOT_EXIST;
 
         boolean allowed = user.equals(owner) || friendService.areWeFriends(user, owner.getName());
-
         if (!allowed)
             return PhotoLikeStatus.NOT_FRIEND_PHOTO_OWNER;
 
@@ -184,7 +180,6 @@ public class PhotoRepository {
             return;
 
         Transaction transaction = session.beginTransaction();
-
         try {
             photo.addUser(user);
             session.save(photo);
@@ -215,7 +210,6 @@ public class PhotoRepository {
             return;
 
         Transaction transaction = session.beginTransaction();
-
         try {
             photo.removeUser(user);
             user.removePhoto(photo);
@@ -243,7 +237,6 @@ public class PhotoRepository {
             return;
 
         List<User> users = new ArrayList<>(photo.getUsers());
-
         for (User user : users) {
             photo.removeUser(user);
             user.removePhoto(photo);

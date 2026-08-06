@@ -4,7 +4,8 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.photo.PhotoMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,12 +20,12 @@ public class AddPhotoAction {
         this.photoService = photoService;
     }
 
-    public void execute(BufferedReader br, User userLogged) throws IOException {
+    public void execute(ConsoleReader reader, User userLogged) throws IOException {
         if (userLogged == null)
             return;
 
         System.out.println(PhotoMessages.ENTER_ALBUM_ADD_PHOTO);
-        String albumName = br.readLine();
+        String albumName = reader.readLine();
 
         if (!albumService.isAlbumBelongToUser(userLogged, albumName)) {
             System.out.println(String.format(PhotoMessages.PHOTO_ADD_FORBIDDEN, userLogged.getName()));
@@ -32,7 +33,7 @@ public class AddPhotoAction {
         }
 
         System.out.println(PhotoMessages.ADD_PHOTO_NAME);
-        String photoName = br.readLine();
+        String photoName = reader.readLine();
         PhotoAddResult result = photoService.getProcessingStatusWhileAddingPhoto(userLogged, albumName, photoName);
 
         switch (result) {

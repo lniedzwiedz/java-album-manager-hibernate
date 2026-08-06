@@ -1,4 +1,4 @@
-package pl.edu.agh.mwo.hibernate.filealbummanager.ui.photo;
+package pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo;
 
 public final class PhotoLikeMessages {
 

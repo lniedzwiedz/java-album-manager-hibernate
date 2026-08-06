@@ -2,9 +2,11 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.photo.PhotoLikeMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoLikeStatus;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.photo.PhotoMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,14 +19,14 @@ public class LikePhotoAction {
         this.photoService = photoService;
     }
 
-    public void execute(BufferedReader br, User userLogged) throws IOException {
+    public void execute(ConsoleReader reader, User userLogged) throws IOException {
         if (userLogged == null)
             return;
 
         System.out.println(PhotoLikeMessages.ADD_LIKE_PHOTO_NAME);
-        String photoName = br.readLine();
+        String photoName = reader.readLine();
         System.out.println(PhotoLikeMessages.ALBUM_NAME_LIKE);
-        String albumName = br.readLine();
+        String albumName = reader.readLine();
         PhotoLikeStatus likeResult = photoService.getProcessingStatusForPhotoLike(userLogged, albumName, photoName);
 
         if (likeResult == null) {
@@ -48,7 +50,7 @@ public class LikePhotoAction {
                 break;
 
             case ALBUM_DOES_NOT_EXIST:
-                System.out.println(PhotoMessages.ALBUM_DOES_NOT_EXIST);
+                System.out.println(AlbumMessages.ALBUM_DOES_NOT_EXIST);
                 break;
 
             case NOT_FRIEND_PHOTO_OWNER:

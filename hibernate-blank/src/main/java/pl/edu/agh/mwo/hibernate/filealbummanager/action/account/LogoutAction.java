@@ -1,23 +1,24 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.account;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.ConfirmationOption;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.account.AccountMessages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.application.ApplicationMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.option.ConfirmationOption;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account.AccountMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public class LogoutAction {
 
-    public boolean execute(BufferedReader br, User userLogged) throws IOException {
+    public boolean execute(ConsoleReader reader, User userLogged) throws IOException {
         if (userLogged == null) {
             return false;
         }
 
         System.out.println(AccountMessages.CONFIRM_LOGOUT);
 
-        String logoutDecision = br.readLine();
+        String logoutDecision = reader.readLine();
         int logoutValue;
 
         try {
@@ -33,7 +34,7 @@ public class LogoutAction {
             System.out.println(String.format(AccountMessages.GOODBYE, userLogged.getName()));
             return true;
         } else if (logoutOption == ConfirmationOption.NO) {
-            System.out.println();
+            System.out.println(AccountMessages.LOGOUT_CANCELLED);
         } else {
             System.out.println(ApplicationMessages.INVALID_INPUT_E3);
         }

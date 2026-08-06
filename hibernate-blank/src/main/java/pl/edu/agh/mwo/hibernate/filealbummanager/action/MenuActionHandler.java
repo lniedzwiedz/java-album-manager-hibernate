@@ -19,9 +19,9 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.ShowPhotosAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike.UnlikePhotoAction;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.application.MenuOption;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.option.MenuOption;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 public class MenuActionHandler {
@@ -61,16 +61,16 @@ public class MenuActionHandler {
         this.logoutAction = actionFactory.getLogoutAction();
     }
 
-    public boolean execute(MenuOption menuOption, BufferedReader br, User userLogged) throws IOException {
+    public boolean execute(MenuOption menuOption, ConsoleReader reader, User userLogged) throws IOException {
 
         switch (menuOption) {
 
             case ADD_ALBUM:
-                addAlbumAction.execute(br, userLogged);
+                addAlbumAction.execute(reader, userLogged);
                 break;
 
             case DELETE_ALBUM:
-                deleteAlbumAction.execute(br, userLogged);
+                deleteAlbumAction.execute(reader, userLogged);
                 break;
 
             case SHOW_MY_ALBUMS:
@@ -78,35 +78,35 @@ public class MenuActionHandler {
                 break;
 
             case SHOW_USER_ALBUMS:
-                showUserAlbumsAction.execute(br);
+                showUserAlbumsAction.execute(reader);
                 break;
 
             case SHOW_PHOTOS:
-                showPhotosAction.execute(br, userLogged);
+                showPhotosAction.execute(reader, userLogged);
                 break;
 
             case ADD_PHOTO:
-                addPhotoAction.execute(br, userLogged);
+                addPhotoAction.execute(reader, userLogged);
                 break;
 
             case DELETE_PHOTO:
-                deletePhotoAction.execute(br, userLogged);
+                deletePhotoAction.execute(reader, userLogged);
                 break;
 
             case LIKE_PHOTO:
-                likePhotoAction.execute(br, userLogged);
+                likePhotoAction.execute(reader, userLogged);
                 break;
 
             case UNLIKE_PHOTO:
-                unlikePhotoAction.execute(br, userLogged);
+                unlikePhotoAction.execute(reader, userLogged);
                 break;
 
             case ADD_FRIEND:
-                addFriendAction.execute(br, userLogged);
+                addFriendAction.execute(reader, userLogged);
                 break;
 
             case DELETE_FRIEND:
-                deleteFriendAction.execute(br, userLogged);
+                deleteFriendAction.execute(reader, userLogged);
                 break;
 
             case SHOW_FRIENDS:
@@ -114,10 +114,10 @@ public class MenuActionHandler {
                 break;
 
             case DELETE_ACCOUNT:
-                return deleteAccountAction.execute(br, userLogged);
+                return deleteAccountAction.execute(reader, userLogged);
 
             case LOGOUT:
-                return logoutAction.execute(br, userLogged);
+                return logoutAction.execute(reader, userLogged);
 
             default:
                 return false;

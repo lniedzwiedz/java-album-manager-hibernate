@@ -49,13 +49,19 @@ public class FriendRepository {
     }
 
     public boolean areFriends(User user, User friend) {
+//        if (user == null || friend == null)
+//            return false;
+//        if (user.equals(friend))
+//            return true;
+//        if (user.getUsers().contains(friend))
+//            return true;
+//        return friend.getUsers().contains(user);
         if (user == null || friend == null)
             return false;
-        if (user.equals(friend))
-            return true;
-        if (user.getUsers().contains(friend))
-            return true;
-        return friend.getUsers().contains(user);
+
+        return user.equals(friend)
+                || user.getUsers().contains(friend)
+                || friend.getUsers().contains(user);
     }
 
     public List<User> getFriends(User user) {
