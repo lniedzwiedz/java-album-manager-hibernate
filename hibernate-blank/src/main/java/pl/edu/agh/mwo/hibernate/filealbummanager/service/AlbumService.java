@@ -32,24 +32,6 @@ public class AlbumService {
         return albumRepository.getAlbumsFromDatabase(userId);
     }
 
-//    public void printAlbums() {
-//        albumRepository.printAlbums();
-//    }
-//
-//    public void printMyAlbums(User user) {
-//        if (user == null)
-//            return;
-//
-//        albumRepository.printUserAlbums(user);
-//    }
-//
-//    public void printUserAlbums(User user) {
-//        if (user == null)
-//            return;
-//
-//        albumRepository.printUserAlbums(user);
-//    }
-
     public void createNewAlbum(User user, String albumName) {
         if (user == null)
             return;

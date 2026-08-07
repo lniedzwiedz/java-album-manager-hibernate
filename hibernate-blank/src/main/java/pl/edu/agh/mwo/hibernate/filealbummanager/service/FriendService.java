@@ -60,24 +60,6 @@ public class FriendService {
         if (user == null) return List.of();
         return friendRepository.getFriends(user);
     }
-//
-//    public void printMyFriends(User user) {
-//        if (user == null)
-//            return;
-//
-//        List<User> friends = friendRepository.getFriends(user);
-//
-//        System.out.println(FriendMessages.FRIENDS_HEADER);
-//
-//        if (friends.isEmpty()) {
-//            System.out.println(FriendMessages.NO_FRIENDS);
-//            return;
-//        }
-//
-//        for (User friend : friends) {
-//            System.out.println(friend);
-//        }
-//    }
 
     private boolean isInvalidInput(User user, String friendName) {
         return user == null || friendName == null || friendName.isBlank();

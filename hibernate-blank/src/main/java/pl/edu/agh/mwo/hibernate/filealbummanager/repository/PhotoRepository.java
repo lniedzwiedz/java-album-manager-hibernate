@@ -70,7 +70,6 @@ public class PhotoRepository {
             return;
 
         Album album = albumRepository.getAlbumFromDatabase(albumName, user.getId());
-
         if (album == null)
             return;
 

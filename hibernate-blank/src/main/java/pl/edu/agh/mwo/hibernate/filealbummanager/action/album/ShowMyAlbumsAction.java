@@ -2,6 +2,7 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.action.album;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsolePrinter;
 
@@ -17,13 +18,14 @@ public class ShowMyAlbumsAction {
         this.consolePrinter = consolePrinter;
     }
 
-    public void execute(User userLogged) {
+    public MenuResult execute(User userLogged) {
         if (userLogged == null)
-            return;
+            return MenuResult.CONTINUE;
 
         List<Album> albums =
                 albumService.getAlbumsFromDatabase(userLogged.getId());
 
         consolePrinter.printAlbums(albums);
+        return MenuResult.CONTINUE;
     }
 }

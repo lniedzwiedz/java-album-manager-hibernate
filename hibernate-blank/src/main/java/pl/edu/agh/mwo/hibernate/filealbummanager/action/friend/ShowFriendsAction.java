@@ -1,6 +1,7 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.friend;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.FriendService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsolePrinter;
 
@@ -16,8 +17,9 @@ public class ShowFriendsAction {
         this.consolePrinter = consolePrinter;
     }
 
-    public void execute(User userLogged) {
+    public MenuResult execute(User userLogged) {
         List<User> friends = friendService.getFriends(userLogged);
         consolePrinter.printFriends(friends);
+        return MenuResult.CONTINUE;
     }
 }

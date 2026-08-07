@@ -1,6 +1,7 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.photo;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
@@ -17,9 +18,9 @@ public class DeletePhotoAction {
         this.photoService = photoService;
     }
 
-    public void execute(ConsoleReader reader, User userLogged) throws IOException {
+    public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
         if (userLogged == null)
-            return;
+            return MenuResult.CONTINUE;
 
         System.out.println(PhotoMessages.REMOVE_PHOTO_NAME);
         String photoName = reader.readLine();
@@ -34,5 +35,7 @@ public class DeletePhotoAction {
         } else {
             System.out.println(String.format(PhotoMessages.PHOTO_DELETE_FORBIDDEN, userLogged.getName()));
         }
+
+        return MenuResult.CONTINUE;
     }
 }

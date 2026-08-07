@@ -1,6 +1,7 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.friend;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.FriendService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
@@ -20,16 +21,16 @@ public class AddFriendAction {
         this.friendService = friendService;
     }
 
-    public void execute(ConsoleReader reader, User userLogged) throws IOException {
+    public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
         if (userLogged == null)
-            return;
+            return MenuResult.CONTINUE;
 
         System.out.println(FriendMessages.ADD_FRIEND_USERNAME);
         String friendName = reader.readLine();
 
         if (!userService.isUserExistsInDatabase(friendName)) {
             System.out.println(String.format(AccountMessages.USER_NOT_FOUND_BY_NAME, friendName));
-            return;
+            return MenuResult.CONTINUE;
         }
 
         if (friendService.areWeFriends(userLogged, friendName)) {
@@ -38,5 +39,7 @@ public class AddFriendAction {
             friendService.addFriend(userLogged, friendName);
             System.out.println(String.format(FriendMessages.NOW_FRIEND, friendName));
         }
+
+        return MenuResult.CONTINUE;
     }
 }

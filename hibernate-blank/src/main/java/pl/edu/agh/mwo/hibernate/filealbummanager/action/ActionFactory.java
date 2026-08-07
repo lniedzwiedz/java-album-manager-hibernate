@@ -44,7 +44,9 @@ public class ActionFactory {
     private final DeleteAccountAction deleteAccountAction;
     private final LogoutAction logoutAction;
 
-    public ActionFactory(AlbumService albumService, PhotoService photoService, FriendService friendService, UserService userService, ConsolePrinter consolePrinter) {
+    public ActionFactory(AlbumService albumService, PhotoService photoService,
+                         FriendService friendService, UserService userService,
+                         ConsolePrinter consolePrinter) {
 
         this.addAlbumAction = new AddAlbumAction(albumService);
         this.deleteAlbumAction = new DeleteAlbumAction(albumService);

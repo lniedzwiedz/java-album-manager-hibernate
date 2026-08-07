@@ -72,27 +72,4 @@ public class AlbumRepository {
             throw e;
         }
     }
-
-//    public void printAlbums() {
-//        Query<Album> query = session.createQuery("FROM Album", Album.class);
-//        List<Album> albums = query.list();
-//
-//        System.out.println(AlbumMessages.ALBUMS_HEADER);
-//
-//        for (Album album : albums) {
-//            System.out.println(album);
-//        }
-//    }
-//
-//    public void printUserAlbums(User user) {
-//        if (user == null)
-//            return;
-//
-//        System.out.println(String.format(AlbumMessages.ALBUMS_OWNER_HEADER, user.getName()));
-//        List<Album> albums = getAlbumsFromDatabase(user.getId());
-//
-//        for (Album album : albums) {
-//            System.out.println(album);
-//        }
-//    }
 }

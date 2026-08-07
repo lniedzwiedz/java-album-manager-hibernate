@@ -8,7 +8,9 @@ public final class ApplicationMessages {
     }
 
     public static final String ALBUM_MANAGER_TITLE =
-            "                ***** ALBUM MANAGER *****                 ";
+            "------------------------------------------------------------\n" +
+                    "                   ***** ALBUM MANAGER *****\n" +
+                    "------------------------------------------------------------";
 
     public static final String INVALID_INPUT_E3 =
             "[E3] The input is invalid.";
@@ -29,6 +31,6 @@ public final class ApplicationMessages {
                     + MenuOption.ADD_FRIEND.getValue() + "-addFriend, "
                     + MenuOption.DELETE_FRIEND.getValue() + "-deleteFriend, "
                     + MenuOption.SHOW_FRIENDS.getValue() + "-showMyFriends,\n"
-                    + MenuOption.DELETE_ACCOUNT.getValue() + "-removeYourselfFromDatabase, "
+                    + MenuOption.DELETE_ACCOUNT.getValue() + "-deleteAccount, "
                     + MenuOption.LOGOUT.getValue() + "-logout";
 }

@@ -53,9 +53,8 @@ public class UserRepository {
     }
 
     public void deleteUser(User user) {
-        if (user == null) {
+        if (user == null)
             return;
-        }
 
         Transaction transaction = session.beginTransaction();
         try {
@@ -68,14 +67,4 @@ public class UserRepository {
             throw e;
         }
     }
-//
-//    public void printUsers() {
-//        List<User> users = getUsersFromDatabase();
-//
-//        System.out.println(AccountMessages.USERS_HEADER);
-//
-//        for (User user : users) {
-//            System.out.println(user);
-//        }
-//    }
 }

@@ -2,6 +2,7 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.action.album;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsolePrinter;
@@ -25,7 +26,7 @@ public class ShowUserAlbumsAction {
         this.consolePrinter = consolePrinter;
     }
 
-    public void execute(ConsoleReader reader) throws IOException {
+    public MenuResult execute(ConsoleReader reader) throws IOException {
         System.out.println(AlbumMessages.ENTER_USERNAME_ALBUMS);
 
         consolePrinter.printMessage( AlbumMessages.ENTER_USERNAME_ALBUMS );
@@ -35,11 +36,12 @@ public class ShowUserAlbumsAction {
 
         if (user != null) {
             String.format( AccountMessages.USER_NOT_FOUND_BY_NAME, userName );
-            return;
+            return MenuResult.CONTINUE;
         } else {
             System.out.println(AccountMessages.USER_NOT_FOUND);
         }
 
         List<Album> albums = albumService.getAlbumsFromDatabase(user.getId()); consolePrinter.printUserAlbums(user, albums);
+        return MenuResult.CONTINUE;
     }
 }

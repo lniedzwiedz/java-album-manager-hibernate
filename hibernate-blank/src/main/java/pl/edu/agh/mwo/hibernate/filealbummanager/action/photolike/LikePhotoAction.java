@@ -1,6 +1,7 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
@@ -8,7 +9,6 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessa
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoLikeStatus;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 public class LikePhotoAction {
@@ -19,9 +19,9 @@ public class LikePhotoAction {
         this.photoService = photoService;
     }
 
-    public void execute(ConsoleReader reader, User userLogged) throws IOException {
+    public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
         if (userLogged == null)
-            return;
+            return MenuResult.CONTINUE;
 
         System.out.println(PhotoLikeMessages.ADD_LIKE_PHOTO_NAME);
         String photoName = reader.readLine();
@@ -31,7 +31,7 @@ public class LikePhotoAction {
 
         if (likeResult == null) {
             System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
-            return;
+            return MenuResult.CONTINUE;
         }
 
         switch (likeResult) {
@@ -61,5 +61,6 @@ public class LikePhotoAction {
                 System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
                 break;
         }
+        return MenuResult.CONTINUE;
     }
 }

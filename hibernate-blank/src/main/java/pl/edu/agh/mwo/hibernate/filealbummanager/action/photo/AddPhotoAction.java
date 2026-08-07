@@ -1,6 +1,7 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.photo;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
@@ -20,21 +21,24 @@ public class AddPhotoAction {
         this.photoService = photoService;
     }
 
-    public void execute(ConsoleReader reader, User userLogged) throws IOException {
+    public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
         if (userLogged == null)
-            return;
+            return MenuResult.CONTINUE;
 
         System.out.println(PhotoMessages.ENTER_ALBUM_ADD_PHOTO);
         String albumName = reader.readLine();
 
         if (!albumService.isAlbumBelongToUser(userLogged, albumName)) {
             System.out.println(String.format(PhotoMessages.PHOTO_ADD_FORBIDDEN, userLogged.getName()));
-            return;
+            return MenuResult.CONTINUE;
         }
 
         System.out.println(PhotoMessages.ADD_PHOTO_NAME);
         String photoName = reader.readLine();
-        PhotoAddResult result = photoService.getProcessingStatusWhileAddingPhoto(userLogged, albumName, photoName);
+        PhotoAddResult result = photoService.getProcessingStatusWhileAddingPhoto(
+                userLogged,
+                albumName,
+                photoName);
 
         switch (result) {
 
@@ -43,12 +47,16 @@ public class AddPhotoAction {
                 System.out.println(PhotoMessages.PHOTO_ADDED);
             }
 
-            case ALREADY_EXISTS -> System.out.println(PhotoMessages.PHOTO_EXISTS);
+            case ALREADY_EXISTS ->
+                    System.out.println(PhotoMessages.PHOTO_EXISTS);
 
             case INVALID_USER_OR_ALBUM ->
                     System.out.println(String.format(PhotoMessages.PHOTO_ADD_FORBIDDEN, userLogged.getName()));
 
-            default -> System.out.println(PhotoMessages.PHOTO_ADD_ERROR);
+            default ->
+                    System.out.println(PhotoMessages.PHOTO_ADD_ERROR);
         }
+
+        return MenuResult.CONTINUE;
     }
 }

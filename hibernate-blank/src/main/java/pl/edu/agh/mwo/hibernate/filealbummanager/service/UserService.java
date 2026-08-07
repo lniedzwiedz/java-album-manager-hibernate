@@ -37,7 +37,4 @@ public class UserService {
         userRepository.deleteUser(user);
     }
 
-//    public void printUsers() {
-//        userRepository.printUsers();
-//    }
 }

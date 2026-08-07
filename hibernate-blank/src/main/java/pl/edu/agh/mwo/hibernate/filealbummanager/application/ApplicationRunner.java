@@ -3,11 +3,13 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.application;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.MenuActionHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.LoginAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleMenu;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsolePrinter;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.option.MenuOption;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class ApplicationRunner {
@@ -53,14 +55,14 @@ public class ApplicationRunner {
             if (menuOption == null)
                 continue;
 
-            boolean shouldExit =
+            MenuResult menuResult =
                     menuActionHandler.execute(
                             menuOption,
                             consoleReader,
                             userLogged
                     );
 
-            if (shouldExit)
+            if (menuResult == MenuResult.EXIT)
                 menuRunning = false;
         }
     }

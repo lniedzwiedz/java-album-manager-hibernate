@@ -1,6 +1,7 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.album;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
@@ -16,7 +17,7 @@ public class DeleteAlbumAction {
         this.albumService = albumService;
     }
 
-    public void execute(ConsoleReader reader, User userLogged) throws IOException {
+    public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
         System.out.println(AlbumMessages.REMOVE_ALBUM_NAME);
 
         String albumName = reader.readLine();
@@ -32,5 +33,6 @@ public class DeleteAlbumAction {
                     )
             );
         }
+        return MenuResult.CONTINUE;
     }
 }

@@ -2,6 +2,7 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.action.photo;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
@@ -23,22 +24,26 @@ public class ShowPhotosAction {
         this.photoService = photoService;
     }
 
-    public void execute(ConsoleReader reader, User userLogged) throws IOException {
+    public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
         if (userLogged == null)
-            return;
+            return MenuResult.CONTINUE;
 
         System.out.println(PhotoMessages.ENTER_ALBUM_PHOTO);
 
         String albumName = reader.readLine();
         if (!albumService.isAlbumBelongToUser(userLogged, albumName)) {
             System.out.println(AlbumMessages.ALBUM_OR_PHOTO_NOT_EXIST);
-            return;
+            return MenuResult.CONTINUE;
         }
 
         List<Photo> photos = photoService.getPhotosForUserAlbum(userLogged, albumName);
         for (Photo photo : photos) {
             System.out.println(photo);
-            System.out.println(String.format(PhotoLikeMessages.PHOTO_LIKES, photoService.countedPhotoLikes(photo)));
+            System.out.println(String.format(
+                    PhotoLikeMessages.PHOTO_LIKES,
+                    photoService.countedPhotoLikes(photo)));
         }
+
+        return MenuResult.CONTINUE;
     }
 }

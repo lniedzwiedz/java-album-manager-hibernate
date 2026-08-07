@@ -5,7 +5,6 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account.AccountMessages;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 public class CreateAccountAction {
