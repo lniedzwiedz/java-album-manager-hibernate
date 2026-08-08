@@ -33,7 +33,7 @@ public class AlbumService {
         albumRepository.createNewAlbum(user, albumName);
     }
 
-    public AlbumAddResult getProcessingStatusWhileAddingAlbum(User userLogged, String albumName) {
+    public AlbumAddResult checkAlbumAddStatus(User userLogged, String albumName) {
         if (userLogged == null || userLogged.getId() <= 0)
             return AlbumAddResult.INVALID_USER;
 

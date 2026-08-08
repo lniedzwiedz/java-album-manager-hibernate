@@ -62,7 +62,7 @@ public class ApplicationConfig {
                 new PhotoRepository(sessionFactory);
 
         PhotoService photoService =
-                new PhotoService(photoRepository);
+                new PhotoService(photoRepository, albumRepository);
 
         ActionFactory actionFactory =
                 new ActionFactory(

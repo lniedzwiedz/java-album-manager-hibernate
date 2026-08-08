@@ -18,7 +18,6 @@ public class FriendRepository {
     }
 
     public User getUserByName(String userName) {
-
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("FROM User u WHERE u.name = :name", User.class);
             query.setParameter("name", userName);

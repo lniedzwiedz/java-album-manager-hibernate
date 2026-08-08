@@ -28,7 +28,7 @@ public class AddAlbumAction {
             return MenuResult.CONTINUE;
         }
 
-        AlbumAddResult result = albumService.getProcessingStatusWhileAddingAlbum(userLogged, albumName);
+        AlbumAddResult result = albumService.checkAlbumAddStatus(userLogged, albumName);
         if (userLogged != null) {
 
             switch (result) {

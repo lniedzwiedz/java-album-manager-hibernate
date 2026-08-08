@@ -40,7 +40,7 @@ public class AddPhotoAction {
 
         System.out.println(PhotoMessages.ADD_PHOTO_NAME);
         String photoName = reader.readLine();
-        PhotoAddResult result = photoService.getProcessingStatusWhileAddingPhoto(
+        PhotoAddResult result = photoService.checkPhotoCanBeAdded(
                 userLogged,
                 albumName,
                 photoName);

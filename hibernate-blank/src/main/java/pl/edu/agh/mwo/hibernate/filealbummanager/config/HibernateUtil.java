@@ -14,7 +14,7 @@ public class HibernateUtil {
                     .configure()
                     .buildSessionFactory();
         } catch (Exception e) {
-//			e.printStackTrace();
+			e.printStackTrace();
             throw new ExceptionInInitializerError(e);
         }
     }

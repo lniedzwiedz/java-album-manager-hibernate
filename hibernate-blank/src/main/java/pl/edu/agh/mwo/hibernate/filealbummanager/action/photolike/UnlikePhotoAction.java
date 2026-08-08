@@ -40,7 +40,7 @@ public class UnlikePhotoAction {
             return MenuResult.CONTINUE;
         }
 
-        PhotoLikeStatus unlikeResult = photoService.getProcessingStatusForPhotoLike(userLogged, albumName, photoName);
+        PhotoLikeStatus unlikeResult = photoService.checkPhotoLikeStatus(userLogged, albumName, photoName);
         if (unlikeResult == null) {
             System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
             return MenuResult.CONTINUE;
