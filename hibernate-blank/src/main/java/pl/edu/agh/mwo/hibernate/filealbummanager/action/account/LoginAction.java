@@ -19,39 +19,40 @@ public class LoginAction {
         this.createAccountAction = createAccountAction;
     }
 
-    public User execute(ConsoleReader reader) throws IOException {
+//    public User execute(ConsoleReader reader) throws IOException {
+//
+//        while (true) {
+//            System.out.println(AccountMessages.SELECT_LOGIN_OR_CREATE);
+//
+//            Integer decisionValue = reader.readInteger();
+//            if (decisionValue == null) {
+//                System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+//                continue;
+//            }
+//
+//            LoginOption loginOption = LoginOption.fromInt(decisionValue);
+//            if (loginOption == null) {
+//                System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+//                continue;
+//            }
+//
+//            if (loginOption == LoginOption.LOGIN) {
+//                User userLogged = loginExistingUser(reader);
+//                if (userLogged != null) {
+//                    return userLogged;
+//                }
+//
+//            } else if (loginOption == LoginOption.CREATE_ACCOUNT) {
+//                User userLogged = createAccountAction.execute(reader);
+//                if (userLogged != null) {
+//                    return userLogged;
+//                }
+//            }
+//        }
+//    }
 
-        while (true) {
-            System.out.println(AccountMessages.SELECT_LOGIN_OR_CREATE);
-
-            Integer decisionValue = reader.readInteger();
-            if (decisionValue == null) {
-                System.out.println(ApplicationMessages.INVALID_INPUT_E3);
-                continue;
-            }
-
-            LoginOption loginOption = LoginOption.fromInt(decisionValue);
-            if (loginOption == null) {
-                System.out.println(ApplicationMessages.INVALID_INPUT_E3);
-                continue;
-            }
-
-            if (loginOption == LoginOption.LOGIN) {
-                User userLogged = loginExistingUser(reader);
-                if (userLogged != null) {
-                    return userLogged;
-                }
-
-            } else if (loginOption == LoginOption.CREATE_ACCOUNT) {
-                User userLogged = createAccountAction.execute(reader);
-                if (userLogged != null) {
-                    return userLogged;
-                }
-            }
-        }
-    }
-
-    private User loginExistingUser(ConsoleReader reader) throws IOException {
+//    private User loginExistingUser(ConsoleReader reader) throws IOException {
+public User execute(ConsoleReader reader) throws IOException {
 
         while (true) {
             System.out.println(AccountMessages.LOGIN_USERNAME);
@@ -81,10 +82,14 @@ public class LoginAction {
                 System.out.println(ApplicationMessages.INVALID_INPUT_E3);
                 continue;
             }
+//
+//            if (loginOption == LoginOption.CREATE_ACCOUNT) {
+//                return createAccountAction.execute(reader);
+//            } else if (loginOption == LoginOption.TRY_AGAIN) {
+//                continue;
+//            }
 
-            if (loginOption == LoginOption.CREATE_ACCOUNT) {
-                return createAccountAction.execute(reader);
-            } else if (loginOption == LoginOption.TRY_AGAIN) {
+            if (loginOption == LoginOption.TRY_AGAIN) {
                 continue;
             }
         }

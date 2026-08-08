@@ -2,6 +2,7 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.config;
 
 import org.hibernate.SessionFactory;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.ActionFactory;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.LoginActionHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.MenuActionHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.CreateAccountAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.LoginAction;
@@ -84,6 +85,12 @@ public class ApplicationConfig {
                         createAccountAction
                 );
 
+        LoginActionHandler loginActionHandler =
+                new LoginActionHandler(
+                        loginAction,
+                        createAccountAction
+                );
+
         ConsoleReader consoleReader =
                 new ConsoleReader(bufferedReader);
 
@@ -95,7 +102,7 @@ public class ApplicationConfig {
 
         return new ApplicationRunner(
                 menuActionHandler,
-                loginAction,
+                loginActionHandler,
                 consolePrinter,
                 consoleReader,
                 consoleMenu

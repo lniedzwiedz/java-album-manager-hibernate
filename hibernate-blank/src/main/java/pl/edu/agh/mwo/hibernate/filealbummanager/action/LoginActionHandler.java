@@ -13,18 +13,12 @@ public class LoginActionHandler {
     private final LoginAction loginAction;
     private final CreateAccountAction createAccountAction;
 
-    public LoginActionHandler(
-            LoginAction loginAction,
-            CreateAccountAction createAccountAction
-    ) {
+    public LoginActionHandler(LoginAction loginAction, CreateAccountAction createAccountAction) {
         this.loginAction = loginAction;
         this.createAccountAction = createAccountAction;
     }
 
-    public User execute(
-            LoginOption loginOption,
-            ConsoleReader reader
-    ) throws IOException {
+    public User execute(LoginOption loginOption, ConsoleReader reader) throws IOException {
 
         switch (loginOption) {
 
@@ -33,9 +27,6 @@ public class LoginActionHandler {
 
             case CREATE_ACCOUNT:
                 return createAccountAction.execute(reader);
-
-            case TRY_AGAIN:
-                return loginAction.execute(reader);
 
             default:
                 return null;
