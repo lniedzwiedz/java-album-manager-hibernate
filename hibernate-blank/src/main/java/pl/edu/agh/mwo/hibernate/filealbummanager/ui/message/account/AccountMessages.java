@@ -16,8 +16,6 @@ public final class AccountMessages {
                     + " - create a new account";
 
     public static final String SELECT_CREATE_RETRY =
-//            "What would you like to do? "
-//                    + LoginOption.CREATE_ACCOUNT.getValue()
             "\n"
                     + LoginOption.CREATE_ACCOUNT.getValue()
                     + " - create a new account, "

@@ -59,61 +59,7 @@ public class PhotoRepository {
         }
     }
 
-//    public PhotoAddResult checkPhotoCanBeAdded(User user, String albumName, String photoName) {
-//        if (user == null) return PhotoAddResult.INVALID_USER_OR_ALBUM;
-//
-//        try (Session session = sessionFactory.openSession()) {
-//            Query<Album> albumQuery = session.createQuery("FROM Album a " + "WHERE a.name = :name " + "AND a.userId = :userId", Album.class);
-//
-//            albumQuery.setParameter("name", albumName);
-//            albumQuery.setParameter("userId", user.getId());
-//
-//            Album album = albumQuery.uniqueResult();
-//            if (album == null) return PhotoAddResult.INVALID_USER_OR_ALBUM;
-//
-//            Query<Photo> photoQuery = session.createQuery("FROM Photo p " + "WHERE p.name = :name " + "AND p.albumId = :albumId", Photo.class);
-//
-//            photoQuery.setParameter("name", photoName);
-//            photoQuery.setParameter("albumId", album.getId());
-//
-//            Photo photo = photoQuery.uniqueResult();
-//            if (photo == null) return PhotoAddResult.CAN_BE_ADDED;
-//
-//            return PhotoAddResult.ALREADY_EXISTS;
-//        }
-//    }
-
     public void addPhoto(String photoName, String albumName, User user) {
-//        if (user == null)
-//            return;
-//
-//        try (Session session = sessionFactory.openSession()) {
-//            Query<Album> query = session.createQuery("FROM Album a " + "WHERE a.name = :name " + "AND a.userId = :userId", Album.class);
-//
-//            query.setParameter("name", albumName);
-//            query.setParameter("userId", user.getId());
-//
-//            Album album = query.uniqueResult();
-//            if (album == null)
-//                return;
-//
-//            Photo photo = new Photo();
-//            photo.setName(photoName);
-//            photo.setAlbumId(album.getId());
-//            photo.setDate(LocalDate.now().toString());
-//
-//            Transaction transaction = session.beginTransaction();
-//            try {
-//                session.save(photo);
-//                transaction.commit();
-//
-//            } catch (Exception e) {
-//                if (transaction.isActive())
-//                    transaction.rollback();
-//                throw e;
-//            }
-//        }
-
         if (user == null) return;
 
         try (Session session = sessionFactory.openSession()) {

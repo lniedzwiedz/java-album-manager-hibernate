@@ -15,7 +15,7 @@ public class PhotoService {
     private final PhotoRepository photoRepository;
     private final AlbumRepository albumRepository;
 
-    public PhotoService(PhotoRepository photoRepository,  AlbumRepository albumRepository) {
+    public PhotoService(PhotoRepository photoRepository, AlbumRepository albumRepository) {
         this.photoRepository = photoRepository;
         this.albumRepository = albumRepository;
     }
@@ -36,37 +36,20 @@ public class PhotoService {
         return photoRepository.isPhotoBelongToUser(user, albumName, photoName);
     }
 
-//    public PhotoAddResult checkPhotoCanBeAdded(User user, String albumName, String photoName) {
-//        return photoRepository.checkPhotoCanBeAdded(user, albumName, photoName);
-//    }
-
-    public PhotoAddResult checkPhotoCanBeAdded(
-            User user,
-            String albumName,
-            String photoName) {
-
+    public PhotoAddResult checkPhotoCanBeAdded(User user, String albumName, String photoName) {
         if (user == null || user.getId() <= 0)
             return PhotoAddResult.INVALID_USER_OR_ALBUM;
 
-        Album album = albumRepository.getAlbumFromDatabase(
-                albumName,
-                user.getId()
-        );
-
+        Album album = albumRepository.getAlbumFromDatabase(albumName, user.getId());
         if (album == null)
             return PhotoAddResult.INVALID_USER_OR_ALBUM;
 
-        Photo photo = photoRepository.getPhotoFromDatabase(
-                photoName,
-                album.getId()
-        );
-
+        Photo photo = photoRepository.getPhotoFromDatabase(photoName, album.getId());
         if (photo == null)
             return PhotoAddResult.CAN_BE_ADDED;
 
         return PhotoAddResult.ALREADY_EXISTS;
     }
-
 
     public void addPhoto(String photoName, String albumName, User user) {
         photoRepository.addPhoto(photoName, albumName, user);

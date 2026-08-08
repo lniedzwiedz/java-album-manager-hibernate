@@ -25,7 +25,6 @@ public class ApplicationRunner {
     private final ConsoleMenu consoleMenu;
 
     public ApplicationRunner(MenuActionHandler menuActionHandler, LoginActionHandler loginActionHandler, ConsolePrinter consolePrinter, ConsoleReader consoleReader, ConsoleMenu consoleMenu) {
-
         this.menuActionHandler = menuActionHandler;
         this.loginActionHandler= loginActionHandler;
         this.consolePrinter = consolePrinter;
@@ -55,7 +54,8 @@ public class ApplicationRunner {
                 continue;
 
             MenuResult menuResult = menuActionHandler.execute(menuOption, consoleReader, userLogged);
-            if (menuResult == MenuResult.EXIT) menuRunning = false;
+            if (menuResult == MenuResult.EXIT)
+                menuRunning = false;
         }
     }
 

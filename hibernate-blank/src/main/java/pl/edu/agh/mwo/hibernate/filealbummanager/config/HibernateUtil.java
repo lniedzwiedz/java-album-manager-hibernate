@@ -9,12 +9,11 @@ public class HibernateUtil {
 
     static {
         try {
-
             sessionFactory = new Configuration()
                     .configure()
                     .buildSessionFactory();
         } catch (Exception e) {
-			e.printStackTrace();
+            e.printStackTrace();
             throw new ExceptionInInitializerError(e);
         }
     }
