@@ -36,27 +36,6 @@ public class PhotoRepository {
             return query.list();
         }
     }
-//
-//    public boolean isPhotoBelongToUser(User user, String albumName, String photoName) {
-//        if (user == null) return false;
-//
-//        try (Session session = sessionFactory.openSession()) {
-//            Query<Album> albumQuery = session.createQuery("FROM Album a " + "WHERE a.name = :name " + "AND a.userId = :userId", Album.class);
-//
-//            albumQuery.setParameter("name", albumName);
-//            albumQuery.setParameter("userId", user.getId());
-//
-//            Album album = albumQuery.uniqueResult();
-//            if (album == null) return false;
-//
-//            Query<Photo> photoQuery = session.createQuery("FROM Photo p " + "WHERE p.name = :name " + "AND p.albumId = :albumId", Photo.class);
-//
-//            photoQuery.setParameter("name", photoName);
-//            photoQuery.setParameter("albumId", album.getId());
-//
-//            return photoQuery.uniqueResult() != null;
-//        }
-//    }
 
     public Album getAlbum(String albumName, int userId) {
         try (Session session = sessionFactory.openSession()) {
@@ -74,35 +53,6 @@ public class PhotoRepository {
         }
     }
 
-//    public void save(String photoName, String albumName, User user) {
-//        if (user == null) return;
-//
-//        try (Session session = sessionFactory.openSession()) {
-//            Query<Album> query = session.createQuery("FROM Album a " + "WHERE a.name = :name " + "AND a.userId = :userId", Album.class);
-//
-//            query.setParameter("name", albumName);
-//            query.setParameter("userId", user.getId());
-//
-//            Album album = query.uniqueResult();
-//            if (album == null) return;
-//
-//            Photo photo = new Photo();
-//            photo.setName(photoName);
-//            photo.setAlbumId(album.getId());
-//            photo.setDate(LocalDate.now().toString());
-//
-//            Transaction transaction = session.beginTransaction();
-//            try {
-//                session.save(photo);
-//                transaction.commit();
-//
-//            } catch (Exception e) {
-//                if (transaction.isActive()) transaction.rollback();
-//                throw e;
-//            }
-//        }
-//    }
-
     public void save(Photo photo) {
         if (photo == null)
             return;
@@ -117,50 +67,10 @@ public class PhotoRepository {
             } catch (Exception e) {
                 if (transaction.isActive())
                     transaction.rollback();
-
                 throw e;
             }
         }
     }
-
-
-
-//    public void delete(String photoName, String albumName, User user) {
-//        if (user == null) return;
-//
-//        try (Session session = sessionFactory.openSession()) {
-//            Query<Album> albumQuery = session.createQuery("FROM Album a " + "WHERE a.name = :name " + "AND a.userId = :userId", Album.class);
-//
-//            albumQuery.setParameter("name", albumName);
-//            albumQuery.setParameter("userId", user.getId());
-//
-//            Album album = albumQuery.uniqueResult();
-//            if (album == null) return;
-//
-//            Query<Photo> photoQuery = session.createQuery("FROM Photo p " + "WHERE p.name = :name " + "AND p.albumId = :albumId", Photo.class);
-//
-//            photoQuery.setParameter("name", photoName);
-//            photoQuery.setParameter("albumId", album.getId());
-//
-//            Photo photo = photoQuery.uniqueResult();
-//            if (photo == null) return;
-//
-//            Transaction transaction = session.beginTransaction();
-//            try {
-//                deleteRelationBetweenPhotoAndUser(session, photo);
-//
-//                album.removePhoto(photo);
-//                session.save(album);
-//                session.delete(photo);
-//
-//                transaction.commit();
-//
-//            } catch (Exception e) {
-//                if (transaction.isActive()) transaction.rollback();
-//                throw e;
-//            }
-//        }
-//    }
 
     public boolean delete(Photo photo) {
         if (photo == null)
@@ -175,7 +85,6 @@ public class PhotoRepository {
                     transaction.rollback();
                     return false;
                 }
-
                 deleteRelationBetweenPhotoAndUser(session, managedPhoto);
                 session.delete(managedPhoto);
                 transaction.commit();
@@ -189,8 +98,6 @@ public class PhotoRepository {
         }
     }
 
-
-
     public List<Photo> getPhotosForUserAlbum(User user, String albumName) {
         if (user == null) return new ArrayList<>();
 
@@ -201,7 +108,8 @@ public class PhotoRepository {
             albumQuery.setParameter("userId", user.getId());
 
             Album album = albumQuery.uniqueResult();
-            if (album == null) return new ArrayList<>();
+            if (album == null)
+                return new ArrayList<>();
 
             Query<Photo> photoQuery = session.createQuery("FROM Photo p WHERE p.albumId = :albumId", Photo.class);
             photoQuery.setParameter("albumId", album.getId());
@@ -218,15 +126,18 @@ public class PhotoRepository {
             albumQuery.setParameter("name", albumName);
 
             Album album = albumQuery.uniqueResult();
-            if (album == null) return PhotoLikeStatus.ALBUM_DOES_NOT_EXIST;
+            if (album == null)
+                return PhotoLikeStatus.ALBUM_DOES_NOT_EXIST;
 
             User owner = session.get(User.class, album.getUserId());
             User managedUser = session.get(User.class, user.getId());
-            if (owner == null || managedUser == null) return PhotoLikeStatus.ALBUM_DOES_NOT_EXIST;
+            if (owner == null || managedUser == null)
+                return PhotoLikeStatus.ALBUM_DOES_NOT_EXIST;
 
             boolean areFriends = managedUser.equals(owner) || managedUser.getUsers().contains(owner) || owner.getUsers().contains(managedUser);
 
-            if (!areFriends) return PhotoLikeStatus.NOT_FRIEND_PHOTO_OWNER;
+            if (!areFriends)
+                return PhotoLikeStatus.NOT_FRIEND_PHOTO_OWNER;
 
             Query<Photo> photoQuery = session.createQuery("FROM Photo p " + "WHERE p.name = :name " + "AND p.albumId = :albumId", Photo.class);
 
@@ -234,56 +145,15 @@ public class PhotoRepository {
             photoQuery.setParameter("albumId", album.getId());
 
             Photo photo = photoQuery.uniqueResult();
-            if (photo == null) return PhotoLikeStatus.PHOTO_NOT_IN_ALBUM;
+            if (photo == null)
+                return PhotoLikeStatus.PHOTO_NOT_IN_ALBUM;
 
-            if (photo.getUsers().contains(managedUser)) return PhotoLikeStatus.ALREADY_LIKED;
+            if (photo.getUsers().contains(managedUser))
+                return PhotoLikeStatus.ALREADY_LIKED;
 
             return PhotoLikeStatus.NEVER_LIKED;
         }
     }
-
-//    public void addPhotoLike(User user, String albumName, String photoName) {
-//        if (user == null) return;
-//
-//        try (Session session = sessionFactory.openSession()) {
-//            Query<Album> albumQuery = session.createQuery("FROM Album a WHERE a.name = :name", Album.class);
-//            albumQuery.setParameter("name", albumName);
-//
-//            Album album = albumQuery.uniqueResult();
-//            if (album == null) return;
-//
-//            Query<Photo> photoQuery = session.createQuery("FROM Photo p " + "WHERE p.name = :name " + "AND p.albumId = :albumId", Photo.class);
-//
-//            photoQuery.setParameter("name", photoName);
-//            photoQuery.setParameter("albumId", album.getId());
-//
-//            Photo photo = photoQuery.uniqueResult();
-//            if (photo == null) return;
-//
-//            User managedUser = session.get(User.class, user.getId());
-//            if (managedUser == null) return;
-//
-//            Transaction transaction = session.beginTransaction();
-//            try {
-//                if (photo.getUsers().contains(managedUser)) {
-//                    transaction.rollback();
-//                    return;
-//                }
-//                photo.addUser(managedUser);
-//
-//                session.save(photo);
-//                session.save(managedUser);
-//
-//                transaction.commit();
-//
-//            } catch (Exception e) {
-//                if (transaction.isActive()) {
-//                    transaction.rollback();
-//                }
-//                throw e;
-//            }
-//        }
-//    }
 
     public boolean addPhotoLike(Photo photo, User user) {
         if (photo == null || user == null)
@@ -305,7 +175,6 @@ public class PhotoRepository {
                     transaction.rollback();
                     return false;
                 }
-
                 managedPhoto.addUser(managedUser);
                 transaction.commit();
                 return true;
@@ -317,49 +186,6 @@ public class PhotoRepository {
             }
         }
     }
-
-//    public void deletePhotoLike(User user, String albumName, String photoName) {
-//        if (user == null) return;
-//
-//        try (Session session = sessionFactory.openSession()) {
-//
-//            Query<Album> albumQuery = session.createQuery("FROM Album a WHERE a.name = :name", Album.class);
-//            albumQuery.setParameter("name", albumName);
-//
-//            Album album = albumQuery.uniqueResult();
-//            if (album == null) return;
-//
-//            Query<Photo> photoQuery = session.createQuery("FROM Photo p " + "WHERE p.name = :name " + "AND p.albumId = :albumId", Photo.class);
-//
-//            photoQuery.setParameter("name", photoName);
-//            photoQuery.setParameter("albumId", album.getId());
-//
-//            Photo photo = photoQuery.uniqueResult();
-//            if (photo == null) return;
-//
-//            User managedUser = session.get(User.class, user.getId());
-//            if (managedUser == null) return;
-//
-//            Transaction transaction = session.beginTransaction();
-//            try {
-//                if (!photo.getUsers().contains(managedUser)) {
-//                    transaction.rollback();
-//                    return;
-//                }
-//                photo.removeUser(managedUser);
-//                managedUser.removePhoto(photo);
-//
-//                session.save(photo);
-//                session.save(managedUser);
-//
-//                transaction.commit();
-//
-//            } catch (Exception e) {
-//                if (transaction.isActive()) transaction.rollback();
-//                throw e;
-//            }
-//        }
-//    }
 
     public boolean deletePhotoLike(Photo photo, User user) {
         if (photo == null || user == null)
@@ -381,7 +207,6 @@ public class PhotoRepository {
                     transaction.rollback();
                     return false;
                 }
-
                 managedPhoto.removeUser(managedUser);
                 managedUser.removePhoto(managedPhoto);
                 transaction.commit();
@@ -406,13 +231,6 @@ public class PhotoRepository {
             return;
 
         List<User> users = new ArrayList<>(photo.getUsers());
-//        for (User user : users) {
-//            photo.removeUser(user);
-//            user.removePhoto(photo);
-//            session.save(user);
-//        }
-//        session.save(photo);
-
         for (User user : users) {
             photo.removeUser(user);
             user.removePhoto(photo);

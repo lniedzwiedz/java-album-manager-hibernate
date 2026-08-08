@@ -27,12 +27,6 @@ public class AlbumService {
         return albumRepository.getAlbums(userId);
     }
 
-//    public void createNewAlbum(User user, String albumName) {
-//        if (user == null)
-//            return;
-//        albumRepository.createNewAlbum(user, albumName);
-//    }
-
     public void createAlbum(User user, String albumName) {
         if (user == null)
             return;
@@ -40,7 +34,6 @@ public class AlbumService {
         Album album = new Album();
         album.setName(albumName);
         album.setUserId(user.getId());
-
         albumRepository.save(album);
     }
 

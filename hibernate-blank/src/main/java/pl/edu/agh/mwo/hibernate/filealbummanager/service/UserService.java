@@ -29,10 +29,6 @@ public class UserService {
         return userRepository.exists(userName);
     }
 
-//    public void createUser(String userName) {
-//        userRepository.save(userName);
-//    }
-
     public void createUser(String userName) {
         User user = new User();
         user.setName(userName);

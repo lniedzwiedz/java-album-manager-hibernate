@@ -16,29 +16,6 @@ public class FriendRepository {
     public FriendRepository(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-//
-//    public User getUser(String userName) {
-//        try (Session session = sessionFactory.openSession()) {
-//            Query<User> query = session.createQuery("FROM User u WHERE u.name = :name", User.class);
-//            query.setParameter("name", userName);
-//            return query.uniqueResult();
-//        }
-//    }
-//
-//    public User getUser(int userId) {
-//        try (Session session = sessionFactory.openSession()) {
-//            Query<User> query = session.createQuery("FROM User u WHERE u.id = :id", User.class);
-//            query.setParameter("id", userId);
-//            return query.uniqueResult();
-//        }
-//    }
-//
-//    public List<User> getUsers() {
-//        try (Session session = sessionFactory.openSession()) {
-//            Query<User> query = session.createQuery("FROM User", User.class);
-//            return query.list();
-//        }
-//    }
 
     public void addFriend(User user, User friend) {
         if (user == null || friend == null)
@@ -55,7 +32,6 @@ public class FriendRepository {
                     transaction.rollback();
                     return;
                 }
-
                 managedUser.addUser(managedFriend);
                 session.save(managedUser);
                 transaction.commit();

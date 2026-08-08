@@ -32,10 +32,6 @@ public class PhotoService {
         return photoRepository.getPhotosForUserAlbum(user, albumName);
     }
 
-//    public boolean isPhotoBelongToUser(User user, String albumName, String photoName) {
-//        return photoRepository.isPhotoBelongToUser(user, albumName, photoName);
-//    }
-
     public PhotoAddResult checkPhotoCanBeAdded(User user, String albumName, String photoName) {
         if (user == null || user.getId() <= 0)
             return PhotoAddResult.INVALID_USER_OR_ALBUM;
@@ -51,17 +47,9 @@ public class PhotoService {
         return PhotoAddResult.ALREADY_EXISTS;
     }
 
-//    public void addPhoto(String photoName, String albumName, User user) {
-//        photoRepository.save(photoName, albumName, user);
-//    }
-
     public void addPhoto(Photo photo) {
         photoRepository.save(photo);
     }
-
-//    public void deletePhoto(String photoName, String albumName, User user) {
-//        photoRepository.delete(photoName, albumName, user);
-//    }
 
     public boolean deletePhoto(Photo photo) {
         return photoRepository.delete(photo);
@@ -71,17 +59,9 @@ public class PhotoService {
         return photoRepository.checkPhotoLikeStatus(user, albumName, photoName);
     }
 
-//    public void addPhotoLike(User user, String albumName, String photoName) {
-//        photoRepository.addPhotoLike(user, albumName, photoName);
-//    }
-
     public boolean addPhotoLike(Photo photo, User user) {
         return photoRepository.addPhotoLike(photo, user);
     }
-
-//    public void deletePhotoLike(User user, String albumName, String photoName) {
-//        photoRepository.deletePhotoLike(user, albumName, photoName);
-//    }
 
     public boolean deletePhotoLike(Photo photo, User user) {
         return photoRepository.deletePhotoLike(photo, user);

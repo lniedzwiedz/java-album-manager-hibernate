@@ -42,17 +42,10 @@ public class AlbumRepository {
         }
     }
 
-//    public void createNewAlbum(Album album) {
     public void save(Album album) {
-//        if (user == null)
-//            return;
-
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
-//                Album album = new Album();
-//                album.setName(albumName);
-//                album.setUserId(user.getId());
                 session.save(album);
                 transaction.commit();
 
@@ -75,12 +68,7 @@ public class AlbumRepository {
             query.setParameter("userId", user.getId());
 
             Album album = query.uniqueResult();
-//            if (album == null) {
-//                System.out.println(String.format(AlbumMessages.ALBUM_NOT_EXIST, albumName));
-//                return;
-//            }
-
-            if(album == null)
+            if (album == null)
                 return false;
 
             Transaction transaction = session.beginTransaction();

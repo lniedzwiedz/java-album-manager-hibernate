@@ -47,14 +47,11 @@ public class UserRepository {
         }
     }
 
-//    public void save(String userName) {
     public void save(User user) {
         try (Session session = sessionFactory.openSession()) {
 
             Transaction transaction = session.beginTransaction();
             try {
-//                User user = new User();
-//                user.setName(userName);
                 session.save(user);
                 transaction.commit();
 
