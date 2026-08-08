@@ -6,7 +6,6 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.repository.PhotoRepository;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoLikeStatus;
 
 import java.util.List;
 
@@ -54,20 +53,4 @@ public class PhotoService {
     public boolean deletePhoto(Photo photo) {
         return photoRepository.delete(photo);
     }
-
-//    public PhotoLikeStatus checkPhotoLikeStatus(User user, String albumName, String photoName) {
-//        return photoRepository.checkPhotoLikeStatus(user, albumName, photoName);
-//    }
-//
-//    public boolean addPhotoLike(Photo photo, User user) {
-//        return photoRepository.addPhotoLike(photo, user);
-//    }
-//
-//    public boolean deletePhotoLike(Photo photo, User user) {
-//        return photoRepository.deletePhotoLike(photo, user);
-//    }
-//
-//    public int countedPhotoLikes(Photo photo) {
-//        return photoRepository.countPhotoLikes(photo);
-//    }
 }
