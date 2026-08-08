@@ -13,28 +13,33 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User getUserFromDatabase(String userName) {
-        return userRepository.getUserFromDatabase(userName);
+    public User getUser(String userName) {
+        return userRepository.getUser(userName);
     }
 
-    public User getUserFromDatabase(int userId) {
-        return userRepository.getUserFromDatabase(userId);
+    public User getUser(int userId) {
+        return userRepository.getUser(userId);
     }
 
-    public List<User> getUsersFromDatabase() {
-        return userRepository.getUsersFromDatabase();
+    public List<User> getUsers() {
+        return userRepository.getUsers();
     }
 
-    public boolean isUserExistsInDatabase(String userName) {
-        return userRepository.isUserExists(userName);
+    public boolean exists(String userName) {
+        return userRepository.exists(userName);
     }
 
-    public void addUser(String userName) {
-        userRepository.addUser(userName);
+//    public void createUser(String userName) {
+//        userRepository.save(userName);
+//    }
+
+    public void createUser(String userName) {
+        User user = new User();
+        user.setName(userName);
+        userRepository.save(user);
     }
 
-    public void deleteUser(User user) {
-        userRepository.deleteUser(user);
+    public void delete(User user) {
+        userRepository.delete(user);
     }
-
 }

@@ -55,10 +55,10 @@ public class ActionFactory {
 
         this.showPhotosAction = new ShowPhotosAction(albumService, photoService);
         this.addPhotoAction = new AddPhotoAction(albumService, photoService);
-        this.deletePhotoAction = new DeletePhotoAction(photoService);
-        this.likePhotoAction = new LikePhotoAction(photoService);
+        this.deletePhotoAction = new DeletePhotoAction(albumService , photoService);
+        this.likePhotoAction = new LikePhotoAction(albumService, photoService);
 
-        this.unlikePhotoAction = new UnlikePhotoAction(photoService);
+        this.unlikePhotoAction = new UnlikePhotoAction(albumService, photoService);
         this.addFriendAction = new AddFriendAction(userService, friendService);
         this.deleteFriendAction = new DeleteFriendAction(userService, friendService);
         this.showFriendsAction = new ShowFriendsAction(friendService, consolePrinter);

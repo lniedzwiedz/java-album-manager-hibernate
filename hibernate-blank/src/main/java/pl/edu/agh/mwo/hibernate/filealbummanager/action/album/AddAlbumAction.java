@@ -34,7 +34,7 @@ public class AddAlbumAction {
             switch (result) {
 
                 case CAN_BE_ADDED -> {
-                    albumService.createNewAlbum(userLogged, albumName);
+                    albumService.createAlbum(userLogged, albumName);
                     System.out.println(AlbumMessages.ALBUM_ADDED);
                 }
 

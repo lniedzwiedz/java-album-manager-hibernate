@@ -63,7 +63,7 @@ public User execute(ConsoleReader reader) throws IOException {
                 continue;
             }
 
-            User userLogged = userService.getUserFromDatabase(userName);
+            User userLogged = userService.getUser(userName);
             if (userLogged != null) {
                 System.out.println(String.format(AccountMessages.WELCOME, userLogged.getName()));
                 return userLogged;

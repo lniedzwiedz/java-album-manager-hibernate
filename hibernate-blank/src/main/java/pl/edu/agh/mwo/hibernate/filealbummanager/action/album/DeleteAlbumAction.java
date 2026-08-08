@@ -25,8 +25,9 @@ public class DeleteAlbumAction {
             System.out.println(ApplicationMessages.INVALID_INPUT_E3);
             return MenuResult.CONTINUE;
         }
+        boolean deleted = albumService.deleteAlbum(userLogged, albumName);
 
-        if (albumService.isAlbumBelongToUser(userLogged, albumName)) {
+        if (deleted) {
             albumService.deleteAlbum(userLogged, albumName);
             System.out.println(AlbumMessages.ALBUM_REMOVED);
         } else {

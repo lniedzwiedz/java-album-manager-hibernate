@@ -41,13 +41,13 @@ public class ShowUserAlbumsAction {
             return MenuResult.CONTINUE;
         }
 
-        User user = userService.getUserFromDatabase(userName);
+        User user = userService.getUser(userName);
         if (!friendService.areFriends(userLogged, user)) {
             System.out.println(FriendMessages.NOW_FRIEND);
             return MenuResult.CONTINUE;
         }
 
-        List<Album> albums = albumService.getAlbumsFromDatabase(user.getId());
+        List<Album> albums = albumService.getAlbums(user.getId());
         consolePrinter.printUserAlbums(user, albums);
         return MenuResult.CONTINUE;
     }

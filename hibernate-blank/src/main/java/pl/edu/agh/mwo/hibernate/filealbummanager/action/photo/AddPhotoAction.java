@@ -1,5 +1,7 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.photo;
 
+import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
+import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoAddResult;
@@ -10,6 +12,7 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.Applicat
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class AddPhotoAction {
 
@@ -33,7 +36,7 @@ public class AddPhotoAction {
             return MenuResult.CONTINUE;
         }
 
-        if (!albumService.isAlbumBelongToUser(userLogged, albumName)) {
+        if (!albumService.doesAlbumBelongToUser(userLogged, albumName)) {
             System.out.println(String.format(PhotoMessages.PHOTO_ADD_FORBIDDEN, userLogged.getName()));
             return MenuResult.CONTINUE;
         }
@@ -48,7 +51,19 @@ public class AddPhotoAction {
         switch (result) {
 
             case CAN_BE_ADDED -> {
-                photoService.addPhoto(photoName, albumName, userLogged);
+//                photoService.addPhoto(photoName, albumName, userLogged);
+
+                Album album = albumService.getAlbum(
+                        albumName,
+                        userLogged.getId()
+                );
+
+                Photo photo = new Photo();
+                photo.setName(photoName);
+                photo.setAlbumId(album.getId());
+                photo.setDate(LocalDate.now().toString());
+
+                photoService.addPhoto(photo);
                 System.out.println(PhotoMessages.PHOTO_ADDED);
             }
 

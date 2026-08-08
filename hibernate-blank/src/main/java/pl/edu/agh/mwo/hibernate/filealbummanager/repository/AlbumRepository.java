@@ -6,7 +6,6 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class AlbumRepository {
         this.sessionFactory = sessionFactory;
     }
 
-    public Album getAlbumFromDatabase(String albumName) {
+    public Album getAlbum(String albumName) {
         try (Session session = sessionFactory.openSession()) {
             Query<Album> query = session.createQuery("FROM Album a WHERE a.name = :name", Album.class);
             query.setParameter("name", albumName);
@@ -26,7 +25,7 @@ public class AlbumRepository {
         }
     }
 
-    public Album getAlbumFromDatabase(String albumName, int userId) {
+    public Album getAlbum(String albumName, int userId) {
         try (Session session = sessionFactory.openSession()) {
             Query<Album> query = session.createQuery("FROM Album a " + "WHERE a.name = :name " + "AND a.userId = :userId", Album.class);
             query.setParameter("name", albumName);
@@ -35,7 +34,7 @@ public class AlbumRepository {
         }
     }
 
-    public List<Album> getAlbumsFromDatabase(int userId) {
+    public List<Album> getAlbums(int userId) {
         try (Session session = sessionFactory.openSession()) {
             Query<Album> query = session.createQuery("FROM Album a WHERE a.userId = :userId", Album.class);
             query.setParameter("userId", userId);
@@ -43,18 +42,17 @@ public class AlbumRepository {
         }
     }
 
-    public void createNewAlbum(User user, String albumName) {
-        if (user == null)
-            return;
+//    public void createNewAlbum(Album album) {
+    public void save(Album album) {
+//        if (user == null)
+//            return;
 
         try (Session session = sessionFactory.openSession()) {
-
             Transaction transaction = session.beginTransaction();
             try {
-                Album album = new Album();
-                album.setName(albumName);
-                album.setUserId(user.getId());
-
+//                Album album = new Album();
+//                album.setName(albumName);
+//                album.setUserId(user.getId());
                 session.save(album);
                 transaction.commit();
 
@@ -66,9 +64,9 @@ public class AlbumRepository {
         }
     }
 
-    public void deleteAlbum(User user, String albumName) {
+    public boolean delete(User user, String albumName) {
         if (user == null)
-            return;
+            return false;
 
         try (Session session = sessionFactory.openSession()) {
 
@@ -77,16 +75,19 @@ public class AlbumRepository {
             query.setParameter("userId", user.getId());
 
             Album album = query.uniqueResult();
-            if (album == null) {
-                System.out.println(String.format(AlbumMessages.ALBUM_NOT_EXIST, albumName));
-                return;
-            }
+//            if (album == null) {
+//                System.out.println(String.format(AlbumMessages.ALBUM_NOT_EXIST, albumName));
+//                return;
+//            }
+
+            if(album == null)
+                return false;
 
             Transaction transaction = session.beginTransaction();
             try {
                 session.delete(album);
                 transaction.commit();
-
+                return true;
             } catch (Exception e) {
                 if (transaction.isActive())
                     transaction.rollback();

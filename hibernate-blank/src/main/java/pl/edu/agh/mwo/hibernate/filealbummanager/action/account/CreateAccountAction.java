@@ -28,16 +28,16 @@ public class CreateAccountAction {
                 continue;
             }
 
-            User userLogged = userService.getUserFromDatabase(userName);
+            User userLogged = userService.getUser(userName);
             if (userLogged != null) {
                 System.out.println(String.format(AccountMessages.WELCOME, userLogged.getName()));
                 System.out.println(AccountMessages.ACCOUNT_EXISTS_AUTO_LOGIN);
                 return userLogged;
             }
 
-            userService.addUser(userName);
+            userService.createUser(userName);
 
-            userLogged = userService.getUserFromDatabase(userName);
+            userLogged = userService.getUser(userName);
             if (userLogged != null)
                 System.out.println(String.format(AccountMessages.WELCOME_ACCOUNT_CREATED, userLogged.getName()));
             return userLogged;

@@ -1,7 +1,10 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike;
 
+import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
+import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
@@ -14,9 +17,11 @@ import java.io.IOException;
 
 public class LikePhotoAction {
 
+    private final AlbumService albumService;
     private final PhotoService photoService;
 
-    public LikePhotoAction(PhotoService photoService) {
+    public LikePhotoAction(AlbumService albumService, PhotoService photoService) {
+        this.albumService = albumService;
         this.photoService = photoService;
     }
 
@@ -49,9 +54,52 @@ public class LikePhotoAction {
         switch (likeResult) {
 
             case NEVER_LIKED:
-                photoService.addPhotoLike(userLogged, albumName, photoName);
-                System.out.println(PhotoLikeMessages.PHOTO_LIKE_ADDED);
+//                photoService.addPhotoLike(userLogged, albumName, photoName);
+//                System.out.println(PhotoLikeMessages.PHOTO_LIKE_ADDED);
+//                break;
+            {
+
+                Album album = albumService.getAlbum(
+                        albumName,
+                        userLogged.getId()
+                );
+
+                if (album == null) {
+                    System.out.println(
+                            AlbumMessages.ALBUM_DOES_NOT_EXIST
+                    );
+                    return MenuResult.CONTINUE;
+                }
+
+                Photo photo = photoService.getPhotoFromDatabase(
+                        photoName,
+                        album.getId()
+                );
+
+                if (photo == null) {
+                    System.out.println(
+                            PhotoMessages.PHOTO_NOT_IN_ALBUM
+                    );
+                    return MenuResult.CONTINUE;
+                }
+
+                boolean added = photoService.addPhotoLike(
+                        photo,
+                        userLogged
+                );
+
+                if (added) {
+                    System.out.println(
+                            PhotoLikeMessages.PHOTO_LIKE_ADDED
+                    );
+                } else {
+                    System.out.println(
+                            PhotoLikeMessages.PHOTO_LIKE_ERROR
+                    );
+                }
+
                 break;
+            }
 
             case ALREADY_LIKED:
                 System.out.println(String.format(PhotoLikeMessages.ALREADY_LIKE_PHOTO, userLogged.getName()));

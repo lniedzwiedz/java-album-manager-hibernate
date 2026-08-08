@@ -13,17 +13,17 @@ public class FriendService {
         this.friendRepository = friendRepository;
     }
 
-    public User getUserByName(String userName) {
-        return friendRepository.getUserByName(userName);
-    }
-
-    public User getUserById(int userId) {
-        return friendRepository.getUserById(userId);
-    }
-
-    public List<User> getAllUsers() {
-        return friendRepository.getAllUsers();
-    }
+//    public User getUserByName(String userName) {
+//        return friendRepository.getUser(userName);
+//    }
+//
+//    public User getUserById(int userId) {
+//        return friendRepository.getUser(userId);
+//    }
+//
+//    public List<User> getAllUsers() {
+//        return friendRepository.getUsers();
+//    }
 
     public void addFriend(User user, User friend) {
         friendRepository.addFriend(user, friend);

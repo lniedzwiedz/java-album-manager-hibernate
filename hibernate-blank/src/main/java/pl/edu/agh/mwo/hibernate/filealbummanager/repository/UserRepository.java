@@ -16,7 +16,7 @@ public class UserRepository {
         this.sessionFactory = sessionFactory;
     }
 
-    public User getUserFromDatabase(String userName) {
+    public User getUser(String userName) {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("FROM User u WHERE u.name = :name", User.class);
             query.setParameter("name", userName);
@@ -24,7 +24,7 @@ public class UserRepository {
         }
     }
 
-    public User getUserFromDatabase(int userId) {
+    public User getUser(int userId) {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("FROM User u WHERE u.id = :id", User.class);
             query.setParameter("id", userId);
@@ -32,14 +32,14 @@ public class UserRepository {
         }
     }
 
-    public List<User> getUsersFromDatabase() {
+    public List<User> getUsers() {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("FROM User", User.class);
             return query.list();
         }
     }
 
-    public boolean isUserExists(String userName) {
+    public boolean exists(String userName) {
         try (Session session = sessionFactory.openSession()) {
             Query<Long> query = session.createQuery("SELECT COUNT(u.id) FROM User u WHERE u.name = :name", Long.class);
             query.setParameter("name", userName);
@@ -47,15 +47,15 @@ public class UserRepository {
         }
     }
 
-    public void addUser(String userName) {
+//    public void save(String userName) {
+    public void save(User user) {
         try (Session session = sessionFactory.openSession()) {
 
             Transaction transaction = session.beginTransaction();
             try {
-                User user = new User();
-                user.setName(userName);
+//                User user = new User();
+//                user.setName(userName);
                 session.save(user);
-
                 transaction.commit();
 
             } catch (Exception e) {
@@ -66,7 +66,7 @@ public class UserRepository {
         }
     }
 
-    public void deleteUser(User user) {
+    public void delete(User user) {
         if (user == null)
             return;
 

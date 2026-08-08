@@ -36,7 +36,7 @@ public class ShowPhotosAction {
             return MenuResult.CONTINUE;
         }
 
-        if (!albumService.isAlbumBelongToUser(userLogged, albumName)) {
+        if (!albumService.doesAlbumBelongToUser(userLogged, albumName)) {
             System.out.println(AlbumMessages.ALBUM_OR_PHOTO_NOT_EXIST);
             return MenuResult.CONTINUE;
         }

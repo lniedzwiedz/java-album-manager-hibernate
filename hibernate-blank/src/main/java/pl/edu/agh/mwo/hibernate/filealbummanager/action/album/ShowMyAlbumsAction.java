@@ -21,7 +21,7 @@ public class ShowMyAlbumsAction {
     public MenuResult execute(User userLogged) {
         if (userLogged == null) return MenuResult.CONTINUE;
 
-        List<Album> albums = albumService.getAlbumsFromDatabase(userLogged.getId());
+        List<Album> albums = albumService.getAlbums(userLogged.getId());
         consolePrinter.printAlbums(albums);
         return MenuResult.CONTINUE;
     }

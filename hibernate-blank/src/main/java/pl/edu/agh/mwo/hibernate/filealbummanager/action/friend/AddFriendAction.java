@@ -34,7 +34,7 @@ public class AddFriendAction {
             return MenuResult.CONTINUE;
         }
 
-        User friend = userService.getUserFromDatabase(friendName);
+        User friend = userService.getUser(friendName);
         if (friend == null) {
             System.out.println(String.format(AccountMessages.USER_NOT_FOUND_BY_NAME, friendName));
             return MenuResult.CONTINUE;
