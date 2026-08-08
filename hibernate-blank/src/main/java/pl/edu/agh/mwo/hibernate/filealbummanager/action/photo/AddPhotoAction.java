@@ -6,9 +6,9 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 public class AddPhotoAction {
@@ -26,7 +26,12 @@ public class AddPhotoAction {
             return MenuResult.CONTINUE;
 
         System.out.println(PhotoMessages.ENTER_ALBUM_ADD_PHOTO);
+
         String albumName = reader.readLine();
+        if (albumName == null || albumName.isBlank()) {
+            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+            return MenuResult.CONTINUE;
+        }
 
         if (!albumService.isAlbumBelongToUser(userLogged, albumName)) {
             System.out.println(String.format(PhotoMessages.PHOTO_ADD_FORBIDDEN, userLogged.getName()));
@@ -56,7 +61,6 @@ public class AddPhotoAction {
             default ->
                     System.out.println(PhotoMessages.PHOTO_ADD_ERROR);
         }
-
         return MenuResult.CONTINUE;
     }
 }

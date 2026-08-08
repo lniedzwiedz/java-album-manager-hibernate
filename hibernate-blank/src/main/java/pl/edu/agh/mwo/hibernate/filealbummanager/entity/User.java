@@ -78,7 +78,6 @@ public class User {
     }
 
     public void removeUser(User user) {
-        System.out.println("3 = " + user.getName());
         this.users.remove(user);
     }
 

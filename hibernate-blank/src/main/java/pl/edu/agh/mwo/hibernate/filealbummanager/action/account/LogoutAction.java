@@ -12,23 +12,18 @@ import java.io.IOException;
 public class LogoutAction {
 
     public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
-        if (userLogged == null) {
+        if (userLogged == null)
             return MenuResult.EXIT;
-        }
 
         System.out.println(AccountMessages.CONFIRM_LOGOUT);
 
-        String logoutDecision = reader.readLine();
-        int logoutValue;
-
-        try {
-            logoutValue = Integer.parseInt(logoutDecision);
-        } catch (NumberFormatException e) {
+        Integer input = reader.readInteger();
+        if (input == null) {
             System.out.println(ApplicationMessages.INVALID_INPUT_E3);
             return MenuResult.CONTINUE;
         }
 
-        ConfirmationOption logoutOption = ConfirmationOption.fromInt(logoutValue);
+        ConfirmationOption logoutOption = ConfirmationOption.fromInt(input);
 
         if (logoutOption == ConfirmationOption.YES) {
             System.out.println(String.format(AccountMessages.GOODBYE, userLogged.getName()));

@@ -33,7 +33,7 @@ public class MenuActionHandler {
 
             case SHOW_USER_ALBUMS:
                 return actionFactory.getShowUserAlbumsAction()
-                        .execute(reader);
+                        .execute(reader, userLogged);
 
             case SHOW_PHOTOS:
                 return actionFactory.getShowPhotosAction()

@@ -5,21 +5,27 @@ import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
 
-	private static SessionFactory sessionFactory;
-	
-	static{
-		try{
-			sessionFactory = new Configuration().configure().buildSessionFactory();
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    private static final SessionFactory sessionFactory;
 
-	public static SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
+    static {
+        try {
 
-	public static void shutdown(){
-		getSessionFactory().close();
-	}
+            sessionFactory = new Configuration()
+                    .configure()
+                    .buildSessionFactory();
+        } catch (Exception e) {
+//			e.printStackTrace();
+            throw new ExceptionInInitializerError(e);
+        }
+    }
+
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public static void shutdown() {
+        if (!sessionFactory.isClosed()) {
+            sessionFactory.close();
+        }
+    }
 }

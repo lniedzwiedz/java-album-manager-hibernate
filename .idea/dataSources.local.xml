@@ -14,5 +14,11 @@
         </introspection-scope>
       </schema-mapping>
     </data-source>
+    <data-source name="identifier.sqlite" uuid="5011b972-c30a-4267-b91c-a52047ca11b8">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" />
+      <secret-storage>master_key</secret-storage>
+      <auth-provider>no-auth</auth-provider>
+      <schema-mapping />
+    </data-source>
   </component>
 </project>

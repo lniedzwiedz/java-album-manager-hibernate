@@ -51,7 +51,7 @@ public class ActionFactory {
         this.addAlbumAction = new AddAlbumAction(albumService);
         this.deleteAlbumAction = new DeleteAlbumAction(albumService);
         this.showMyAlbumsAction = new ShowMyAlbumsAction(albumService, consolePrinter);
-        this.showUserAlbumsAction = new ShowUserAlbumsAction(albumService, userService, consolePrinter);
+        this.showUserAlbumsAction = new ShowUserAlbumsAction(albumService, userService, friendService, consolePrinter);
 
         this.showPhotosAction = new ShowPhotosAction(albumService, photoService);
         this.addPhotoAction = new AddPhotoAction(albumService, photoService);

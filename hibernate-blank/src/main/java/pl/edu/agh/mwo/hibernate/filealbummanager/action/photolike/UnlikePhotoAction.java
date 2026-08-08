@@ -5,11 +5,11 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoLikeStatus;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 public class UnlikePhotoAction {
@@ -25,11 +25,22 @@ public class UnlikePhotoAction {
             return MenuResult.CONTINUE;
 
         System.out.println(PhotoLikeMessages.REMOVE_PHOTO_LIKE_NAME);
-        String photoName = reader.readLine();
-        System.out.println(AlbumMessages.ALBUM_NAME);
-        String albumName = reader.readLine();
-        PhotoLikeStatus unlikeResult = photoService.getProcessingStatusForPhotoLike(userLogged, albumName, photoName);
 
+        String photoName = reader.readLine();
+        if (photoName == null || photoName.isBlank()) {
+            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+            return MenuResult.CONTINUE;
+        }
+
+        System.out.println(AlbumMessages.ALBUM_NAME);
+
+        String albumName = reader.readLine();
+        if (albumName == null || albumName.isBlank()) {
+            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+            return MenuResult.CONTINUE;
+        }
+
+        PhotoLikeStatus unlikeResult = photoService.getProcessingStatusForPhotoLike(userLogged, albumName, photoName);
         if (unlikeResult == null) {
             System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
             return MenuResult.CONTINUE;

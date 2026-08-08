@@ -1,10 +1,7 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.service;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.AlbumAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
-import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.repository.AlbumRepository;
 
@@ -12,11 +9,9 @@ import java.util.List;
 
 public class AlbumService {
 
-    private final Session session;
     private final AlbumRepository albumRepository;
 
-    public AlbumService(Session session, AlbumRepository albumRepository) {
-        this.session = session;
+    public AlbumService(AlbumRepository albumRepository) {
         this.albumRepository = albumRepository;
     }
 
@@ -35,7 +30,6 @@ public class AlbumService {
     public void createNewAlbum(User user, String albumName) {
         if (user == null)
             return;
-
         albumRepository.createNewAlbum(user, albumName);
     }
 
@@ -51,59 +45,13 @@ public class AlbumService {
     }
 
     public boolean isAlbumBelongToUser(User userLogged, String albumName) {
-        if (userLogged == null)
-            return false;
-
+        if (userLogged == null) return false;
         return albumRepository.getAlbumFromDatabase(albumName, userLogged.getId()) != null;
     }
 
     public void deleteAlbum(User userLogged, String albumName) {
         if (userLogged == null)
             return;
-
-        Album album = albumRepository.getAlbumFromDatabase(albumName, userLogged.getId());
-        if (album == null)
-            return;
-
-        Transaction transaction = session.beginTransaction();
-
-        try {
-            List<Photo> photos = getPhotosFromDatabase(album.getId());
-            for (Photo photo : photos) {
-                deleteRelationBetweenPhotoAndUser(photo);
-                album.removePhoto(photo);
-                session.delete(photo);
-            }
-
-            session.delete(album);
-            transaction.commit();
-
-        } catch (Exception e) {
-            if (transaction.isActive())
-                transaction.rollback();
-
-            throw e;
-        }
-    }
-
-    private List<Photo> getPhotosFromDatabase(int albumId) {
-        return session.createQuery("FROM Photo p " +
-                "WHERE p.albumId = :albumId", Photo.class).setParameter("albumId", albumId).list();
-    }
-
-    private void deleteRelationBetweenPhotoAndUser(Photo photo) {
-        if (photo == null)
-            return;
-
-        List<User> users = session.createQuery("FROM User", User.class).list();
-        for (User user : users) {
-            if (user.getPhotos().contains(photo)) {
-                user.removePhoto(photo);
-                session.save(user);
-            }
-        }
-
-        photo.getUsers().clear();
-        session.save(photo);
+        albumRepository.deleteAlbum(userLogged, albumName);
     }
 }

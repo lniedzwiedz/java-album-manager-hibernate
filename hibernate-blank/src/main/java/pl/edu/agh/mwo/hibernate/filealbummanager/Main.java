@@ -3,6 +3,7 @@ package pl.edu.agh.mwo.hibernate.filealbummanager;
 import pl.edu.agh.mwo.hibernate.filealbummanager.application.ApplicationRunner;
 import pl.edu.agh.mwo.hibernate.filealbummanager.config.ApplicationResources;
 import pl.edu.agh.mwo.hibernate.filealbummanager.config.ApplicationConfig;
+import pl.edu.agh.mwo.hibernate.filealbummanager.config.HibernateUtil;
 
 import java.io.IOException;
 
@@ -13,7 +14,7 @@ public class Main {
         try (ApplicationResources resources = new ApplicationResources()) {
 
             ApplicationRunner applicationRunner =
-                    new ApplicationConfig(resources.getSession())
+                    new ApplicationConfig(HibernateUtil.getSessionFactory())
                             .createApplication();
 
             applicationRunner.run();

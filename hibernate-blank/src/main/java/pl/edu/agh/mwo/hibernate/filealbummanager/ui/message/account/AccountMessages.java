@@ -16,7 +16,9 @@ public final class AccountMessages {
                     + " - create a new account";
 
     public static final String SELECT_CREATE_RETRY =
-            "What would you like to do? "
+//            "What would you like to do? "
+//                    + LoginOption.CREATE_ACCOUNT.getValue()
+            "\n"
                     + LoginOption.CREATE_ACCOUNT.getValue()
                     + " - create a new account, "
                     + LoginOption.TRY_AGAIN.getValue()
@@ -34,8 +36,10 @@ public final class AccountMessages {
     public static final String USER_NOT_FOUND =
             "User not found.";
 
-    public static final String USER_NOT_FOUND_RETRY =
-            "User not found. Would you like to try again or create a new account?";
+    public static final String USER_NOT_FOUND_LOGIN_OPTIONS =
+            USER_NOT_FOUND
+                    + "\nWould you like to create a new account or try logging in again?"
+                    + SELECT_CREATE_RETRY;
 
     public static final String USER_NOT_FOUND_BY_NAME =
             "User %s not found.";
@@ -63,7 +67,7 @@ public final class AccountMessages {
             "Your account has not been deleted.";
 
     public static final String ACCOUNT_DELETED =
-            "Account %s has been deleted.";
+            "Account has been deleted.";
 
     public static final String CONFIRM_LOGOUT =
             "Are you sure you want to log out? "

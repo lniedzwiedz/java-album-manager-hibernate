@@ -20,12 +20,7 @@ public class ApplicationRunner {
     private final ConsoleReader consoleReader;
     private final ConsoleMenu consoleMenu;
 
-    public ApplicationRunner(
-            MenuActionHandler menuActionHandler,
-            LoginAction loginAction,
-            ConsolePrinter consolePrinter,
-            ConsoleReader consoleReader,
-            ConsoleMenu consoleMenu) {
+    public ApplicationRunner(MenuActionHandler menuActionHandler, LoginAction loginAction, ConsolePrinter consolePrinter, ConsoleReader consoleReader, ConsoleMenu consoleMenu) {
 
         this.menuActionHandler = menuActionHandler;
         this.loginAction = loginAction;
@@ -55,15 +50,8 @@ public class ApplicationRunner {
             if (menuOption == null)
                 continue;
 
-            MenuResult menuResult =
-                    menuActionHandler.execute(
-                            menuOption,
-                            consoleReader,
-                            userLogged
-                    );
-
-            if (menuResult == MenuResult.EXIT)
-                menuRunning = false;
+            MenuResult menuResult = menuActionHandler.execute(menuOption, consoleReader, userLogged);
+            if (menuResult == MenuResult.EXIT) menuRunning = false;
         }
     }
 }

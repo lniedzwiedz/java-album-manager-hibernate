@@ -5,6 +5,7 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoLikeStatus;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
@@ -24,11 +25,22 @@ public class LikePhotoAction {
             return MenuResult.CONTINUE;
 
         System.out.println(PhotoLikeMessages.ADD_LIKE_PHOTO_NAME);
-        String photoName = reader.readLine();
-        System.out.println(PhotoLikeMessages.ALBUM_NAME_LIKE);
-        String albumName = reader.readLine();
-        PhotoLikeStatus likeResult = photoService.getProcessingStatusForPhotoLike(userLogged, albumName, photoName);
 
+        String photoName = reader.readLine();
+        if (photoName == null || photoName.isBlank()) {
+            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+            return MenuResult.CONTINUE;
+        }
+
+        System.out.println(PhotoLikeMessages.ALBUM_NAME_LIKE);
+
+        String albumName = reader.readLine();
+        if (albumName == null || albumName.isBlank()) {
+            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+            return MenuResult.CONTINUE;
+        }
+
+        PhotoLikeStatus likeResult = photoService.getProcessingStatusForPhotoLike(userLogged, albumName, photoName);
         if (likeResult == null) {
             System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
             return MenuResult.CONTINUE;

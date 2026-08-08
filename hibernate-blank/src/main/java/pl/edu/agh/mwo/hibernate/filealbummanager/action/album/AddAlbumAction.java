@@ -7,6 +7,7 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account.AccountMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
 
 import java.io.IOException;
 
@@ -22,18 +23,25 @@ public class AddAlbumAction {
         System.out.println(AlbumMessages.ADD_ALBUM_NAME);
 
         String albumName = reader.readLine();
+        if (albumName == null || albumName.isBlank()) {
+            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+            return MenuResult.CONTINUE;
+        }
+
         AlbumAddResult result = albumService.getProcessingStatusWhileAddingAlbum(userLogged, albumName);
+        if (userLogged != null) {
 
-        switch (result) {
+            switch (result) {
 
-            case CAN_BE_ADDED -> {
-                albumService.createNewAlbum(userLogged, albumName);
-                System.out.println(AlbumMessages.ALBUM_ADDED);
+                case CAN_BE_ADDED -> {
+                    albumService.createNewAlbum(userLogged, albumName);
+                    System.out.println(AlbumMessages.ALBUM_ADDED);
+                }
+
+                case ALREADY_EXISTS -> System.out.println(AlbumMessages.ALBUM_EXISTS);
+
+                case INVALID_USER -> System.out.println(AccountMessages.USER_NOT_FOUND);
             }
-
-            case ALREADY_EXISTS -> System.out.println(AlbumMessages.ALBUM_EXISTS);
-
-            case INVALID_USER -> System.out.println(AccountMessages.USER_NOT_FOUND);
         }
         return MenuResult.CONTINUE;
     }

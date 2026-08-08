@@ -24,12 +24,8 @@ public class DeleteAccountAction {
 
         System.out.println(AccountMessages.CONFIRM_DELETE_ACCOUNT);
 
-        String deleteDecision = reader.readLine();
-        int deleteValue;
-
-        try {
-            deleteValue = Integer.parseInt(deleteDecision);
-        } catch (NumberFormatException e) {
+        Integer deleteValue = reader.readInteger();
+        if (deleteValue == null) {
             System.out.println(ApplicationMessages.INVALID_INPUT_E3);
             return MenuResult.CONTINUE;
         }

@@ -7,10 +7,10 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -31,6 +31,11 @@ public class ShowPhotosAction {
         System.out.println(PhotoMessages.ENTER_ALBUM_PHOTO);
 
         String albumName = reader.readLine();
+        if (albumName == null || albumName.isBlank()) {
+            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+            return MenuResult.CONTINUE;
+        }
+
         if (!albumService.isAlbumBelongToUser(userLogged, albumName)) {
             System.out.println(AlbumMessages.ALBUM_OR_PHOTO_NOT_EXIST);
             return MenuResult.CONTINUE;
@@ -43,7 +48,6 @@ public class ShowPhotosAction {
                     PhotoLikeMessages.PHOTO_LIKES,
                     photoService.countedPhotoLikes(photo)));
         }
-
         return MenuResult.CONTINUE;
     }
 }

@@ -2,7 +2,6 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.action.account;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.option.ConfirmationOption;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account.AccountMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.option.LoginOption;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
@@ -25,15 +24,13 @@ public class LoginAction {
         while (true) {
             System.out.println(AccountMessages.SELECT_LOGIN_OR_CREATE);
 
-            String decision = reader.readLine();
-            Integer decisionValue = parseInteger(decision);
-
+            Integer decisionValue = reader.readInteger();
             if (decisionValue == null) {
+                System.out.println(ApplicationMessages.INVALID_INPUT_E3);
                 continue;
             }
 
             LoginOption loginOption = LoginOption.fromInt(decisionValue);
-
             if (loginOption == null) {
                 System.out.println(ApplicationMessages.INVALID_INPUT_E3);
                 continue;
@@ -56,52 +53,40 @@ public class LoginAction {
 
     private User loginExistingUser(ConsoleReader reader) throws IOException {
 
-        System.out.println(AccountMessages.LOGIN_USERNAME);
+        while (true) {
+            System.out.println(AccountMessages.LOGIN_USERNAME);
 
-        String userName = reader.readLine();
-        User userLogged = userService.getUserFromDatabase(userName);
-
-        if (userLogged != null) {
-            System.out.println(String.format(AccountMessages.WELCOME, userLogged.getName()));
-            return userLogged;
-        }
-
-        System.out.println(AccountMessages.USER_NOT_FOUND_RETRY);
-        System.out.println(AccountMessages.SELECT_CREATE_RETRY);
-
-        String retry = reader.readLine();
-        Integer retryValue = parseInteger(retry);
-
-        if (retryValue == null) {
-            return null;
-        }
-
-        ConfirmationOption retryOption = ConfirmationOption.fromInt(retryValue);
-
-        if (retryOption == ConfirmationOption.YES) {
-            userService.addUser(userName);
-            userLogged = userService.getUserFromDatabase(userName);
-
-            if (userLogged != null) {
-                System.out.println(String.format(AccountMessages.WELCOME_ACCOUNT_CREATED, userLogged.getName()));
+            String userName = reader.readLine();
+            if (userName == null || userName.isBlank()) {
+                System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+                continue;
             }
-            return userLogged;
-        }
 
-        if (retryOption == ConfirmationOption.NO) {
-            return null;
-        }
+            User userLogged = userService.getUserFromDatabase(userName);
+            if (userLogged != null) {
+                System.out.println(String.format(AccountMessages.WELCOME, userLogged.getName()));
+                return userLogged;
+            }
 
-        System.out.println(ApplicationMessages.INVALID_INPUT_E3);
-        return null;
-    }
+            System.out.println(AccountMessages.USER_NOT_FOUND_LOGIN_OPTIONS);
 
-    private Integer parseInteger(String input) {
-        try {
-            return Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
-            return null;
+            Integer input = reader.readInteger();
+            if (input == null) {
+                System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+                continue;
+            }
+
+            LoginOption loginOption = LoginOption.fromInt(input);
+            if (loginOption == null) {
+                System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+                continue;
+            }
+
+            if (loginOption == LoginOption.CREATE_ACCOUNT) {
+                return createAccountAction.execute(reader);
+            } else if (loginOption == LoginOption.TRY_AGAIN) {
+                continue;
+            }
         }
     }
 }

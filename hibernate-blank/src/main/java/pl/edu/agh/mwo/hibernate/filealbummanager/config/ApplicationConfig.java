@@ -1,6 +1,6 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.config;
 
-import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.ActionFactory;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.MenuActionHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.CreateAccountAction;
@@ -23,10 +23,10 @@ import java.io.InputStreamReader;
 
 public class ApplicationConfig {
 
-    private final Session session;
+    private final SessionFactory sessionFactory;
 
-    public ApplicationConfig(Session session) {
-        this.session = session;
+    public ApplicationConfig(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     public ApplicationRunner createApplication() {
@@ -40,13 +40,13 @@ public class ApplicationConfig {
                 );
 
         UserRepository userRepository =
-                new UserRepository(session);
+                new UserRepository(sessionFactory);
 
         AlbumRepository albumRepository =
-                new AlbumRepository(session);
+                new AlbumRepository(sessionFactory);
 
         FriendRepository friendRepository =
-                new FriendRepository(session);
+                new FriendRepository(sessionFactory);
 
         UserService userService =
                 new UserService(userRepository);
@@ -55,14 +55,10 @@ public class ApplicationConfig {
                 new FriendService(friendRepository);
 
         AlbumService albumService =
-                new AlbumService(session, albumRepository);
+                new AlbumService(albumRepository);
 
         PhotoRepository photoRepository =
-                new PhotoRepository(
-                        session,
-                        albumRepository,
-                        friendService
-                );
+                new PhotoRepository(sessionFactory);
 
         PhotoService photoService =
                 new PhotoService(photoRepository);
@@ -92,7 +88,10 @@ public class ApplicationConfig {
                 new ConsoleReader(bufferedReader);
 
         ConsoleMenu consoleMenu =
-                new ConsoleMenu(consolePrinter, consoleReader);
+                new ConsoleMenu(
+                        consolePrinter,
+                        consoleReader
+                );
 
         return new ApplicationRunner(
                 menuActionHandler,
