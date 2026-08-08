@@ -4,6 +4,7 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoLikeService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
@@ -18,10 +19,13 @@ public class ShowPhotosAction {
 
     private final AlbumService albumService;
     private final PhotoService photoService;
+    private final PhotoLikeService photoLikeService;
 
-    public ShowPhotosAction(AlbumService albumService, PhotoService photoService) {
+    public ShowPhotosAction(AlbumService albumService, PhotoService photoService, PhotoLikeService photoLikeService) {
         this.albumService = albumService;
         this.photoService = photoService;
+        this.photoLikeService = photoLikeService;
+
     }
 
     public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
@@ -46,7 +50,7 @@ public class ShowPhotosAction {
             System.out.println(photo);
             System.out.println(String.format(
                     PhotoLikeMessages.PHOTO_LIKES,
-                    photoService.countedPhotoLikes(photo)));
+                    photoLikeService.countedPhotoLikes(photo)));
         }
         return MenuResult.CONTINUE;
     }

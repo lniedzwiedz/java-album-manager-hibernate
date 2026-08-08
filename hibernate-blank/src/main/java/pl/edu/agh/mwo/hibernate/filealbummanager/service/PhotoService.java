@@ -29,7 +29,7 @@ public class PhotoService {
     }
 
     public List<Photo> getPhotosForUserAlbum(User user, String albumName) {
-        return photoRepository.getPhotosForUserAlbum(user, albumName);
+        return photoRepository.getPhotos(user, albumName);
     }
 
     public PhotoAddResult checkPhotoCanBeAdded(User user, String albumName, String photoName) {
@@ -55,19 +55,19 @@ public class PhotoService {
         return photoRepository.delete(photo);
     }
 
-    public PhotoLikeStatus checkPhotoLikeStatus(User user, String albumName, String photoName) {
-        return photoRepository.checkPhotoLikeStatus(user, albumName, photoName);
-    }
-
-    public boolean addPhotoLike(Photo photo, User user) {
-        return photoRepository.addPhotoLike(photo, user);
-    }
-
-    public boolean deletePhotoLike(Photo photo, User user) {
-        return photoRepository.deletePhotoLike(photo, user);
-    }
-
-    public int countedPhotoLikes(Photo photo) {
-        return photoRepository.countPhotoLikes(photo);
-    }
+//    public PhotoLikeStatus checkPhotoLikeStatus(User user, String albumName, String photoName) {
+//        return photoRepository.checkPhotoLikeStatus(user, albumName, photoName);
+//    }
+//
+//    public boolean addPhotoLike(Photo photo, User user) {
+//        return photoRepository.addPhotoLike(photo, user);
+//    }
+//
+//    public boolean deletePhotoLike(Photo photo, User user) {
+//        return photoRepository.deletePhotoLike(photo, user);
+//    }
+//
+//    public int countedPhotoLikes(Photo photo) {
+//        return photoRepository.countPhotoLikes(photo);
+//    }
 }

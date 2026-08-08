@@ -2,7 +2,6 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.application;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.LoginActionHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.MenuActionHandler;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.LoginAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleMenu;
@@ -24,7 +23,8 @@ public class ApplicationRunner {
     private final ConsoleReader consoleReader;
     private final ConsoleMenu consoleMenu;
 
-    public ApplicationRunner(MenuActionHandler menuActionHandler, LoginActionHandler loginActionHandler, ConsolePrinter consolePrinter, ConsoleReader consoleReader, ConsoleMenu consoleMenu) {
+    public ApplicationRunner(MenuActionHandler menuActionHandler, LoginActionHandler loginActionHandler,
+                             ConsolePrinter consolePrinter, ConsoleReader consoleReader, ConsoleMenu consoleMenu) {
         this.menuActionHandler = menuActionHandler;
         this.loginActionHandler= loginActionHandler;
         this.consolePrinter = consolePrinter;
@@ -65,14 +65,12 @@ public class ApplicationRunner {
             System.out.println(AccountMessages.SELECT_LOGIN_OR_CREATE);
 
             Integer input = consoleReader.readInteger();
-
             if (input == null) {
                 System.out.println(ApplicationMessages.INVALID_INPUT_E3);
                 continue;
             }
 
             LoginOption loginOption = LoginOption.fromInt(input);
-
             if (loginOption == null) {
                 System.out.println(ApplicationMessages.INVALID_INPUT_E3);
                 continue;

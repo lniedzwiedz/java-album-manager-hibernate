@@ -7,14 +7,8 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.action.MenuActionHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.CreateAccountAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.LoginAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.application.ApplicationRunner;
-import pl.edu.agh.mwo.hibernate.filealbummanager.repository.AlbumRepository;
-import pl.edu.agh.mwo.hibernate.filealbummanager.repository.FriendRepository;
-import pl.edu.agh.mwo.hibernate.filealbummanager.repository.PhotoRepository;
-import pl.edu.agh.mwo.hibernate.filealbummanager.repository.UserRepository;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.FriendService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.repository.*;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.*;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleMenu;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsolePrinter;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
@@ -61,13 +55,20 @@ public class ApplicationConfig {
         PhotoRepository photoRepository =
                 new PhotoRepository(sessionFactory);
 
+        PhotoLikeRepository photoLikeRepository =
+                new PhotoLikeRepository(sessionFactory);
+
         PhotoService photoService =
                 new PhotoService(photoRepository, albumRepository);
+
+        PhotoLikeService photoLikeService =
+                new PhotoLikeService(photoLikeRepository);
 
         ActionFactory actionFactory =
                 new ActionFactory(
                         albumService,
                         photoService,
+                        photoLikeService,
                         friendService,
                         userService,
                         consolePrinter

@@ -18,10 +18,7 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike.LikePhotoActio
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.ShowPhotosAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike.UnlikePhotoAction;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.FriendService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.*;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsolePrinter;
 
 public class ActionFactory {
@@ -34,6 +31,7 @@ public class ActionFactory {
     private final ShowPhotosAction showPhotosAction;
     private final AddPhotoAction addPhotoAction;
     private final DeletePhotoAction deletePhotoAction;
+
     private final LikePhotoAction likePhotoAction;
     private final UnlikePhotoAction unlikePhotoAction;
 
@@ -45,26 +43,62 @@ public class ActionFactory {
     private final LogoutAction logoutAction;
 
     public ActionFactory(AlbumService albumService, PhotoService photoService,
+                         PhotoLikeService photoLikeService,
                          FriendService friendService, UserService userService,
                          ConsolePrinter consolePrinter) {
 
         this.addAlbumAction = new AddAlbumAction(albumService);
         this.deleteAlbumAction = new DeleteAlbumAction(albumService);
-        this.showMyAlbumsAction = new ShowMyAlbumsAction(albumService, consolePrinter);
-        this.showUserAlbumsAction = new ShowUserAlbumsAction(albumService, userService, friendService, consolePrinter);
 
-        this.showPhotosAction = new ShowPhotosAction(albumService, photoService);
-        this.addPhotoAction = new AddPhotoAction(albumService, photoService);
-        this.deletePhotoAction = new DeletePhotoAction(albumService , photoService);
-        this.likePhotoAction = new LikePhotoAction(albumService, photoService);
 
-        this.unlikePhotoAction = new UnlikePhotoAction(albumService, photoService);
-        this.addFriendAction = new AddFriendAction(userService, friendService);
-        this.deleteFriendAction = new DeleteFriendAction(userService, friendService);
-        this.showFriendsAction = new ShowFriendsAction(friendService, consolePrinter);
+        this.showMyAlbumsAction =
+                new ShowMyAlbumsAction(albumService, consolePrinter);
 
-        this.deleteAccountAction = new DeleteAccountAction(userService);
-        this.logoutAction = new LogoutAction();
+        this.showUserAlbumsAction =
+                new ShowUserAlbumsAction(
+                        albumService,
+                        userService,
+                        friendService,
+                        consolePrinter
+                );
+
+        this.showPhotosAction =
+                new ShowPhotosAction(albumService, photoService, photoLikeService);
+
+        this.addPhotoAction =
+                new AddPhotoAction(albumService, photoService);
+
+        this.deletePhotoAction =
+                new DeletePhotoAction(albumService, photoService);
+
+        this.likePhotoAction =
+                new LikePhotoAction(
+                        albumService,
+                        photoService,
+                        photoLikeService
+                );
+
+        this.unlikePhotoAction =
+                new UnlikePhotoAction(
+                        albumService,
+                        photoService,
+                        photoLikeService
+                );
+
+        this.addFriendAction =
+                new AddFriendAction(userService, friendService);
+
+        this.deleteFriendAction =
+                new DeleteFriendAction(userService, friendService);
+
+        this.showFriendsAction =
+                new ShowFriendsAction(friendService, consolePrinter);
+
+        this.deleteAccountAction =
+                new DeleteAccountAction(userService);
+
+        this.logoutAction =
+                new LogoutAction();
     }
 
     public AddAlbumAction getAddAlbumAction() {

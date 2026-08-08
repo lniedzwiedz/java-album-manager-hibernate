@@ -6,6 +6,7 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.repository.AlbumRepository;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoLikeService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
@@ -20,15 +21,17 @@ public class UnlikePhotoAction {
 
     private final AlbumService albumService;
     private final PhotoService photoService;
+    private final PhotoLikeService photoLikeService;
+    ;
 
-    public UnlikePhotoAction(AlbumService albumService, PhotoService photoService) {
-        this.photoService = photoService;
+    public UnlikePhotoAction(AlbumService albumService, PhotoService photoService, PhotoLikeService photoLikeService) {
         this.albumService = albumService;
+        this.photoService = photoService;
+        this.photoLikeService = photoLikeService;
     }
 
     public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
-        if (userLogged == null)
-            return MenuResult.CONTINUE;
+        if (userLogged == null) return MenuResult.CONTINUE;
 
         System.out.println(PhotoLikeMessages.REMOVE_PHOTO_LIKE_NAME);
 
@@ -46,7 +49,7 @@ public class UnlikePhotoAction {
             return MenuResult.CONTINUE;
         }
 
-        PhotoLikeStatus unlikeResult = photoService.checkPhotoLikeStatus(userLogged, albumName, photoName);
+        PhotoLikeStatus unlikeResult = photoLikeService.checkPhotoLikeStatus(userLogged, albumName, photoName);
         if (unlikeResult == null) {
             System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
             return MenuResult.CONTINUE;
@@ -64,43 +67,26 @@ public class UnlikePhotoAction {
 //                break;
             {
 
-                Album album = albumService.getAlbum(
-                        albumName,
-                        userLogged.getId()
-                );
+                Album album = albumService.getAlbum(albumName, userLogged.getId());
 
                 if (album == null) {
-                    System.out.println(
-                            AlbumMessages.ALBUM_DOES_NOT_EXIST
-                    );
+                    System.out.println(AlbumMessages.ALBUM_DOES_NOT_EXIST);
                     return MenuResult.CONTINUE;
                 }
 
-                Photo photo = photoService.getPhotoFromDatabase(
-                        photoName,
-                        album.getId()
-                );
+                Photo photo = photoService.getPhotoFromDatabase(photoName, album.getId());
 
                 if (photo == null) {
-                    System.out.println(
-                            PhotoMessages.PHOTO_NOT_IN_ALBUM
-                    );
+                    System.out.println(PhotoMessages.PHOTO_NOT_IN_ALBUM);
                     return MenuResult.CONTINUE;
                 }
 
-                boolean deleted = photoService.deletePhotoLike(
-                        photo,
-                        userLogged
-                );
+                boolean deleted = photoLikeService.deletePhotoLike(photo, userLogged);
 
                 if (deleted) {
-                    System.out.println(
-                            PhotoLikeMessages.PHOTO_LIKE_REMOVED
-                    );
+                    System.out.println(PhotoLikeMessages.PHOTO_LIKE_REMOVED);
                 } else {
-                    System.out.println(
-                            PhotoLikeMessages.PHOTO_LIKE_ERROR
-                    );
+                    System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
                 }
 
                 break;
@@ -122,6 +108,6 @@ public class UnlikePhotoAction {
                 System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
                 break;
         }
-        return  MenuResult.CONTINUE;
+        return MenuResult.CONTINUE;
     }
 }
