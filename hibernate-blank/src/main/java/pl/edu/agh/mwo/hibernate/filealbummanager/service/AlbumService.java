@@ -1,9 +1,10 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.service;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.AlbumAddResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.album.AlbumAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.repository.AlbumRepository;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.album.AlbumDeleteResult;
 
 import java.util.List;
 
@@ -46,6 +47,17 @@ public class AlbumService {
             return AlbumAddResult.CAN_BE_ADDED;
 
         return AlbumAddResult.ALREADY_EXISTS;
+    }
+
+    public AlbumDeleteResult checkAlbumDeleteStatus(User user, String albumName) {
+        if (user == null || user.getId() <= 0)
+            return AlbumDeleteResult.INVALID_USER;
+
+        Album album = getAlbum(albumName, user.getId());
+        if (album == null)
+            return AlbumDeleteResult.ALBUM_NOT_FOUND;
+
+        return AlbumDeleteResult.CAN_BE_DELETED;
     }
 
     public boolean albumExistsForUser(User userLogged, String albumName) {

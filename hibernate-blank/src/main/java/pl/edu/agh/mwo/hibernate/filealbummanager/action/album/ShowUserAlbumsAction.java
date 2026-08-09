@@ -34,7 +34,6 @@ public class ShowUserAlbumsAction {
 
     public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
         consolePrinter.printMessage(AlbumMessages.ENTER_USERNAME_ALBUMS);
-
         String userName = reader.readLine();
         if (userName == null || userName.isBlank()) {
             System.out.println(ApplicationMessages.INVALID_INPUT_E3);

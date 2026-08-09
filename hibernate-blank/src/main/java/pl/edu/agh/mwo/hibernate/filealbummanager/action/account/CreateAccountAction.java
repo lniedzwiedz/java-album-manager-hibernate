@@ -1,46 +1,43 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.account;
 
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.CreateAccountHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.AccountCreateResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account.AccountMessages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
 
 import java.io.IOException;
 
 public class CreateAccountAction {
 
     private final UserService userService;
+    private final CreateAccountHandler createAccountHandler;
 
-    public CreateAccountAction(UserService userService) {
+    public CreateAccountAction(UserService userService, CreateAccountHandler createAccountHandler) {
         this.userService = userService;
+        this.createAccountHandler = createAccountHandler;
     }
 
     public User execute(ConsoleReader reader) throws IOException {
-
         while (true) {
-
             System.out.println(AccountMessages.CREATE_ACCOUNT_USERNAME);
-
             String userName = reader.readLine();
+
             if (userName == null || userName.isBlank()) {
-                System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+                createAccountHandler.handle(AccountCreateResult.INVALID_INPUT, null);
                 continue;
             }
 
-            User userLogged = userService.getUser(userName);
-            if (userLogged != null) {
-                System.out.println(String.format(AccountMessages.WELCOME, userLogged.getName()));
-                System.out.println(AccountMessages.ACCOUNT_EXISTS_AUTO_LOGIN);
-                return userLogged;
+            User user = userService.getUser(userName);
+            if (user != null) {
+                createAccountHandler.handle(AccountCreateResult.ACCOUNT_EXISTS, user);
+                return user;
             }
-
             userService.createUser(userName);
-
-            userLogged = userService.getUser(userName);
-            if (userLogged != null)
-                System.out.println(String.format(AccountMessages.WELCOME_ACCOUNT_CREATED, userLogged.getName()));
-            return userLogged;
+            user = userService.getUser(userName);
+            createAccountHandler.handle(AccountCreateResult.ACCOUNT_CREATED, user);
+            return user;
         }
     }
 }

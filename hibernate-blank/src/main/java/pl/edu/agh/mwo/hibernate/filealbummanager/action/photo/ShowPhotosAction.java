@@ -25,7 +25,6 @@ public class ShowPhotosAction {
         this.albumService = albumService;
         this.photoService = photoService;
         this.photoLikeService = photoLikeService;
-
     }
 
     public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
@@ -33,7 +32,6 @@ public class ShowPhotosAction {
             return MenuResult.CONTINUE;
 
         System.out.println(PhotoMessages.ENTER_ALBUM_PHOTO);
-
         String albumName = reader.readLine();
         if (albumName == null || albumName.isBlank()) {
             System.out.println(ApplicationMessages.INVALID_INPUT_E3);

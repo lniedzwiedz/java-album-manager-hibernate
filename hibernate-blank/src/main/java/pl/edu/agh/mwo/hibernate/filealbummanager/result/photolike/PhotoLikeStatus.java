@@ -1,4 +1,4 @@
-package pl.edu.agh.mwo.hibernate.filealbummanager.result;
+package pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike;
 
 public enum PhotoLikeStatus {
 
@@ -7,6 +7,6 @@ public enum PhotoLikeStatus {
     ALBUM_DOES_NOT_EXIST,
     NEVER_LIKED,
     NOT_FRIEND_PHOTO_OWNER,
-    PHOTO_LIKE_ERROR;
+    PHOTO_LIKE_ERROR
 }
 

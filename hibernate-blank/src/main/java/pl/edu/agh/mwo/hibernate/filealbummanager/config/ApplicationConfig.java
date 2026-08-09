@@ -2,13 +2,22 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.config;
 
 import org.hibernate.SessionFactory;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.ActionFactory;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.LoginActionHandler;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.MenuActionHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.CreateAccountAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.LoginAction;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.MenuActionHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.CreateAccountHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.LoginActionHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.application.ApplicationRunner;
-import pl.edu.agh.mwo.hibernate.filealbummanager.repository.*;
-import pl.edu.agh.mwo.hibernate.filealbummanager.service.*;
+import pl.edu.agh.mwo.hibernate.filealbummanager.repository.AlbumRepository;
+import pl.edu.agh.mwo.hibernate.filealbummanager.repository.FriendRepository;
+import pl.edu.agh.mwo.hibernate.filealbummanager.repository.PhotoLikeRepository;
+import pl.edu.agh.mwo.hibernate.filealbummanager.repository.PhotoRepository;
+import pl.edu.agh.mwo.hibernate.filealbummanager.repository.UserRepository;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.FriendService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoLikeService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleMenu;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsolePrinter;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
@@ -43,26 +52,41 @@ public class ApplicationConfig {
         FriendRepository friendRepository =
                 new FriendRepository(sessionFactory);
 
-        UserService userService =
-                new UserService(userRepository);
-
-        FriendService friendService =
-                new FriendService(friendRepository);
-
-        AlbumService albumService =
-                new AlbumService(albumRepository);
-
         PhotoRepository photoRepository =
                 new PhotoRepository(sessionFactory);
 
         PhotoLikeRepository photoLikeRepository =
                 new PhotoLikeRepository(sessionFactory);
 
+        UserService userService =
+                new UserService(
+                        userRepository
+                );
+
+        FriendService friendService =
+                new FriendService(
+                        friendRepository,
+                        userService
+                );
+
+        AlbumService albumService =
+                new AlbumService(
+                        albumRepository
+                );
+
         PhotoService photoService =
-                new PhotoService(photoRepository, albumRepository);
+                new PhotoService(
+                        photoRepository,
+                        albumRepository
+                );
 
         PhotoLikeService photoLikeService =
-                new PhotoLikeService(photoLikeRepository);
+                new PhotoLikeService(
+                        photoLikeRepository
+                );
+
+        CreateAccountHandler createAccountHandler =
+                new CreateAccountHandler();
 
         ActionFactory actionFactory =
                 new ActionFactory(
@@ -75,10 +99,15 @@ public class ApplicationConfig {
                 );
 
         MenuActionHandler menuActionHandler =
-                new MenuActionHandler(actionFactory);
+                new MenuActionHandler(
+                        actionFactory
+                );
 
         CreateAccountAction createAccountAction =
-                new CreateAccountAction(userService);
+                new CreateAccountAction(
+                        userService,
+                        createAccountHandler
+                );
 
         LoginAction loginAction =
                 new LoginAction(
@@ -93,7 +122,9 @@ public class ApplicationConfig {
                 );
 
         ConsoleReader consoleReader =
-                new ConsoleReader(bufferedReader);
+                new ConsoleReader(
+                        bufferedReader
+                );
 
         ConsoleMenu consoleMenu =
                 new ConsoleMenu(

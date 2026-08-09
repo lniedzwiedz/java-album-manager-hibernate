@@ -1,6 +1,6 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.application;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.LoginActionHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.LoginActionHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.MenuActionHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
@@ -22,10 +22,9 @@ public class ApplicationRunner {
     private final ConsoleReader consoleReader;
     private final ConsoleMenu consoleMenu;
 
-    public ApplicationRunner(MenuActionHandler menuActionHandler, LoginActionHandler loginActionHandler,
-                             ConsolePrinter consolePrinter, ConsoleReader consoleReader, ConsoleMenu consoleMenu) {
+    public ApplicationRunner(MenuActionHandler menuActionHandler, LoginActionHandler loginActionHandler, ConsolePrinter consolePrinter, ConsoleReader consoleReader, ConsoleMenu consoleMenu) {
         this.menuActionHandler = menuActionHandler;
-        this.loginActionHandler= loginActionHandler;
+        this.loginActionHandler = loginActionHandler;
         this.consolePrinter = consolePrinter;
         this.consoleReader = consoleReader;
         this.consoleMenu = consoleMenu;
@@ -36,8 +35,7 @@ public class ApplicationRunner {
             consolePrinter.printApplicationTitle();
 
             User userLogged = login();
-            if (userLogged == null)
-                continue;
+            if (userLogged == null) continue;
 
             runMenu(userLogged);
         }
@@ -49,20 +47,16 @@ public class ApplicationRunner {
         while (menuRunning && userLogged != null) {
             MenuOption menuOption = consoleMenu.readMenuOption();
 
-            if (menuOption == null)
-                continue;
+            if (menuOption == null) continue;
 
             MenuResult menuResult = menuActionHandler.execute(menuOption, consoleReader, userLogged);
-            if (menuResult == MenuResult.EXIT)
-                menuRunning = false;
+            if (menuResult == MenuResult.EXIT) menuRunning = false;
         }
     }
 
     private User login() throws IOException {
-
         while (true) {
             System.out.println(AccountMessages.SELECT_LOGIN_OR_CREATE);
-
             Integer input = consoleReader.readInteger();
             if (input == null) {
                 System.out.println(ApplicationMessages.INVALID_INPUT_E3);
@@ -75,11 +69,7 @@ public class ApplicationRunner {
                 continue;
             }
 
-            User userLogged = loginActionHandler.execute(
-                    loginOption,
-                    consoleReader
-            );
-
+            User userLogged = loginActionHandler.execute(loginOption, consoleReader);
             if (userLogged != null) {
                 return userLogged;
             }

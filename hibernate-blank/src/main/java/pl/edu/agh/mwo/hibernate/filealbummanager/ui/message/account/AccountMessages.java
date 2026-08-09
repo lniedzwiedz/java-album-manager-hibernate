@@ -15,13 +15,6 @@ public final class AccountMessages {
                     + LoginOption.CREATE_ACCOUNT.getValue()
                     + " - create a new account";
 
-    public static final String SELECT_CREATE_RETRY =
-            "\n"
-                    + LoginOption.CREATE_ACCOUNT.getValue()
-                    + " - create a new account, "
-                    + LoginOption.TRY_AGAIN.getValue()
-                    + " - try logging in again";
-
     public static final String LOGIN_USERNAME =
             "Log in. Please enter your username: ";
 
@@ -34,10 +27,8 @@ public final class AccountMessages {
     public static final String USER_NOT_FOUND =
             "User not found.";
 
-    public static final String USER_NOT_FOUND_LOGIN_OPTIONS =
-            USER_NOT_FOUND
-                    + "\nWould you like to create a new account or try logging in again?"
-                    + SELECT_CREATE_RETRY;
+    public static final String USER_NOT_FOUND_LOGIN =
+            "User not found. Please try again.";
 
     public static final String USER_NOT_FOUND_BY_NAME =
             "User %s not found.";

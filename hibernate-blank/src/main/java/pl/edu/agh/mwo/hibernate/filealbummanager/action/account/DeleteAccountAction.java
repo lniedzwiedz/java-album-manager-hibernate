@@ -1,21 +1,24 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.account;
 
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.DeleteAccountHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.AccountDeleteResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.option.ConfirmationOption;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account.AccountMessages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.option.ConfirmationOption;
 
 import java.io.IOException;
 
 public class DeleteAccountAction {
 
     private final UserService userService;
+    private final DeleteAccountHandler deleteAccountHandler;
 
-    public DeleteAccountAction(UserService userService) {
+    public DeleteAccountAction(UserService userService, DeleteAccountHandler deleteAccountHandler) {
         this.userService = userService;
+        this.deleteAccountHandler = deleteAccountHandler;
     }
 
     public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
@@ -23,26 +26,21 @@ public class DeleteAccountAction {
             return MenuResult.CONTINUE;
 
         System.out.println(AccountMessages.CONFIRM_DELETE_ACCOUNT);
+        Integer input = reader.readInteger();
 
-        Integer deleteValue = reader.readInteger();
-        if (deleteValue == null) {
-            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
-            return MenuResult.CONTINUE;
-        }
+        if (input == null)
+            return deleteAccountHandler.handle(AccountDeleteResult.INVALID_INPUT, userLogged.getName());
 
-        ConfirmationOption deleteOption = ConfirmationOption.fromInt(deleteValue);
-
-        if (deleteOption == ConfirmationOption.YES) {
+        ConfirmationOption option = ConfirmationOption.fromInt(input);
+        if (option == ConfirmationOption.YES) {
             String deletedUserName = userLogged.getName();
             userService.delete(userLogged);
-            System.out.println(String.format(AccountMessages.GOODBYE, deletedUserName));
-            System.out.println(AccountMessages.ACCOUNT_DELETED);
-            return MenuResult.EXIT;
-        } else if (deleteOption == ConfirmationOption.NO) {
-            System.out.println(AccountMessages.ACCOUNT_NOT_DELETED);
-        } else {
-            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+            return deleteAccountHandler.handle(AccountDeleteResult.ACCOUNT_DELETED, deletedUserName);
         }
-        return MenuResult.CONTINUE;
+
+        if (option == ConfirmationOption.NO)
+            return deleteAccountHandler.handle(AccountDeleteResult.ACCOUNT_NOT_DELETED, userLogged.getName());
+
+        return deleteAccountHandler.handle(AccountDeleteResult.INVALID_INPUT, userLogged.getName());
     }
 }

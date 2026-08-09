@@ -3,8 +3,7 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.ui.option;
 public enum LoginOption {
 
     LOGIN(1),
-    CREATE_ACCOUNT(2),
-    TRY_AGAIN(3);
+    CREATE_ACCOUNT(2);
 
     private final int value;
 

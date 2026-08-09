@@ -1,4 +1,4 @@
-package pl.edu.agh.mwo.hibernate.filealbummanager.action.handler;
+package pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.CreateAccountAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.LoginAction;
@@ -19,9 +19,7 @@ public class LoginActionHandler {
     }
 
     public User execute(LoginOption loginOption, ConsoleReader reader) throws IOException {
-
         switch (loginOption) {
-
             case LOGIN:
                 return loginAction.execute(reader);
 

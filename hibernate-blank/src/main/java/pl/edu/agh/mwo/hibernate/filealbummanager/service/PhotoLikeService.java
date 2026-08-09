@@ -4,7 +4,7 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.repository.PhotoLikeRepository;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.PhotoLikeStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.PhotoLikeStatus;
 
 public class PhotoLikeService {
 
@@ -15,26 +15,22 @@ public class PhotoLikeService {
     }
 
     public PhotoLikeStatus checkPhotoLikeStatus(User user, User ownerUser, Album album, Photo photo) {
-        if (user == null || ownerUser == null || album == null || photo == null) {
+        if (user == null || ownerUser == null || album == null || photo == null)
             return PhotoLikeStatus.PHOTO_LIKE_ERROR;
-        }
 
         boolean areFriends =
                 user.getId() == ownerUser.getId()
                         || user.getUsers().contains(ownerUser)
                         || ownerUser.getUsers().contains(user);
 
-        if (!areFriends) {
+        if (!areFriends)
             return PhotoLikeStatus.NOT_FRIEND_PHOTO_OWNER;
-        }
 
-        if (photo.getAlbumId() != album.getId()) {
+        if (photo.getAlbumId() != album.getId())
             return PhotoLikeStatus.PHOTO_NOT_IN_ALBUM;
-        }
 
-        if (photo.getUsers().contains(user)) {
+        if (photo.getUsers().contains(user))
             return PhotoLikeStatus.ALREADY_LIKED;
-        }
 
         return PhotoLikeStatus.NEVER_LIKED;
     }
