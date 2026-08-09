@@ -19,15 +19,15 @@ public class PhotoService {
         this.albumRepository = albumRepository;
     }
 
-    public Photo getPhotoFromDatabase(String photoName, int albumId) {
+    public Photo getPhoto(String photoName, int albumId) {
         return photoRepository.getPhoto(photoName, albumId);
     }
 
-    public List<Photo> getPhotosFromDatabase(int albumId) {
+    public List<Photo> getPhoto(int albumId) {
         return photoRepository.getPhotos(albumId);
     }
 
-    public List<Photo> getPhotosForUserAlbum(User user, String albumName) {
+    public List<Photo> getPhotos(User user, String albumName) {
         return photoRepository.getPhotos(user, albumName);
     }
 

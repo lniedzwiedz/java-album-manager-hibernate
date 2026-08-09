@@ -37,4 +37,7 @@ public final class PhotoLikeMessages {
 
     public static final String PHOTO_LIKE_ERROR =
             "An unexpected error occurred while liking the photo.";
+
+    public static final String PHOTO_OWNER_USERNAME =
+            "Enter the username of the photo owner: ";
 }

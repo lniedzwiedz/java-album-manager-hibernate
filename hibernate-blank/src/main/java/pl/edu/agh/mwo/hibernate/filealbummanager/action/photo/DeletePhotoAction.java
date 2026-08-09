@@ -49,19 +49,11 @@ public class DeletePhotoAction {
             return MenuResult.CONTINUE;
         }
 
-        Photo photo = photoService.getPhotoFromDatabase(photoName, album.getId());
+        Photo photo = photoService.getPhoto(photoName, album.getId());
         if (photo == null) {
             System.out.println(String.format(PhotoMessages.PHOTO_DELETE_FORBIDDEN, userLogged.getName()));
             return MenuResult.CONTINUE;
         }
-
-        //        boolean isPhotoBelongToUser = photoService.isPhotoBelongToUser(userLogged, albumName, photoName);
-//        if (isPhotoBelongToUser) {
-//            photoService.deletePhoto(photoName, albumName, userLogged);
-//            System.out.println(PhotoMessages.PHOTO_DELETED);
-//        } else {
-//            System.out.println(String.format(PhotoMessages.PHOTO_DELETE_FORBIDDEN, userLogged.getName()));
-//        }
 
         boolean deleted = photoService.deletePhoto(photo);
         if (deleted) {
@@ -69,8 +61,6 @@ public class DeletePhotoAction {
         } else {
             System.out.println(PhotoMessages.PHOTO_DELETE_FORBIDDEN);
         }
-
-
         return MenuResult.CONTINUE;
     }
 }

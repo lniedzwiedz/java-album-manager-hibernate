@@ -6,6 +6,7 @@ public enum PhotoLikeStatus {
     PHOTO_NOT_IN_ALBUM,
     ALBUM_DOES_NOT_EXIST,
     NEVER_LIKED,
-    NOT_FRIEND_PHOTO_OWNER;
+    NOT_FRIEND_PHOTO_OWNER,
+    PHOTO_LIKE_ERROR;
 }
 

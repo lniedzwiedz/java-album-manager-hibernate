@@ -36,7 +36,7 @@ public class AddPhotoAction {
             return MenuResult.CONTINUE;
         }
 
-        if (!albumService.doesAlbumBelongToUser(userLogged, albumName)) {
+        if (albumService.albumExistsForUser(userLogged, albumName)) {
             System.out.println(String.format(PhotoMessages.PHOTO_ADD_FORBIDDEN, userLogged.getName()));
             return MenuResult.CONTINUE;
         }
@@ -51,13 +51,10 @@ public class AddPhotoAction {
         switch (result) {
 
             case CAN_BE_ADDED -> {
-//                photoService.addPhoto(photoName, albumName, userLogged);
-
                 Album album = albumService.getAlbum(
                         albumName,
                         userLogged.getId()
                 );
-
                 Photo photo = new Photo();
                 photo.setName(photoName);
                 photo.setAlbumId(album.getId());

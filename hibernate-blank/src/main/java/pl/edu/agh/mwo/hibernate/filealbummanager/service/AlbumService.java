@@ -48,10 +48,10 @@ public class AlbumService {
         return AlbumAddResult.ALREADY_EXISTS;
     }
 
-    public boolean doesAlbumBelongToUser(User userLogged, String albumName) {
+    public boolean albumExistsForUser(User userLogged, String albumName) {
         if (userLogged == null)
-            return false;
-        return albumRepository.getAlbum(albumName, userLogged.getId()) != null;
+            return true;
+        return albumRepository.getAlbum(albumName, userLogged.getId()) == null;
     }
 
     public boolean deleteAlbum(User userLogged, String albumName) {

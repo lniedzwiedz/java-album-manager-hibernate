@@ -1,4 +1,4 @@
-package pl.edu.agh.mwo.hibernate.filealbummanager.action;
+package pl.edu.agh.mwo.hibernate.filealbummanager.action.handler;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.CreateAccountAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.LoginAction;

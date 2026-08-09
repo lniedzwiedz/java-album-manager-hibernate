@@ -85,7 +85,9 @@ public class FriendRepository {
             if (managedUser == null || managedFriend == null)
                 return false;
 
-            return managedUser.equals(managedFriend) || managedUser.getUsers().contains(managedFriend) || managedFriend.getUsers().contains(managedUser);
+            return managedUser.equals(managedFriend) ||
+                    managedUser.getUsers().contains(managedFriend) ||
+                    managedFriend.getUsers().contains(managedUser);
         }
     }
 

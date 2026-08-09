@@ -1,5 +1,6 @@
-package pl.edu.agh.mwo.hibernate.filealbummanager.action;
+package pl.edu.agh.mwo.hibernate.filealbummanager.action.handler;
 
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.ActionFactory;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;

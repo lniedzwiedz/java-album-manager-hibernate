@@ -2,8 +2,8 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.config;
 
 import org.hibernate.SessionFactory;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.ActionFactory;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.LoginActionHandler;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.MenuActionHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.LoginActionHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.MenuActionHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.CreateAccountAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.LoginAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.application.ApplicationRunner;

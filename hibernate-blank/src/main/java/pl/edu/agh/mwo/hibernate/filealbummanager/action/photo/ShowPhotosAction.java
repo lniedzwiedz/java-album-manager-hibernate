@@ -40,17 +40,17 @@ public class ShowPhotosAction {
             return MenuResult.CONTINUE;
         }
 
-        if (!albumService.doesAlbumBelongToUser(userLogged, albumName)) {
+        if (albumService.albumExistsForUser(userLogged, albumName)) {
             System.out.println(AlbumMessages.ALBUM_OR_PHOTO_NOT_EXIST);
             return MenuResult.CONTINUE;
         }
 
-        List<Photo> photos = photoService.getPhotosForUserAlbum(userLogged, albumName);
+        List<Photo> photos = photoService.getPhotos(userLogged, albumName);
         for (Photo photo : photos) {
             System.out.println(photo);
             System.out.println(String.format(
                     PhotoLikeMessages.PHOTO_LIKES,
-                    photoLikeService.countedPhotoLikes(photo)));
+                    photoLikeService.countPhotoLikes(photo)));
         }
         return MenuResult.CONTINUE;
     }

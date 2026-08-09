@@ -15,8 +15,8 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.action.friend.ShowFriendsAction
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.AddPhotoAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.DeletePhotoAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike.LikePhotoAction;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.ShowPhotosAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike.UnlikePhotoAction;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.ShowPhotosAction;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.*;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsolePrinter;
@@ -47,9 +47,11 @@ public class ActionFactory {
                          FriendService friendService, UserService userService,
                          ConsolePrinter consolePrinter) {
 
-        this.addAlbumAction = new AddAlbumAction(albumService);
-        this.deleteAlbumAction = new DeleteAlbumAction(albumService);
+        this.addAlbumAction =
+                new AddAlbumAction(albumService);
 
+        this.deleteAlbumAction =
+                new DeleteAlbumAction(albumService);
 
         this.showMyAlbumsAction =
                 new ShowMyAlbumsAction(albumService, consolePrinter);
@@ -73,6 +75,8 @@ public class ActionFactory {
 
         this.likePhotoAction =
                 new LikePhotoAction(
+                        userService,
+                        friendService,
                         albumService,
                         photoService,
                         photoLikeService
@@ -80,6 +84,8 @@ public class ActionFactory {
 
         this.unlikePhotoAction =
                 new UnlikePhotoAction(
+                        userService,
+                        friendService,
                         albumService,
                         photoService,
                         photoLikeService

@@ -1,7 +1,7 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.application;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.LoginActionHandler;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.MenuActionHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.LoginActionHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.MenuActionHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleMenu;
@@ -12,7 +12,6 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.Applicat
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.option.LoginOption;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.option.MenuOption;
 
-import java.awt.*;
 import java.io.IOException;
 
 public class ApplicationRunner {
