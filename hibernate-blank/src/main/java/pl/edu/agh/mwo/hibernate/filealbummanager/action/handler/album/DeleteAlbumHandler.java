@@ -12,20 +12,20 @@ public class DeleteAlbumHandler {
             return MenuResult.CONTINUE;
 
         switch (result) {
-            case CAN_BE_DELETED:
-                System.out.println(AlbumMessages.ALBUM_REMOVED);
+            case LOGGED_USER_NOT_FOUND:
+                System.out.println(AccountMessages.LOGGED_USER_NOT_FOUND);
                 break;
 
             case ALBUM_NOT_FOUND:
-                System.out.println(AlbumMessages.ALBUM_DOES_NOT_EXIST);
+                System.out.println(AlbumMessages.ALBUM_NOT_FOUND);
                 break;
 
-            case DELETE_FORBIDDEN:
+            case ALBUM_DELETE_FORBIDDEN:
                 System.out.println(AlbumMessages.ALBUM_DELETE_FORBIDDEN);
                 break;
 
-            case INVALID_USER:
-                System.out.println(AccountMessages.USER_NOT_FOUND);
+            case ALBUM_DELETED:
+                System.out.println(AlbumMessages.ALBUM_DELETED);
                 break;
 
             default:

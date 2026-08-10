@@ -28,47 +28,42 @@ public class AlbumService {
         return albumRepository.getAlbums(userId);
     }
 
-    public void createAlbum(User user, String albumName) {
+    public AlbumAddResult addAlbum(User user, String albumName) {
         if (user == null)
-            return;
+            return AlbumAddResult.LOGGED_USER_NOT_FOUND;
+
+        if (albumName == null || albumName.isBlank())
+            return AlbumAddResult.ALBUM_ADD_FORBIDDEN;
+
+        if (albumRepository.getAlbum(albumName, user.getId()) != null)
+            return AlbumAddResult.ALBUM_ALREADY_EXISTS;
 
         Album album = new Album();
         album.setName(albumName);
         album.setUserId(user.getId());
+
         albumRepository.save(album);
+        return AlbumAddResult.ALBUM_ADDED;
     }
 
-    public AlbumAddResult checkAlbumAddStatus(User userLogged, String albumName) {
-        if (userLogged == null || userLogged.getId() <= 0)
-            return AlbumAddResult.INVALID_USER;
+    public AlbumDeleteResult deleteAlbum(User user, String albumName) {
+        if (user == null)
+            return AlbumDeleteResult.LOGGED_USER_NOT_FOUND;
 
-        Album album = albumRepository.getAlbum(albumName, userLogged.getId());
-        if (album == null)
-            return AlbumAddResult.CAN_BE_ADDED;
+        if (albumName == null || albumName.isBlank())
+            return AlbumDeleteResult.ALBUM_DELETE_FORBIDDEN;
 
-        return AlbumAddResult.ALREADY_EXISTS;
-    }
-
-    public AlbumDeleteResult checkAlbumDeleteStatus(User user, String albumName) {
-        if (user == null || user.getId() <= 0)
-            return AlbumDeleteResult.INVALID_USER;
-
-        Album album = getAlbum(albumName, user.getId());
+        Album album = albumRepository.getAlbum(albumName, user.getId());
         if (album == null)
             return AlbumDeleteResult.ALBUM_NOT_FOUND;
 
-        return AlbumDeleteResult.CAN_BE_DELETED;
+        albumRepository.delete(album);
+        return AlbumDeleteResult.ALBUM_DELETED;
     }
 
     public boolean albumExistsForUser(User userLogged, String albumName) {
         if (userLogged == null)
             return true;
         return albumRepository.getAlbum(albumName, userLogged.getId()) == null;
-    }
-
-    public boolean deleteAlbum(User userLogged, String albumName) {
-        if (userLogged == null)
-            return false;
-        return albumRepository.delete(userLogged, albumName);
     }
 }

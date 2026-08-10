@@ -5,7 +5,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
-import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 
 import java.util.List;
 
@@ -57,25 +56,13 @@ public class AlbumRepository {
         }
     }
 
-    public boolean delete(User user, String albumName) {
-        if (user == null)
-            return false;
-
+    public void delete(Album album) {
         try (Session session = sessionFactory.openSession()) {
-
-            Query<Album> query = session.createQuery("FROM Album a " + "WHERE a.name = :name " + "AND a.userId = :userId", Album.class);
-            query.setParameter("name", albumName);
-            query.setParameter("userId", user.getId());
-
-            Album album = query.uniqueResult();
-            if (album == null)
-                return false;
-
             Transaction transaction = session.beginTransaction();
+
             try {
                 session.delete(album);
                 transaction.commit();
-                return true;
             } catch (Exception e) {
                 if (transaction.isActive())
                     transaction.rollback();

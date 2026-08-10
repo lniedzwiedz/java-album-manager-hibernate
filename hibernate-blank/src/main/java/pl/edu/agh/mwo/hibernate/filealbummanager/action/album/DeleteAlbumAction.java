@@ -33,10 +33,7 @@ public class DeleteAlbumAction {
             return MenuResult.CONTINUE;
         }
 
-        AlbumDeleteResult result = albumService.checkAlbumDeleteStatus(userLogged, albumName);
-        if (result == AlbumDeleteResult.CAN_BE_DELETED) {
-            albumService.deleteAlbum(userLogged, albumName);
-        }
+        AlbumDeleteResult result = albumService.deleteAlbum(userLogged, albumName);
         return deleteAlbumHandler.handleDelete(result);
     }
 }

@@ -9,15 +9,15 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
-public class PhotoLikeHandler {
+public class UnlikePhotoHandler {
 
     private final PhotoLikeService photoLikeService;
 
-    public PhotoLikeHandler(PhotoLikeService photoLikeService) {
+    public UnlikePhotoHandler(PhotoLikeService photoLikeService) {
         this.photoLikeService = photoLikeService;
     }
 
-    public MenuResult handleLike(PhotoLikeStatus status, Photo photo, User userLogged) {
+    public MenuResult handle(PhotoLikeStatus status, Photo photo, User userLogged) {
         if (status == null) {
             System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
             return MenuResult.CONTINUE;
@@ -25,17 +25,16 @@ public class PhotoLikeHandler {
 
         switch (status) {
             case NEVER_LIKED:
-                boolean added = photoLikeService.addPhotoLike(photo, userLogged);
-
-                if (added) {
-                    System.out.println(PhotoLikeMessages.PHOTO_LIKE_ADDED);
-                } else {
-                    System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
-                }
+                System.out.println(PhotoLikeMessages.NEVER_LIKED_PHOTO);
                 break;
 
             case ALREADY_LIKED:
-                System.out.println(String.format(PhotoLikeMessages.ALREADY_LIKE_PHOTO, userLogged.getName()));
+                boolean deleted = photoLikeService.deletePhotoLike(userLogged, photo);
+                if (deleted) {
+                    System.out.println(PhotoLikeMessages.PHOTO_LIKE_REMOVED);
+                } else {
+                    System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
+                }
                 break;
 
             case PHOTO_NOT_IN_ALBUM:
@@ -47,7 +46,7 @@ public class PhotoLikeHandler {
                 break;
 
             case NOT_FRIEND_PHOTO_OWNER:
-                System.out.println(PhotoLikeMessages.NOT_FRIEND_PHOTO_OWNER);
+                System.out.println(PhotoLikeMessages.NOT_FRIEND_PHOTO_OWNER_NO_LIKE);
                 break;
 
             case PHOTO_LIKE_ERROR:

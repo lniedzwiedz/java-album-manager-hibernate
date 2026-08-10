@@ -1,6 +1,6 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photolike.PhotoLikeHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photolike.UnlikePhotoHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
@@ -20,13 +20,13 @@ import java.io.IOException;
 public class UnlikePhotoAction extends PhotoLikeBaseAction {
 
     private final PhotoLikeService photoLikeService;
-    private final PhotoLikeHandler photoLikeHandler;
+    private final UnlikePhotoHandler unlikePhotoHandler;
 
-    public UnlikePhotoAction(UserService userService, FriendService friendService, AlbumService albumService,
-                             PhotoService photoService, PhotoLikeService photoLikeService, PhotoLikeHandler photoLikeHandler) {
+    public UnlikePhotoAction(UserService userService, FriendService friendService, AlbumService albumService, PhotoService photoService, PhotoLikeService photoLikeService, UnlikePhotoHandler unlikePhotoHandler) {
+
         super(userService, friendService, albumService, photoService);
         this.photoLikeService = photoLikeService;
-        this.photoLikeHandler = photoLikeHandler;
+        this.unlikePhotoHandler = unlikePhotoHandler;
     }
 
     public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
@@ -51,6 +51,6 @@ public class UnlikePhotoAction extends PhotoLikeBaseAction {
             return MenuResult.CONTINUE;
 
         PhotoLikeStatus status = photoLikeService.checkPhotoLikeStatus(userLogged, ownerUser, album, photo);
-        return photoLikeHandler.handleUnlike(status, photo, userLogged);
+        return unlikePhotoHandler.handle(status, photo, userLogged);
     }
 }

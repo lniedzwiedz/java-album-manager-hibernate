@@ -24,14 +24,8 @@ public final class AccountMessages {
     public static final String WELCOME =
             "Welcome %s";
 
-    public static final String USER_NOT_FOUND =
-            "User not found.";
-
     public static final String USER_NOT_FOUND_LOGIN =
             "User not found. Please try again.";
-
-    public static final String USER_NOT_FOUND_BY_NAME =
-            "User %s not found.";
 
     public static final String WELCOME_ACCOUNT_CREATED =
             "Welcome, %s! Your new account is ready.";
@@ -67,4 +61,7 @@ public final class AccountMessages {
 
     public static final String LOGOUT_CANCELLED =
             "Logout cancelled. You are still logged in.";
+
+    public static final String LOGGED_USER_NOT_FOUND =
+            "Logged user not found.";
 }

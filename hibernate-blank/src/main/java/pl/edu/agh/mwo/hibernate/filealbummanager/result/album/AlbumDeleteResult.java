@@ -2,8 +2,10 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.result.album;
 
 public enum AlbumDeleteResult {
 
-    CAN_BE_DELETED,
+    LOGGED_USER_NOT_FOUND,
     ALBUM_NOT_FOUND,
-    DELETE_FORBIDDEN,
-    INVALID_USER
+    ALBUM_DELETE_FORBIDDEN,
+    ALBUM_DELETED,
 }
+
+

@@ -17,56 +17,34 @@ public class FriendService {
         this.userService = userService;
     }
 
-    public FriendAddResult checkFriendAddStatus(User user, String friendName) {
+    public FriendAddResult addFriend(User user, String friendName) {
         if (user == null)
-            return FriendAddResult.USER_NOT_FOUND;
+            return FriendAddResult.LOGGED_USER_NOT_FOUND;
 
         User friend = userService.getUser(friendName);
         if (friend == null)
-            return FriendAddResult.USER_NOT_FOUND;
+            return FriendAddResult.FRIEND_NOT_FOUND;
 
         if (areFriends(user, friend))
             return FriendAddResult.ALREADY_FRIEND;
 
+        friendRepository.addFriend(user, friend);
         return FriendAddResult.NOW_FRIEND;
     }
 
-    public void addFriend(User user, String friendName) {
-        User friend = userService.getUser(friendName);
-        if (friend == null)
-            return;
-
-        friendRepository.addFriend(user, friend);
-    }
-
-    public void addFriend(User user, User friend) {
-        friendRepository.addFriend(user, friend);
-    }
-
-    public FriendDeleteResult checkFriendDeleteStatus(User user, String friendName) {
+    public FriendDeleteResult deleteFriend(User user, String friendName) {
         if (user == null)
-            return FriendDeleteResult.USER_NOT_FOUND;
+            return FriendDeleteResult.LOGGED_USER_NOT_FOUND;
 
         User friend = userService.getUser(friendName);
         if (friend == null)
-            return FriendDeleteResult.USER_NOT_FOUND;
+            return FriendDeleteResult.FRIEND_NOT_FOUND;
 
         if (!areFriends(user, friend))
             return FriendDeleteResult.NOT_FRIEND;
 
+        friendRepository.deleteFriend(user, friend);
         return FriendDeleteResult.FRIEND_REMOVED;
-    }
-
-    public void deleteFriend(User user, String friendName) {
-        User friend = userService.getUser(friendName);
-        if (friend == null)
-            return;
-
-        friendRepository.deleteFriend(user, friend);
-    }
-
-    public void deleteFriend(User user, User friend) {
-        friendRepository.deleteFriend(user, friend);
     }
 
     public boolean areFriends(User user, User friend) {

@@ -34,10 +34,7 @@ public class AddAlbumAction {
             return MenuResult.CONTINUE;
         }
 
-        AlbumAddResult result = albumService.checkAlbumAddStatus(userLogged, albumName);
-        if (result == AlbumAddResult.CAN_BE_ADDED) {
-            albumService.createAlbum(userLogged, albumName);
-        }
+        AlbumAddResult result = albumService.addAlbum(userLogged, albumName);
         return albumHandler.handleAdd(result);
     }
 }

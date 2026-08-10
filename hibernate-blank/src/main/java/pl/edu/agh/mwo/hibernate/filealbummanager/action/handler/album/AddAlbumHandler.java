@@ -12,16 +12,20 @@ public class AddAlbumHandler {
             return MenuResult.CONTINUE;
 
         switch (result) {
-            case CAN_BE_ADDED:
+            case LOGGED_USER_NOT_FOUND:
+                System.out.println(AccountMessages.LOGGED_USER_NOT_FOUND);
+                break;
+
+            case ALBUM_ADD_FORBIDDEN:
+                System.out.println(AlbumMessages.ALBUM_ADD_FORBIDDEN);
+                break;
+
+            case ALBUM_ALREADY_EXISTS:
+                System.out.println(AlbumMessages.ALBUM_ALREADY_EXISTS);
+                break;
+
+            case ALBUM_ADDED:
                 System.out.println(AlbumMessages.ALBUM_ADDED);
-                break;
-
-            case ALREADY_EXISTS:
-                System.out.println(AlbumMessages.ALBUM_EXISTS);
-                break;
-
-            case INVALID_USER:
-                System.out.println(AccountMessages.USER_NOT_FOUND);
                 break;
 
             default:

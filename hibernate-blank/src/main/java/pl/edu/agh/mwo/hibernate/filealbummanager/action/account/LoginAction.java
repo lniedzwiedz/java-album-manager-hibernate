@@ -31,6 +31,7 @@ public class LoginAction {
             System.out.println(AccountMessages.USER_NOT_FOUND_LOGIN);
             return null;
         }
+
         System.out.println(String.format(AccountMessages.WELCOME, userLogged.getName()));
         return userLogged;
     }

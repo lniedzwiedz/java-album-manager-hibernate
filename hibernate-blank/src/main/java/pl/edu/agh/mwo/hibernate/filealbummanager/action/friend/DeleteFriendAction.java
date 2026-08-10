@@ -33,10 +33,7 @@ public class DeleteFriendAction {
             return MenuResult.CONTINUE;
         }
 
-        FriendDeleteResult result = friendService.checkFriendDeleteStatus(userLogged, friendName);
-        if (result == FriendDeleteResult.FRIEND_REMOVED) {
-            friendService.deleteFriend(userLogged, friendName);
-        }
+        FriendDeleteResult result = friendService.deleteFriend(userLogged, friendName);
         return deleteFriendHandler.handle(result, friendName);
     }
 }

@@ -14,13 +14,18 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.action.friend.ShowFriendsAction
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.DeleteAccountHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.LogoutHandler;
+
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.album.AddAlbumHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.album.DeleteAlbumHandler;
+
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.friend.AddFriendHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.friend.DeleteFriendHandler;
+
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photo.AddPhotoHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photo.DeletePhotoHandler;
+
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photolike.PhotoLikeHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photolike.UnlikePhotoHandler;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.AddPhotoAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.DeletePhotoAction;
@@ -50,9 +55,12 @@ public class ActionFactory {
 
     private final AddAlbumHandler addAlbumHandler;
     private final DeleteAlbumHandler deleteAlbumHandler;
+
     private final AddPhotoHandler addPhotoHandler;
     private final DeletePhotoHandler deletePhotoHandler;
+
     private final PhotoLikeHandler photoLikeHandler;
+    private final UnlikePhotoHandler unlikePhotoHandler;
 
     private final AddFriendHandler addFriendHandler;
     private final DeleteFriendHandler deleteFriendHandler;
@@ -92,6 +100,11 @@ public class ActionFactory {
 
         this.photoLikeHandler =
                 new PhotoLikeHandler(
+                        photoLikeService
+                );
+
+        this.unlikePhotoHandler =
+                new UnlikePhotoHandler(
                         photoLikeService
                 );
 
@@ -142,7 +155,6 @@ public class ActionFactory {
 
         this.addPhotoAction =
                 new AddPhotoAction(
-                        albumService,
                         photoService,
                         addPhotoHandler
                 );
@@ -170,7 +182,7 @@ public class ActionFactory {
                         albumService,
                         photoService,
                         photoLikeService,
-                        photoLikeHandler
+                        unlikePhotoHandler
                 );
 
         this.addFriendAction =

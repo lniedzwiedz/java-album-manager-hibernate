@@ -33,10 +33,7 @@ public class AddFriendAction {
             return MenuResult.CONTINUE;
         }
 
-        FriendAddResult result = friendService.checkFriendAddStatus(userLogged, friendName);
-        if (result == FriendAddResult.NOW_FRIEND)
-            friendService.addFriend(userLogged, friendName);
-
+        FriendAddResult result = friendService.addFriend(userLogged, friendName);
         return addFriendHandler.handle(result, friendName);
     }
 }

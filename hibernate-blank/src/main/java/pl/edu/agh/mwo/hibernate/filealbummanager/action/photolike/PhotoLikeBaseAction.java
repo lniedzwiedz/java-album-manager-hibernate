@@ -64,7 +64,7 @@ public abstract class PhotoLikeBaseAction {
 
         Album album = albumService.getAlbum(albumName, ownerUser.getId());
         if (album == null) {
-            System.out.println(AlbumMessages.ALBUM_DOES_NOT_EXIST);
+            System.out.println(AlbumMessages.ALBUM_NOT_FOUND);
             return null;
         }
         return album;

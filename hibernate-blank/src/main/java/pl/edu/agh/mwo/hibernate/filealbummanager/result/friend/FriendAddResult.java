@@ -2,7 +2,8 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.result.friend;
 
 public enum FriendAddResult {
 
-    NOW_FRIEND,
+    LOGGED_USER_NOT_FOUND,
+    FRIEND_NOT_FOUND,
     ALREADY_FRIEND,
-    USER_NOT_FOUND
+    NOW_FRIEND,
 }

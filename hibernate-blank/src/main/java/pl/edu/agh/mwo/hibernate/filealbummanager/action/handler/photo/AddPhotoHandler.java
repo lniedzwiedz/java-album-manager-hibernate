@@ -14,7 +14,7 @@ public class AddPhotoHandler {
         }
 
         switch (result) {
-            case CAN_BE_ADDED:
+            case PHOTO_ADDED:
                 System.out.println(PhotoMessages.PHOTO_ADDED);
                 break;
 

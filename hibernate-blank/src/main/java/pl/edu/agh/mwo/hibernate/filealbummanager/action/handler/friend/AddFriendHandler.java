@@ -12,16 +12,20 @@ public class AddFriendHandler {
             return MenuResult.CONTINUE;
 
         switch (result) {
-            case NOW_FRIEND:
-                System.out.println(String.format(FriendMessages.NOW_FRIEND, friendName));
+            case LOGGED_USER_NOT_FOUND:
+                System.out.println(AccountMessages.LOGGED_USER_NOT_FOUND);
+                break;
+
+            case FRIEND_NOT_FOUND:
+                System.out.println(String.format(FriendMessages.FRIEND_NOT_FOUND, friendName));
                 break;
 
             case ALREADY_FRIEND:
                 System.out.println(String.format(FriendMessages.ALREADY_FRIEND, friendName));
                 break;
 
-            case USER_NOT_FOUND:
-                System.out.println(String.format(AccountMessages.USER_NOT_FOUND_BY_NAME, friendName));
+            case NOW_FRIEND:
+                System.out.println(String.format(FriendMessages.NOW_FRIEND, friendName));
                 break;
 
             default:
