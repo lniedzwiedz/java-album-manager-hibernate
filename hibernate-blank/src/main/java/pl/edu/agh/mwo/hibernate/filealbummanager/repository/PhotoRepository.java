@@ -38,8 +38,7 @@ public class PhotoRepository {
 
     public Album getAlbum(String albumName, int userId) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Album> query = session.createQuery(
-                    "FROM Album a " + "WHERE a.name = :name " + "AND a.userId = :userId", Album.class);
+            Query<Album> query = session.createQuery("FROM Album a " + "WHERE a.name = :name " + "AND a.userId = :userId", Album.class);
             query.setParameter("name", albumName);
             query.setParameter("userId", userId);
             return query.uniqueResult();
@@ -48,8 +47,8 @@ public class PhotoRepository {
 
     public void save(Photo photo) {
         try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
 
+            Transaction transaction = session.beginTransaction();
             try {
                 session.save(photo);
                 transaction.commit();
@@ -63,16 +62,25 @@ public class PhotoRepository {
     }
 
     public void delete(Photo photo) {
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
+        if (photo == null)
+            return;
 
+        try (Session session = sessionFactory.openSession()) {
+
+            Transaction transaction = session.beginTransaction();
             try {
                 Photo managedPhoto = session.get(Photo.class, photo.getId());
                 if (managedPhoto == null) {
                     transaction.rollback();
                     return;
                 }
-                deleteRelationBetweenPhotoAndUser(session, managedPhoto);
+
+                List<User> users = new ArrayList<>(managedPhoto.getUsers());
+                for (User user : users) {
+                    User managedUser = session.get(User.class, user.getId());
+                    if (managedUser != null)
+                        managedUser.removePhoto(managedPhoto);
+                }
                 session.delete(managedPhoto);
                 transaction.commit();
 
@@ -90,7 +98,6 @@ public class PhotoRepository {
 
         try (Session session = sessionFactory.openSession()) {
             Query<Album> albumQuery = session.createQuery("FROM Album a " + "WHERE a.name = :name " + "AND a.userId = :userId", Album.class);
-
             albumQuery.setParameter("name", albumName);
             albumQuery.setParameter("userId", user.getId());
 
@@ -101,17 +108,6 @@ public class PhotoRepository {
             Query<Photo> photoQuery = session.createQuery("FROM Photo p WHERE p.albumId = :albumId", Photo.class);
             photoQuery.setParameter("albumId", album.getId());
             return photoQuery.list();
-        }
-    }
-
-    private void deleteRelationBetweenPhotoAndUser(Session session, Photo photo) {
-        if (photo == null)
-            return;
-
-        List<User> users = new ArrayList<>(photo.getUsers());
-        for (User user : users) {
-            photo.removeUser(user);
-            user.removePhoto(photo);
         }
     }
 }

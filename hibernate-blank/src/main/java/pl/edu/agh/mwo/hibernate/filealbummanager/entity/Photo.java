@@ -18,15 +18,12 @@ public class Photo {
     @Column
     private int albumId;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "PhotoLikes",
-            joinColumns = @JoinColumn(name = "PhotoId"),
-            inverseJoinColumns = @JoinColumn(name = "userId"))
+//         Photo <-> User
+    @ManyToMany(mappedBy = "photos")
     private Set<User> users = new HashSet<>();
 
     public int getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(int id) {
@@ -34,7 +31,7 @@ public class Photo {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
@@ -42,7 +39,7 @@ public class Photo {
     }
 
     public String getDate() {
-        return this.date;
+        return date;
     }
 
     public void setDate(String date) {
@@ -50,7 +47,7 @@ public class Photo {
     }
 
     public int getAlbumId() {
-        return this.albumId;
+        return albumId;
     }
 
     public void setAlbumId(int albumId) {
@@ -58,20 +55,27 @@ public class Photo {
     }
 
     public Set<User> getUsers() {
-        return this.users;
+        return users;
     }
 
     public void addUser(User user) {
-        this.users.add(user);
+        if (user != null) {
+            users.add(user);
+            if (!user.getPhotos().contains(this))
+                user.getPhotos().add(this);
+        }
     }
 
     public void removeUser(User user) {
-        this.users.remove(user);
+        if (user != null) {
+            users.remove(user);
+            if (user.getPhotos().contains(this))
+                user.getPhotos().remove(this);
+        }
     }
 
     @Override
     public String toString() {
-        return "Photo name: " + this.name;
+        return "Photo name: " + name;
     }
-
 }

@@ -17,13 +17,11 @@ public class PhotoService {
     private final AlbumRepository albumRepository;
 
     public PhotoService(PhotoRepository photoRepository, AlbumRepository albumRepository) {
-
         this.photoRepository = photoRepository;
         this.albumRepository = albumRepository;
     }
 
     public Photo getPhoto(String photoName, int albumId) {
-
         return photoRepository.getPhoto(photoName, albumId);
     }
 
@@ -32,7 +30,6 @@ public class PhotoService {
     }
 
     public List<Photo> getPhotos(User user, String albumName) {
-
         return photoRepository.getPhotos(user, albumName);
     }
 

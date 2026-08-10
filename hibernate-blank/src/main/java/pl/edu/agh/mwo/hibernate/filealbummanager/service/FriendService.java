@@ -28,6 +28,9 @@ public class FriendService {
         if (friend == null || friend.getId() <= 0)
             return FriendAddResult.FRIEND_NOT_FOUND;
 
+        if (user.getId() == friend.getId())
+            return FriendAddResult.ALREADY_FRIEND;
+
         if (areFriends(user, friend))
             return FriendAddResult.ALREADY_FRIEND;
 
@@ -38,6 +41,9 @@ public class FriendService {
     public FriendDeleteResult deleteFriend(User user, String friendName) {
         if (user == null || user.getId() <= 0)
             return FriendDeleteResult.LOGGED_USER_NOT_FOUND;
+
+        if (friendName == null || friendName.isBlank())
+            return FriendDeleteResult.FRIEND_NOT_FOUND;
 
         User friend = userService.getUser(friendName);
         if (friend == null || friend.getId() <= 0)

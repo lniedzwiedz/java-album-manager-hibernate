@@ -5,7 +5,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
+import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
+import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumRepository {
@@ -43,6 +46,7 @@ public class AlbumRepository {
 
     public void save(Album album) {
         try (Session session = sessionFactory.openSession()) {
+
             Transaction transaction = session.beginTransaction();
             try {
                 session.save(album);
@@ -57,12 +61,32 @@ public class AlbumRepository {
     }
 
     public void delete(Album album) {
-        try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
+        if (album == null)
+            return;
 
+        try (Session session = sessionFactory.openSession()) {
+
+            Transaction transaction = session.beginTransaction();
             try {
-                session.delete(album);
+                Album managedAlbum = session.get(Album.class, album.getId());
+                if (managedAlbum == null) {
+                    transaction.rollback();
+                    return;
+                }
+
+                List<Photo> photos = new ArrayList<>(managedAlbum.getPhotos());
+                for (Photo photo : photos) {
+
+                    List<User> users = new ArrayList<>(photo.getUsers());
+                    for (User user : users) {
+                        User managedUser = session.get(User.class, user.getId());
+                        if (managedUser != null)
+                            managedUser.removePhoto(photo);
+                    }
+                }
+                session.delete(managedAlbum);
                 transaction.commit();
+
             } catch (Exception e) {
                 if (transaction.isActive())
                     transaction.rollback();

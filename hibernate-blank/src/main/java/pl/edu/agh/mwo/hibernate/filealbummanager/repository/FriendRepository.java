@@ -33,7 +33,6 @@ public class FriendRepository {
                     return;
                 }
                 managedUser.addUser(managedFriend);
-                session.save(managedUser);
                 transaction.commit();
 
             } catch (Exception e) {
@@ -60,11 +59,6 @@ public class FriendRepository {
                     return;
                 }
                 managedUser.removeUser(managedFriend);
-                managedFriend.removeUser(managedUser);
-
-                session.save(managedUser);
-                session.save(managedFriend);
-
                 transaction.commit();
 
             } catch (Exception e) {
@@ -82,17 +76,18 @@ public class FriendRepository {
         try (Session session = sessionFactory.openSession()) {
             User managedUser = session.get(User.class, user.getId());
             User managedFriend = session.get(User.class, friend.getId());
+
             if (managedUser == null || managedFriend == null)
                 return false;
 
-            return managedUser.equals(managedFriend) ||
-                    managedUser.getUsers().contains(managedFriend) ||
+            return managedUser.getUsers().contains(managedFriend) ||
                     managedFriend.getUsers().contains(managedUser);
         }
     }
 
     public List<User> getFriends(User user) {
         List<User> friends = new ArrayList<>();
+
         if (user == null)
             return friends;
 
@@ -103,7 +98,6 @@ public class FriendRepository {
                 return friends;
 
             Query<User> query = session.createQuery("FROM User", User.class);
-
             List<User> users = query.list();
             for (User otherUser : users) {
                 if (otherUser.getUsers().contains(managedUser) && !friends.contains(otherUser))

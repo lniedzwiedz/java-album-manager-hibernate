@@ -18,12 +18,13 @@ public class Album {
     @Column
     private int userId;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    //        Album -> Photo
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "AlbumId")
     private Set<Photo> photos = new HashSet<>();
 
     public int getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(int id) {
@@ -31,7 +32,7 @@ public class Album {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
@@ -39,7 +40,7 @@ public class Album {
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     public void setDescription(String description) {
@@ -47,7 +48,7 @@ public class Album {
     }
 
     public int getUserId() {
-        return this.userId;
+        return userId;
     }
 
     public void setUserId(int userId) {
@@ -55,20 +56,22 @@ public class Album {
     }
 
     public Set<Photo> getPhotos() {
-        return this.photos;
-    }
-
-    public void removePhoto(Photo photo) {
-        this.photos.remove(photo);
+        return photos;
     }
 
     public void addPhoto(Photo photo) {
-        this.photos.add(photo);
+        if (photo != null) {
+            photos.add(photo);
+            photo.setAlbumId(this.id);
+        }
+    }
+
+    public void removePhoto(Photo photo) {
+        photos.remove(photo);
     }
 
     @Override
     public String toString() {
-        return "Album name: " + this.name + "  |||  description: " + this.description;
+        return "Album name: " + name + "  |||  description: " + description;
     }
-
 }
