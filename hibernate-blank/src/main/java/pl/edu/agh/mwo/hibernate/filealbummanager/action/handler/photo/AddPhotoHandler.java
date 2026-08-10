@@ -14,16 +14,28 @@ public class AddPhotoHandler {
         }
 
         switch (result) {
+            case LOGGED_USER_NOT_FOUND:
+                System.out.println(PhotoMessages.LOGGED_USER_NOT_FOUND);
+                break;
+
+            case ALBUM_DATA_NOT_FOUND:
+                System.out.println(PhotoMessages.ALBUM_DATA_NOT_FOUND);
+                break;
+
+            case ALBUM_NOT_FOUND:
+                System.out.println(PhotoMessages.ALBUM_NOT_FOUND);
+                break;
+
+            case PHOTO_DATA_NOT_FOUND:
+                System.out.println(PhotoMessages.PHOTO_DATA_NOT_FOUND);
+                break;
+
+            case PHOTO_ALREADY_EXISTS:
+                System.out.println(PhotoMessages.PHOTO_ALREADY_EXISTS);
+                break;
+
             case PHOTO_ADDED:
                 System.out.println(PhotoMessages.PHOTO_ADDED);
-                break;
-
-            case ALREADY_EXISTS:
-                System.out.println(PhotoMessages.PHOTO_EXISTS);
-                break;
-
-            case INVALID_USER_OR_ALBUM:
-                System.out.println(String.format(PhotoMessages.PHOTO_ADD_FORBIDDEN, userLogged.getName()));
                 break;
 
             default:

@@ -6,7 +6,6 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.result.friend.FriendDeleteResul
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.FriendService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.friend.FriendMessages;
 
 import java.io.IOException;
@@ -29,7 +28,8 @@ public class DeleteFriendAction {
         String friendName = reader.readLine();
 
         if (friendName == null || friendName.isBlank()) {
-            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+//            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+            System.out.println(FriendMessages.FRIEND_DATA_NOT_FOUND);
             return MenuResult.CONTINUE;
         }
 

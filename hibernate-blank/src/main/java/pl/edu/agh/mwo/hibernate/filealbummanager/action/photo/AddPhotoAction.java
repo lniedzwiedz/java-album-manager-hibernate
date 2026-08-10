@@ -37,7 +37,8 @@ public class AddPhotoAction {
         String photoName = reader.readLine();
 
         if (photoName == null || photoName.isBlank()) {
-            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+//            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+            System.out.println(PhotoMessages.ALBUM_DATA_NOT_FOUND);
             return MenuResult.CONTINUE;
         }
         PhotoAddResult result = photoService.addPhoto(userLogged, albumName, photoName);

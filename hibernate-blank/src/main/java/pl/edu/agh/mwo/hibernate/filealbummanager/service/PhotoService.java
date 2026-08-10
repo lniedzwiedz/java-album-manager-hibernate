@@ -38,15 +38,21 @@ public class PhotoService {
 
     public PhotoAddResult addPhoto(User user, String albumName, String photoName) {
         if (user == null || user.getId() <= 0)
-            return PhotoAddResult.INVALID_USER_OR_ALBUM;
+            return PhotoAddResult.LOGGED_USER_NOT_FOUND;
+
+        if (albumName == null || albumName.isBlank())
+            return PhotoAddResult.ALBUM_DATA_NOT_FOUND;
 
         Album album = albumRepository.getAlbum(albumName, user.getId());
         if (album == null)
-            return PhotoAddResult.INVALID_USER_OR_ALBUM;
+            return PhotoAddResult.ALBUM_NOT_FOUND;
+
+        if (photoName == null || photoName.isBlank())
+            return PhotoAddResult.PHOTO_DATA_NOT_FOUND;
 
         Photo existingPhoto = photoRepository.getPhoto(photoName, album.getId());
         if (existingPhoto != null)
-            return PhotoAddResult.ALREADY_EXISTS;
+            return PhotoAddResult.PHOTO_ALREADY_EXISTS;
 
         Photo photo = new Photo();
         photo.setName(photoName);
@@ -57,30 +63,25 @@ public class PhotoService {
         return PhotoAddResult.PHOTO_ADDED;
     }
 
-    public PhotoDeleteResult checkPhotoDeleteStatus(User user, String albumName, String photoName) {
+    public PhotoDeleteResult deletePhoto(User user, String albumName, String photoName) {
         if (user == null || user.getId() <= 0)
-            return PhotoDeleteResult.DELETE_FORBIDDEN;
+            return PhotoDeleteResult.LOGGED_USER_NOT_FOUND;
+
+        if (albumName == null || albumName.isBlank())
+            return PhotoDeleteResult.ALBUM_DATA_NOT_FOUND;
 
         Album album = albumRepository.getAlbum(albumName, user.getId());
         if (album == null)
-            return PhotoDeleteResult.DELETE_FORBIDDEN;
+            return PhotoDeleteResult.ALBUM_NOT_FOUND;
+
+        if (photoName == null || photoName.isBlank())
+            return PhotoDeleteResult.PHOTO_DATA_NOT_FOUND;
 
         Photo photo = photoRepository.getPhoto(photoName, album.getId());
         if (photo == null)
             return PhotoDeleteResult.PHOTO_NOT_FOUND;
 
-        return PhotoDeleteResult.PHOTO_DELETED;
-    }
-
-    public void deletePhoto(User user, String albumName, String photoName) {
-        Album album = albumRepository.getAlbum(albumName, user.getId());
-        if (album == null)
-            return;
-
-        Photo photo = photoRepository.getPhoto(photoName, album.getId());
-        if (photo == null)
-            return;
-
         photoRepository.delete(photo);
+        return PhotoDeleteResult.PHOTO_DELETED;
     }
 }

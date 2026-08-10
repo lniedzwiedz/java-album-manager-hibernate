@@ -42,15 +42,11 @@ public class PhotoRepository {
                     "FROM Album a " + "WHERE a.name = :name " + "AND a.userId = :userId", Album.class);
             query.setParameter("name", albumName);
             query.setParameter("userId", userId);
-
             return query.uniqueResult();
         }
     }
 
     public void save(Photo photo) {
-        if (photo == null)
-            return;
-
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
 
@@ -66,10 +62,7 @@ public class PhotoRepository {
         }
     }
 
-    public boolean delete(Photo photo) {
-        if (photo == null)
-            return false;
-
+    public void delete(Photo photo) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
 
@@ -77,12 +70,11 @@ public class PhotoRepository {
                 Photo managedPhoto = session.get(Photo.class, photo.getId());
                 if (managedPhoto == null) {
                     transaction.rollback();
-                    return false;
+                    return;
                 }
                 deleteRelationBetweenPhotoAndUser(session, managedPhoto);
                 session.delete(managedPhoto);
                 transaction.commit();
-                return true;
 
             } catch (Exception e) {
                 if (transaction.isActive())
@@ -93,7 +85,8 @@ public class PhotoRepository {
     }
 
     public List<Photo> getPhotos(User user, String albumName) {
-        if (user == null) return new ArrayList<>();
+        if (user == null)
+            return new ArrayList<>();
 
         try (Session session = sessionFactory.openSession()) {
             Query<Album> albumQuery = session.createQuery("FROM Album a " + "WHERE a.name = :name " + "AND a.userId = :userId", Album.class);
@@ -107,7 +100,6 @@ public class PhotoRepository {
 
             Query<Photo> photoQuery = session.createQuery("FROM Photo p WHERE p.albumId = :albumId", Photo.class);
             photoQuery.setParameter("albumId", album.getId());
-
             return photoQuery.list();
         }
     }

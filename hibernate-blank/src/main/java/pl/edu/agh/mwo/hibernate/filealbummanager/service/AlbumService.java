@@ -29,13 +29,14 @@ public class AlbumService {
     }
 
     public AlbumAddResult addAlbum(User user, String albumName) {
-        if (user == null)
+        if (user == null || user.getId() <= 0)
             return AlbumAddResult.LOGGED_USER_NOT_FOUND;
 
         if (albumName == null || albumName.isBlank())
-            return AlbumAddResult.ALBUM_ADD_FORBIDDEN;
+            return AlbumAddResult.ALBUM_DATA_NOT_FOUND;
 
-        if (albumRepository.getAlbum(albumName, user.getId()) != null)
+        Album existingAlbum = albumRepository.getAlbum(albumName, user.getId());
+        if (existingAlbum != null)
             return AlbumAddResult.ALBUM_ALREADY_EXISTS;
 
         Album album = new Album();
@@ -47,11 +48,11 @@ public class AlbumService {
     }
 
     public AlbumDeleteResult deleteAlbum(User user, String albumName) {
-        if (user == null)
+        if (user == null || user.getId() <= 0)
             return AlbumDeleteResult.LOGGED_USER_NOT_FOUND;
 
         if (albumName == null || albumName.isBlank())
-            return AlbumDeleteResult.ALBUM_DELETE_FORBIDDEN;
+            return AlbumDeleteResult.ALBUM_DATA_NOT_FOUND;
 
         Album album = albumRepository.getAlbum(albumName, user.getId());
         if (album == null)

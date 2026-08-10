@@ -2,10 +2,12 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.result.photo;
 
 public enum PhotoDeleteResult {
 
-    PHOTO_DELETED,
+    LOGGED_USER_NOT_FOUND,
+    ALBUM_DATA_NOT_FOUND,
+    ALBUM_NOT_FOUND,
+    PHOTO_DATA_NOT_FOUND,
     PHOTO_NOT_FOUND,
-    DELETE_FORBIDDEN,
-    ALBUM_NOT_FOUND
+    PHOTO_DELETED,
 }
 
 

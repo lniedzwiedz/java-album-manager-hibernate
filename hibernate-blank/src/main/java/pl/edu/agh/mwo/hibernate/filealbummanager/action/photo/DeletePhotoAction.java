@@ -7,7 +7,6 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.result.photo.PhotoDeleteResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
 import java.io.IOException;
@@ -23,28 +22,27 @@ public class DeletePhotoAction {
     }
 
     public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
-        if (userLogged == null)
-            return MenuResult.CONTINUE;
+        if (userLogged == null) return MenuResult.CONTINUE;
 
-        System.out.println(PhotoMessages.REMOVE_PHOTO_NAME);
+        System.out.println(PhotoMessages.DELETE_PHOTO_NAME);
         String photoName = reader.readLine();
 
         if (photoName == null || photoName.isBlank()) {
-            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+//            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+            System.out.println(PhotoMessages.ALBUM_DATA_NOT_FOUND);
             return MenuResult.CONTINUE;
         }
 
         System.out.println(AlbumMessages.ALBUM_NAME);
         String albumName = reader.readLine();
+
         if (albumName == null || albumName.isBlank()) {
-            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+//            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+            System.out.println(PhotoMessages.ALBUM_DATA_NOT_FOUND);
             return MenuResult.CONTINUE;
         }
 
-        PhotoDeleteResult result = photoService.checkPhotoDeleteStatus(userLogged, albumName, photoName);
-        if (result == PhotoDeleteResult.PHOTO_DELETED)
-            photoService.deletePhoto(userLogged, albumName, photoName);
-
+        PhotoDeleteResult result = photoService.deletePhoto(userLogged, albumName, photoName);
         return deletePhotoHandler.handle(result, userLogged.getName());
     }
 }

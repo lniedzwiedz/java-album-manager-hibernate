@@ -18,11 +18,14 @@ public class FriendService {
     }
 
     public FriendAddResult addFriend(User user, String friendName) {
-        if (user == null)
+        if (user == null || user.getId() <= 0)
             return FriendAddResult.LOGGED_USER_NOT_FOUND;
 
+        if (friendName == null || friendName.isBlank())
+            return FriendAddResult.FRIEND_DATA_NOT_FOUND;
+
         User friend = userService.getUser(friendName);
-        if (friend == null)
+        if (friend == null || friend.getId() <= 0)
             return FriendAddResult.FRIEND_NOT_FOUND;
 
         if (areFriends(user, friend))
@@ -33,18 +36,18 @@ public class FriendService {
     }
 
     public FriendDeleteResult deleteFriend(User user, String friendName) {
-        if (user == null)
+        if (user == null || user.getId() <= 0)
             return FriendDeleteResult.LOGGED_USER_NOT_FOUND;
 
         User friend = userService.getUser(friendName);
-        if (friend == null)
+        if (friend == null || friend.getId() <= 0)
             return FriendDeleteResult.FRIEND_NOT_FOUND;
 
         if (!areFriends(user, friend))
             return FriendDeleteResult.NOT_FRIEND;
 
         friendRepository.deleteFriend(user, friend);
-        return FriendDeleteResult.FRIEND_REMOVED;
+        return FriendDeleteResult.FRIEND_DELETED;
     }
 
     public boolean areFriends(User user, User friend) {

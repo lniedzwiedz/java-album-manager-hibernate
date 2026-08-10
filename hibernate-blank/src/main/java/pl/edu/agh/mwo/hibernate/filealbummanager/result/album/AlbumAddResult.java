@@ -3,8 +3,7 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.result.album;
 public enum AlbumAddResult {
 
     LOGGED_USER_NOT_FOUND,
-    ALBUM_ADD_FORBIDDEN,
+    ALBUM_DATA_NOT_FOUND,
     ALBUM_ALREADY_EXISTS,
     ALBUM_ADDED,
-
 }

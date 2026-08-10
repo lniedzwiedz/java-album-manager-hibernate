@@ -4,7 +4,7 @@ public enum AlbumDeleteResult {
 
     LOGGED_USER_NOT_FOUND,
     ALBUM_NOT_FOUND,
-    ALBUM_DELETE_FORBIDDEN,
+    ALBUM_DATA_NOT_FOUND,
     ALBUM_DELETED,
 }
 
