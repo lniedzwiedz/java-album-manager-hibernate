@@ -9,6 +9,7 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.result.photo.PhotoDeleteResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
 import java.io.IOException;
@@ -44,6 +45,11 @@ public class DeletePhotoAction {
         Album album = albumService.getAlbum(albumName, userLogged.getId());
         if (album == null || album.getId() <= 0) {
             System.out.println(PhotoMessages.ALBUM_NOT_FOUND);
+            return MenuResult.CONTINUE;
+        }
+
+        if (album.getUserId() != userLogged.getId()){
+            System.out.println(PhotoLikeMessages.ALBUM_NOT_OWNED_BY_USER);
             return MenuResult.CONTINUE;
         }
 

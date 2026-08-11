@@ -25,6 +25,10 @@ public class DeletePhotoHandler {
                 System.out.println(PhotoMessages.ALBUM_NOT_FOUND);
                 break;
 
+            case ALBUM_NOT_OWNED_BY_USER:
+                System.out.println(PhotoMessages.ALBUM_NOT_OWNED_BY_USER);
+                break;
+
             case PHOTO_DATA_NOT_FOUND:
                 System.out.println(PhotoMessages.PHOTO_DATA_NOT_FOUND);
                 break;

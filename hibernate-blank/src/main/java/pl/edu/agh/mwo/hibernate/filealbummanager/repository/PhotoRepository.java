@@ -61,10 +61,8 @@ public class PhotoRepository {
             Transaction transaction = session.beginTransaction();
             try {
                 Photo managedPhoto = session.get(Photo.class, photo.getId());
-                if (managedPhoto == null) {
-                    transaction.rollback();
+                if (managedPhoto == null)
                     return;
-                }
 
                 List<User> users = new ArrayList<>(managedPhoto.getUsers());
                 for (User user : users) {

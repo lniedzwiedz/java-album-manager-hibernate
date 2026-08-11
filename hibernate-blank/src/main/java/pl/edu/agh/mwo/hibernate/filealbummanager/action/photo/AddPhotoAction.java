@@ -47,6 +47,11 @@ public class AddPhotoAction {
             return MenuResult.CONTINUE;
         }
 
+        if (album.getUserId() != userLogged.getId()){
+            System.out.println(PhotoLikeMessages.ALBUM_NOT_OWNED_BY_USER);
+            return MenuResult.CONTINUE;
+        }
+
         System.out.println(PhotoMessages.ADD_PHOTO_NAME);
         String photoName = reader.readLine();
 

@@ -20,6 +20,9 @@ public final class PhotoMessages {
     public static final String ALBUM_NOT_FOUND =
             "Album not found.";
 
+    public static final String ALBUM_NOT_OWNED_BY_USER =
+            "This album does not belong to this user.";
+
     public static final String ADD_PHOTO_NAME =
             "Add photo. Enter the photo name: ";
 

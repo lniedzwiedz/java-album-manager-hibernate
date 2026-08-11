@@ -3,11 +3,9 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.service;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.repository.AlbumRepository;
 import pl.edu.agh.mwo.hibernate.filealbummanager.repository.PhotoRepository;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.photo.PhotoAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.photo.PhotoDeleteResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.PhotoLikeDeleteResult;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,11 +13,8 @@ import java.util.List;
 public class PhotoService {
 
     private final PhotoRepository photoRepository;
-    private final AlbumRepository albumRepository;
-
-    public PhotoService(PhotoRepository photoRepository, AlbumRepository albumRepository) {
+    public PhotoService(PhotoRepository photoRepository) {
         this.photoRepository = photoRepository;
-        this.albumRepository = albumRepository;
     }
 
     public Photo getPhoto(String photoName, int albumId) {
@@ -40,6 +35,9 @@ public class PhotoService {
 
         if (album == null || album.getId() <= 0)
             return PhotoAddResult.ALBUM_NOT_FOUND;
+
+        if (album.getUserId() != user.getId())
+            return PhotoAddResult.ALBUM_NOT_OWNED_BY_USER;
 
         if (photoName == null || photoName.isBlank())
             return PhotoAddResult.PHOTO_DATA_NOT_FOUND;
@@ -63,6 +61,9 @@ public class PhotoService {
 
         if (album == null || album.getId() <= 0)
             return PhotoDeleteResult.ALBUM_NOT_FOUND;
+
+        if (album.getUserId() != user.getId())
+            return PhotoDeleteResult.ALBUM_NOT_OWNED_BY_USER;
 
         if (photo == null || photo.getId() <= 0)
             return PhotoDeleteResult.PHOTO_NOT_FOUND;
