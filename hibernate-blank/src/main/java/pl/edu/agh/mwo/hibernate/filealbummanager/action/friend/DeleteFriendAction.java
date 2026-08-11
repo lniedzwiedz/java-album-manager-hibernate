@@ -21,8 +21,10 @@ public class DeleteFriendAction {
     }
 
     public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
-        if (userLogged == null)
+        if (userLogged == null || userLogged.getId() <= 0) {
+            System.out.println(FriendMessages.LOGGED_USER_NOT_FOUND);
             return MenuResult.CONTINUE;
+        }
 
         System.out.println(FriendMessages.DELETE_FRIEND_USERNAME);
         String friendName = reader.readLine();

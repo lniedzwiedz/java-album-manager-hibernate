@@ -28,11 +28,9 @@ public class FriendRepository {
                 User managedUser = session.get(User.class, user.getId());
                 User managedFriend = session.get(User.class, friend.getId());
 
-                if (managedUser == null || managedFriend == null) {
-                    transaction.rollback();
-                    return;
-                }
-                managedUser.addUser(managedFriend);
+                if (managedUser != null && managedFriend != null)
+                    managedUser.addUser(managedFriend);
+
                 transaction.commit();
 
             } catch (Exception e) {
@@ -54,11 +52,10 @@ public class FriendRepository {
                 User managedUser = session.get(User.class, user.getId());
                 User managedFriend = session.get(User.class, friend.getId());
 
-                if (managedUser == null || managedFriend == null) {
-                    transaction.rollback();
-                    return;
+                if (managedUser != null && managedFriend != null) {
+                    managedUser.removeUser(managedFriend);
                 }
-                managedUser.removeUser(managedFriend);
+
                 transaction.commit();
 
             } catch (Exception e) {
