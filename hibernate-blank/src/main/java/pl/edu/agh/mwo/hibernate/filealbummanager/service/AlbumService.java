@@ -63,7 +63,10 @@ public class AlbumService {
 
     // TODO: Modify or remove this method
     public boolean albumExistsForUser(User userLogged, String albumName) {
-        if (userLogged == null)
+        if (userLogged == null || userLogged.getId() <= 0)
+            return false;
+
+        if (albumName == null || albumName.isBlank())
             return false;
         return albumRepository.getAlbum(albumName, userLogged.getId()) != null;
     }

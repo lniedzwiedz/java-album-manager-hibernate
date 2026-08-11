@@ -69,20 +69,20 @@ public class AlbumRepository {
             Transaction transaction = session.beginTransaction();
             try {
                 Album managedAlbum = session.get(Album.class, album.getId());
-                if (managedAlbum == null)
-                    return;
+                if (managedAlbum != null) {
 
-                List<Photo> photos = new ArrayList<>(managedAlbum.getPhotos());
-                for (Photo photo : photos) {
+                    List<Photo> photos = new ArrayList<>(managedAlbum.getPhotos());
+                    for (Photo photo : photos) {
 
-                    List<User> users = new ArrayList<>(photo.getUsers());
-                    for (User user : users) {
-                        User managedUser = session.get(User.class, user.getId());
-                        if (managedUser != null)
-                            managedUser.removePhoto(photo);
+                        List<User> users = new ArrayList<>(photo.getUsers());
+                        for (User user : users) {
+                            User managedUser = session.get(User.class, user.getId());
+                            if (managedUser != null)
+                                managedUser.removePhoto(photo);
+                        }
                     }
+                    session.delete(managedAlbum);
                 }
-                session.delete(managedAlbum);
                 transaction.commit();
 
             } catch (Exception e) {

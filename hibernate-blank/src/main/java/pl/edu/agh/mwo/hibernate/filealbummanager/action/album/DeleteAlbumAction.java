@@ -8,7 +8,6 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessages;
 
 import java.io.IOException;
 
@@ -37,8 +36,8 @@ public class DeleteAlbumAction {
         }
 
         Album album = albumService.getAlbum(albumName, userLogged.getId());
-        if (album.getUserId() != userLogged.getId()){
-            System.out.println(PhotoLikeMessages.ALBUM_NOT_OWNED_BY_USER);
+        if (album == null || album.getId() <= 0) {
+            System.out.println(AlbumMessages.ALBUM_NOT_OWNED_BY_USER);
             return MenuResult.CONTINUE;
         }
 

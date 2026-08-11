@@ -13,6 +13,7 @@ import java.util.List;
 public class PhotoService {
 
     private final PhotoRepository photoRepository;
+
     public PhotoService(PhotoRepository photoRepository) {
         this.photoRepository = photoRepository;
     }
@@ -21,7 +22,7 @@ public class PhotoService {
         return photoRepository.getPhoto(photoName, albumId);
     }
 
-    public List<Photo> getPhoto(int albumId) {
+    public List<Photo> getPhotos(int albumId) {
         return photoRepository.getPhotos(albumId);
     }
 

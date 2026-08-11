@@ -22,9 +22,11 @@ public class PhotoLikeService {
         if (friend == null || friend.getId() <= 0)
             return PhotoLikeAddResult.USER_NOT_FOUND;
 
-        boolean areFriends = user.getId() == friend.getId() ||
-                        user.getUsers().contains(friend) ||
-                        friend.getUsers().contains(user);
+        if (user.getId() == friend.getId())
+            return PhotoLikeAddResult.NOT_FRIENDS;
+
+        boolean areFriends = user.getUsers().contains(friend) ||
+                friend.getUsers().contains(user);
 
         if (!areFriends)
             return PhotoLikeAddResult.NOT_FRIENDS;
@@ -55,9 +57,11 @@ public class PhotoLikeService {
         if (friend == null || friend.getId() <= 0)
             return PhotoLikeDeleteResult.USER_NOT_FOUND;
 
-        boolean areFriends = user.getId() == friend.getId() ||
-                            user.getUsers().contains(friend) ||
-                            friend.getUsers().contains(user);
+        if (user.getId() == friend.getId())
+            return PhotoLikeDeleteResult.NOT_FRIENDS;
+
+        boolean areFriends = user.getUsers().contains(friend) ||
+                friend.getUsers().contains(user);
 
         if (!areFriends)
             return PhotoLikeDeleteResult.NOT_FRIENDS;

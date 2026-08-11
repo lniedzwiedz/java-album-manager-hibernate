@@ -1,7 +1,6 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.album;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.album.AddAlbumHandler;
-import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.album.AlbumAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;

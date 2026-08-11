@@ -52,13 +52,17 @@ public class DeletePhotoLikeAction {
         }
 
         User friend = userService.getUser(friendName);
-        if (friend == null || friend.getId() <= 0){
+        if (friend == null || friend.getId() <= 0) {
             System.out.println(PhotoLikeMessages.USER_NOT_FOUND);
             return MenuResult.CONTINUE;
         }
 
-        boolean areFriends = userLogged.getId() == friend.getId() ||
-                userLogged.getUsers().contains(friend) ||
+        if (userLogged.getId() == friend.getId()) {
+            System.out.println(PhotoLikeMessages.NOT_FRIENDS);
+            return MenuResult.CONTINUE;
+        }
+
+        boolean areFriends = userLogged.getUsers().contains(friend) ||
                 friend.getUsers().contains(userLogged);
 
         if (!areFriends) {
@@ -80,11 +84,6 @@ public class DeletePhotoLikeAction {
             return MenuResult.CONTINUE;
         }
 
-        if (album.getUserId() != friend.getId()){
-            System.out.println(PhotoLikeMessages.ALBUM_NOT_OWNED_BY_USER);
-            return MenuResult.CONTINUE;
-        }
-
         System.out.println(PhotoLikeMessages.REMOVE_PHOTO_LIKE_NAME);
         String photoName = reader.readLine();
 
@@ -95,11 +94,6 @@ public class DeletePhotoLikeAction {
 
         Photo photo = photoService.getPhoto(photoName, album.getId());
         if (photo == null || photo.getId() <= 0) {
-            System.out.println(PhotoLikeMessages.PHOTO_NOT_FOUND);
-            return MenuResult.CONTINUE;
-        }
-
-        if (photo.getAlbumId() != album.getId()) {
             System.out.println(PhotoLikeMessages.PHOTO_NOT_FOUND);
             return MenuResult.CONTINUE;
         }

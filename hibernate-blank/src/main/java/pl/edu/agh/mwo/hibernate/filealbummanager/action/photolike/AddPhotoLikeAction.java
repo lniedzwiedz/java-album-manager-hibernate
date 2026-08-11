@@ -20,7 +20,7 @@ public class AddPhotoLikeAction {
     private final AlbumService albumService;
     private final PhotoService photoService;
     private final PhotoLikeService photoLikeService;
-    private final AddPhotoLikeHandler AddPhotoLikeHandler;
+    private final AddPhotoLikeHandler addPhotoLikeHandler;
 
     public AddPhotoLikeAction(
             UserService userService,
@@ -34,7 +34,7 @@ public class AddPhotoLikeAction {
         this.albumService = albumService;
         this.photoService = photoService;
         this.photoLikeService = photoLikeService;
-        this.AddPhotoLikeHandler = addPhotoLikeHandler;
+        this.addPhotoLikeHandler = addPhotoLikeHandler;
     }
 
     public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
@@ -57,8 +57,12 @@ public class AddPhotoLikeAction {
             return MenuResult.CONTINUE;
         }
 
-        boolean areFriends = userLogged.getId() == friend.getId() ||
-                userLogged.getUsers().contains(friend) ||
+        if (userLogged.getId() == friend.getId()) {
+            System.out.println(PhotoLikeMessages.NOT_FRIENDS);
+            return MenuResult.CONTINUE;
+        }
+
+        boolean areFriends = userLogged.getUsers().contains(friend) ||
                 friend.getUsers().contains(userLogged);
 
         if (!areFriends) {
@@ -80,11 +84,6 @@ public class AddPhotoLikeAction {
             return MenuResult.CONTINUE;
         }
 
-        if (album.getUserId() != friend.getId()){
-            System.out.println(PhotoLikeMessages.ALBUM_NOT_OWNED_BY_USER);
-            return MenuResult.CONTINUE;
-        }
-
         System.out.println(PhotoLikeMessages.ADD_LIKE_PHOTO_NAME);
         String photoName = reader.readLine();
 
@@ -99,12 +98,7 @@ public class AddPhotoLikeAction {
             return MenuResult.CONTINUE;
         }
 
-        if (photo.getAlbumId() != album.getId()) {
-            System.out.println(PhotoLikeMessages.PHOTO_NOT_FOUND);
-            return MenuResult.CONTINUE;
-        }
-
         PhotoLikeAddResult result = photoLikeService.addPhotoLike(userLogged, friend, album, photo);
-        return AddPhotoLikeHandler.handle(result);
+        return addPhotoLikeHandler.handle(result);
     }
 }

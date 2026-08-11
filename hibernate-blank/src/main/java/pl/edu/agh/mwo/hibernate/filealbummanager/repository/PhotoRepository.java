@@ -61,16 +61,17 @@ public class PhotoRepository {
             Transaction transaction = session.beginTransaction();
             try {
                 Photo managedPhoto = session.get(Photo.class, photo.getId());
-                if (managedPhoto == null)
-                    return;
 
-                List<User> users = new ArrayList<>(managedPhoto.getUsers());
-                for (User user : users) {
-                    User managedUser = session.get(User.class, user.getId());
-                    if (managedUser != null)
-                        managedUser.removePhoto(managedPhoto);
+                if (managedPhoto != null) {
+                    List<User> users = new ArrayList<>(managedPhoto.getUsers());
+
+                    for (User user : users) {
+                        User managedUser = session.get(User.class, user.getId());
+                        if (managedUser != null)
+                            managedUser.removePhoto(managedPhoto);
+                    }
+                    session.delete(managedPhoto);
                 }
-                session.delete(managedPhoto);
                 transaction.commit();
 
             } catch (Exception e) {

@@ -21,7 +21,10 @@ public class PhotoLikeRepository {
             try {
                 Photo managedPhoto = session.get(Photo.class, photo.getId());
                 User managedUser = session.get(User.class, user.getId());
-                managedPhoto.addUser(managedUser);
+
+                if (managedPhoto != null && managedUser != null)
+                    managedPhoto.addUser(managedUser);
+
                 transaction.commit();
 
             } catch (Exception e) {
@@ -39,8 +42,10 @@ public class PhotoLikeRepository {
             try {
                 Photo managedPhoto = session.get(Photo.class, photo.getId());
                 User managedUser = session.get(User.class, user.getId());
-//                managedPhoto.removeUser(managedUser); // -> because managedUser.removePhoto() synchronizes both sides.
-                managedUser.removePhoto(managedPhoto);
+
+                if (managedPhoto != null && managedUser != null)
+                    managedPhoto.removeUser(managedUser);
+
                 transaction.commit();
 
             } catch (Exception e) {
@@ -51,7 +56,7 @@ public class PhotoLikeRepository {
     }
 
 
-//    TODO: Fix this method — it doesn't do what it describes xD
+    //    TODO: Fix this method — it doesn't do what it describes xD
     public int countPhotoLikes(Photo photo) {
         if (photo == null || photo.getId() <= 0)
             return 0;
