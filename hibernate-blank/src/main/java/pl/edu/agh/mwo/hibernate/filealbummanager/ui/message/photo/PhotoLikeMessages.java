@@ -32,6 +32,9 @@ public final class PhotoLikeMessages {
     public static final String ALBUM_NOT_FOUND =
             "Album not found.";
 
+    public static final String ALBUM_NOT_OWNED_BY_USER =
+            "This album does not belong to this user.";
+
     public static final String ADD_LIKE_PHOTO_NAME =
             "Like a photo. Enter the photo name: ";
 

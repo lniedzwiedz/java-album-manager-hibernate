@@ -39,8 +39,7 @@ public class PhotoLikeRepository {
             try {
                 Photo managedPhoto = session.get(Photo.class, photo.getId());
                 User managedUser = session.get(User.class, user.getId());
-
-                managedPhoto.removeUser(managedUser);
+//                managedPhoto.removeUser(managedUser); // -> because managedUser.removePhoto() synchronizes both sides.
                 managedUser.removePhoto(managedPhoto);
                 transaction.commit();
 

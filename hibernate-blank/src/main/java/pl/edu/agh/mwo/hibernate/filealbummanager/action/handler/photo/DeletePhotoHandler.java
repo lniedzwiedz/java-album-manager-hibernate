@@ -6,7 +6,7 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
 public class DeletePhotoHandler {
 
-    public MenuResult handle(PhotoDeleteResult result, String userName) {
+    public MenuResult handle(PhotoDeleteResult result) {
         if (result == null) {
             System.out.println(PhotoMessages.PHOTO_DELETE_ERROR);
             return MenuResult.CONTINUE;
@@ -31,6 +31,10 @@ public class DeletePhotoHandler {
 
             case PHOTO_NOT_FOUND:
                 System.out.println(PhotoMessages.PHOTO_NOT_FOUND);
+                break;
+
+            case PHOTO_NOT_IN_ALBUM:
+                System.out.println(PhotoMessages.PHOTO_NOT_IN_ALBUM);
                 break;
 
             case PHOTO_DELETED:

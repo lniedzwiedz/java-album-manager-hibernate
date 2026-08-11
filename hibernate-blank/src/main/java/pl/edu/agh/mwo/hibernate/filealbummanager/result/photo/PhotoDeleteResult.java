@@ -7,6 +7,7 @@ public enum PhotoDeleteResult {
     ALBUM_NOT_FOUND,
     PHOTO_DATA_NOT_FOUND,
     PHOTO_NOT_FOUND,
+    PHOTO_NOT_IN_ALBUM,
     PHOTO_DELETED,
 }
 

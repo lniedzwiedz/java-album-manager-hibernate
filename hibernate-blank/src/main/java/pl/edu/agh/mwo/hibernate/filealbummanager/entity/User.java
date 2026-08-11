@@ -93,7 +93,8 @@ public class User {
     public void addUser(User user) {
         if (user != null && user != this) {
             users.add(user);
-            user.getUsers().add(this);
+            if (!user.getUsers().contains(this))
+                user.getUsers().add(this);
         }
     }
 

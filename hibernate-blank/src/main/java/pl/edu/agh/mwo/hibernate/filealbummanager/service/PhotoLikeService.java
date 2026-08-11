@@ -32,6 +32,9 @@ public class PhotoLikeService {
         if (album == null || album.getId() <= 0)
             return PhotoLikeAddResult.ALBUM_NOT_FOUND;
 
+        if (album.getUserId() != friend.getId())
+            return PhotoLikeAddResult.ALBUM_NOT_OWNED_BY_USER;
+
         if (photo == null || photo.getId() <= 0)
             return PhotoLikeAddResult.PHOTO_NOT_FOUND;
 
@@ -61,6 +64,9 @@ public class PhotoLikeService {
 
         if (album == null || album.getId() <= 0)
             return PhotoLikeDeleteResult.ALBUM_NOT_FOUND;
+
+        if (album.getUserId() != friend.getId())
+            return PhotoLikeDeleteResult.ALBUM_NOT_OWNED_BY_USER;
 
         if (photo == null || photo.getId() <= 0)
             return PhotoLikeDeleteResult.PHOTO_NOT_FOUND;

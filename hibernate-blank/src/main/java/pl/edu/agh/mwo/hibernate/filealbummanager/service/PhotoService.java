@@ -7,6 +7,7 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.repository.AlbumRepository;
 import pl.edu.agh.mwo.hibernate.filealbummanager.repository.PhotoRepository;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.photo.PhotoAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.photo.PhotoDeleteResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.PhotoLikeDeleteResult;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -65,6 +66,9 @@ public class PhotoService {
 
         if (photo == null || photo.getId() <= 0)
             return PhotoDeleteResult.PHOTO_NOT_FOUND;
+
+        if (photo.getAlbumId() != album.getId())
+            return PhotoDeleteResult.PHOTO_NOT_IN_ALBUM;
 
         photoRepository.delete(photo);
         return PhotoDeleteResult.PHOTO_DELETED;

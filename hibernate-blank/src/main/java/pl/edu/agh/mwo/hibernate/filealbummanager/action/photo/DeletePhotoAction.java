@@ -62,6 +62,6 @@ public class DeletePhotoAction {
         }
 
         PhotoDeleteResult result = photoService.deletePhoto(userLogged, album, photo);
-        return deletePhotoHandler.handle(result, userLogged.getName());
+        return deletePhotoHandler.handle(result);
     }
 }

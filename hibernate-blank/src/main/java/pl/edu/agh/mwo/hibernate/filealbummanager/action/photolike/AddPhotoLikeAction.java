@@ -11,7 +11,6 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoLikeService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessages;
 
 import java.io.IOException;
@@ -77,7 +76,12 @@ public class AddPhotoLikeAction {
 
         Album album = albumService.getAlbum(albumName, friend.getId());
         if (album == null || album.getId() <= 0) {
-            System.out.println(AlbumMessages.ALBUM_NOT_FOUND);
+            System.out.println(PhotoLikeMessages.ALBUM_NOT_FOUND);
+            return MenuResult.CONTINUE;
+        }
+
+        if (album.getUserId() != friend.getId()){
+            System.out.println(PhotoLikeMessages.ALBUM_NOT_OWNED_BY_USER);
             return MenuResult.CONTINUE;
         }
 
@@ -91,6 +95,11 @@ public class AddPhotoLikeAction {
 
         Photo photo = photoService.getPhoto(photoName, album.getId());
         if (photo == null || photo.getId() <= 0) {
+            System.out.println(PhotoLikeMessages.PHOTO_NOT_FOUND);
+            return MenuResult.CONTINUE;
+        }
+
+        if (photo.getAlbumId() != album.getId()) {
             System.out.println(PhotoLikeMessages.PHOTO_NOT_FOUND);
             return MenuResult.CONTINUE;
         }

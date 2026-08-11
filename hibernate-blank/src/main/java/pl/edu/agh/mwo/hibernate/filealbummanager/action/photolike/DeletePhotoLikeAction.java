@@ -80,6 +80,11 @@ public class DeletePhotoLikeAction {
             return MenuResult.CONTINUE;
         }
 
+        if (album.getUserId() != friend.getId()){
+            System.out.println(PhotoLikeMessages.ALBUM_NOT_OWNED_BY_USER);
+            return MenuResult.CONTINUE;
+        }
+
         System.out.println(PhotoLikeMessages.REMOVE_PHOTO_LIKE_NAME);
         String photoName = reader.readLine();
 
@@ -90,6 +95,11 @@ public class DeletePhotoLikeAction {
 
         Photo photo = photoService.getPhoto(photoName, album.getId());
         if (photo == null || photo.getId() <= 0) {
+            System.out.println(PhotoLikeMessages.PHOTO_NOT_FOUND);
+            return MenuResult.CONTINUE;
+        }
+
+        if (photo.getAlbumId() != album.getId()) {
             System.out.println(PhotoLikeMessages.PHOTO_NOT_FOUND);
             return MenuResult.CONTINUE;
         }
