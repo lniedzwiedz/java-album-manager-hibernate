@@ -5,8 +5,14 @@ public final class PhotoLikeMessages {
     private PhotoLikeMessages() {
     }
 
+    public static final String USER_NOT_FOUND =
+            "User not found.";
+
     public static final String LOGGED_USER_NOT_FOUND =
             "Logged user not found.";
+
+    public static final String NOT_FRIENDS =
+            "You are not friends with this user.";
 
     public static final String PHOTO_OWNER_USERNAME =
             "Enter the username of the photo owner: ";
@@ -16,12 +22,6 @@ public final class PhotoLikeMessages {
 
     public static final String PHOTO_OWNER_NOT_FOUND =
             "Photo owner not found.";
-
-    public static final String NOT_FRIEND_PHOTO_OWNER =
-            "You are not friends with the photo's owner.";
-
-    public static final String NOT_FRIEND_PHOTO_OWNER_NO_LIKE =
-            "You cannot like this photo because you are not friends with its owner.";
 
     public static final String ALBUM_NAME_LIKE =
             "Enter the name of the album containing the photo you want to like: ";

@@ -17,16 +17,16 @@ public class DeletePhotoLikeHandler {
                 System.out.println(PhotoLikeMessages.LOGGED_USER_NOT_FOUND);
                 break;
 
+            case USER_NOT_FOUND:
+                System.out.println(PhotoLikeMessages.USER_NOT_FOUND);
+                break;
+
             case FRIEND_DATA_NOT_FOUND:
                 System.out.println(PhotoLikeMessages.FRIEND_DATA_NOT_FOUND);
                 break;
 
-            case PHOTO_OWNER_NOT_FOUND:
-                System.out.println(PhotoLikeMessages.PHOTO_OWNER_NOT_FOUND);
-                break;
-
-            case NOT_FRIEND_PHOTO_OWNER:
-                System.out.println(PhotoLikeMessages.NOT_FRIEND_PHOTO_OWNER_NO_LIKE);
+            case NOT_FRIENDS:
+                System.out.println(PhotoLikeMessages.NOT_FRIENDS);
                 break;
 
             case ALBUM_DATA_NOT_FOUND:
@@ -38,7 +38,7 @@ public class DeletePhotoLikeHandler {
                 break;
 
             case PHOTO_DATA_NOT_FOUND:
-                System.out.println(PhotoLikeMessages.PHOTO_DATA_NOT_FOUND);
+                System.out.println(PhotoLikeMessages.PHOTO_OWNER_NOT_FOUND);
                 break;
 
             case PHOTO_NOT_FOUND:
@@ -49,16 +49,12 @@ public class DeletePhotoLikeHandler {
                 System.out.println(PhotoLikeMessages.PHOTO_NOT_IN_ALBUM);
                 break;
 
-            case NOT_LIKED:
+            case PHOTO_NOT_LIKED:
                 System.out.println(PhotoLikeMessages.NEVER_LIKED_PHOTO);
                 break;
 
             case PHOTO_LIKE_DELETED:
                 System.out.println(PhotoLikeMessages.PHOTO_LIKE_REMOVED);
-                break;
-
-            case PHOTO_LIKE_ERROR:
-                System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
                 break;
 
             default:

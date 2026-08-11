@@ -28,7 +28,6 @@ public class AddAlbumAction {
         String albumName = reader.readLine();
 
         if (albumName == null || albumName.isBlank()) {
-//            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
             System.out.println(AlbumMessages.ALBUM_DATA_NOT_FOUND);
             return MenuResult.CONTINUE;
         }

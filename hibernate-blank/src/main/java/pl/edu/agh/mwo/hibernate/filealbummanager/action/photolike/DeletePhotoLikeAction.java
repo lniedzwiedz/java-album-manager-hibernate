@@ -53,7 +53,7 @@ public class DeletePhotoLikeAction {
 
         User friend = userService.getUser(friendName);
         if (friend == null || friend.getId() <= 0){
-            System.out.println(PhotoLikeMessages.PHOTO_OWNER_NOT_FOUND);
+            System.out.println(PhotoLikeMessages.USER_NOT_FOUND);
             return MenuResult.CONTINUE;
         }
 
@@ -62,7 +62,7 @@ public class DeletePhotoLikeAction {
                 friend.getUsers().contains(userLogged);
 
         if (!areFriends) {
-            System.out.println(PhotoLikeMessages.NOT_FRIEND_PHOTO_OWNER);
+            System.out.println(PhotoLikeMessages.NOT_FRIENDS);
             return MenuResult.CONTINUE;
         }
 

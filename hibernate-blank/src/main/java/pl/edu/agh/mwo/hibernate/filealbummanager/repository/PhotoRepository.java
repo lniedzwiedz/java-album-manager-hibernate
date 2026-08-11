@@ -36,15 +36,6 @@ public class PhotoRepository {
         }
     }
 
-    public Album getAlbum(String albumName, int userId) {
-        try (Session session = sessionFactory.openSession()) {
-            Query<Album> query = session.createQuery("FROM Album a " + "WHERE a.name = :name " + "AND a.userId = :userId", Album.class);
-            query.setParameter("name", albumName);
-            query.setParameter("userId", userId);
-            return query.uniqueResult();
-        }
-    }
-
     public void save(Photo photo) {
         try (Session session = sessionFactory.openSession()) {
 

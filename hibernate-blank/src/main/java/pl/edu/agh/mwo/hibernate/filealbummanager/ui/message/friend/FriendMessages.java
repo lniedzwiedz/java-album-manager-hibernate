@@ -5,6 +5,9 @@ public final class FriendMessages {
     private FriendMessages() {
     }
 
+    public static final String USER_NOT_FOUND =
+            "User not found.";
+
     public static final String LOGGED_USER_NOT_FOUND =
             "Logged user not found.";
 

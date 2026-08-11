@@ -39,7 +39,7 @@ public class AddPhotoLikeAction {
     }
 
     public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
-        if (userLogged == null){
+        if (userLogged == null || userLogged.getId() <= 0) {
             System.out.println(PhotoLikeMessages.LOGGED_USER_NOT_FOUND);
             return MenuResult.CONTINUE;
         }
@@ -48,13 +48,13 @@ public class AddPhotoLikeAction {
         String friendName = reader.readLine();
 
         if (friendName == null || friendName.isBlank()) {
-            System.out.println(PhotoLikeMessages.PHOTO_OWNER_NOT_FOUND);
+            System.out.println(PhotoLikeMessages.FRIEND_DATA_NOT_FOUND);
             return MenuResult.CONTINUE;
         }
 
         User friend = userService.getUser(friendName);
         if (friend == null || friend.getId() <= 0) {
-            System.out.println(PhotoLikeMessages.PHOTO_OWNER_NOT_FOUND);
+            System.out.println(PhotoLikeMessages.USER_NOT_FOUND);
             return MenuResult.CONTINUE;
         }
 
@@ -63,7 +63,7 @@ public class AddPhotoLikeAction {
                 friend.getUsers().contains(userLogged);
 
         if (!areFriends) {
-            System.out.println(PhotoLikeMessages.NOT_FRIEND_PHOTO_OWNER);
+            System.out.println(PhotoLikeMessages.NOT_FRIENDS);
             return MenuResult.CONTINUE;
         }
 
@@ -91,7 +91,7 @@ public class AddPhotoLikeAction {
 
         Photo photo = photoService.getPhoto(photoName, album.getId());
         if (photo == null || photo.getId() <= 0) {
-            System.out.println(PhotoLikeMessages.PHOTO_NOT_IN_ALBUM);
+            System.out.println(PhotoLikeMessages.PHOTO_NOT_FOUND);
             return MenuResult.CONTINUE;
         }
 

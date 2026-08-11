@@ -51,8 +51,10 @@ public class PhotoLikeRepository {
         }
     }
 
+
+//    TODO: Fix this method — it doesn't do what it describes xD
     public int countPhotoLikes(Photo photo) {
-        if (photo == null)
+        if (photo == null || photo.getId() <= 0)
             return 0;
 
         return photo.getUsers().size();
