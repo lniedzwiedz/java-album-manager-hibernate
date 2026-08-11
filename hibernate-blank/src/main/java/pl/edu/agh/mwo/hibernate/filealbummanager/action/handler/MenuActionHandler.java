@@ -16,49 +16,82 @@ public class MenuActionHandler {
         this.actionFactory = actionFactory;
     }
 
-    public MenuResult execute(MenuOption menuOption, ConsoleReader reader, User userLogged) throws IOException {
+    public MenuResult execute(
+            MenuOption menuOption,
+            ConsoleReader reader,
+            User userLogged) throws IOException {
+
         switch (menuOption) {
+
             case ADD_ALBUM:
-                return actionFactory.getAddAlbumAction().execute(reader, userLogged);
+                return actionFactory
+                        .getAddAlbumAction()
+                        .execute(reader, userLogged);
 
             case DELETE_ALBUM:
-                return actionFactory.getDeleteAlbumAction().execute(reader, userLogged);
+                return actionFactory
+                        .getDeleteAlbumAction()
+                        .execute(reader, userLogged);
 
             case SHOW_MY_ALBUMS:
-                return actionFactory.getShowMyAlbumsAction().execute(userLogged);
+                return actionFactory
+                        .getShowMyAlbumsAction()
+                        .execute(userLogged);
 
             case SHOW_USER_ALBUMS:
-                return actionFactory.getShowUserAlbumsAction().execute(reader, userLogged);
+                return actionFactory
+                        .getShowUserAlbumsAction()
+                        .execute(reader, userLogged);
 
             case SHOW_PHOTOS:
-                return actionFactory.getShowPhotosAction().execute(reader, userLogged);
+                return actionFactory
+                        .getShowPhotosAction()
+                        .execute(reader, userLogged);
 
             case ADD_PHOTO:
-                return actionFactory.getAddPhotoAction().execute(reader, userLogged);
+                return actionFactory
+                        .getAddPhotoAction()
+                        .execute(reader, userLogged);
 
             case DELETE_PHOTO:
-                return actionFactory.getDeletePhotoAction().execute(reader, userLogged);
+                return actionFactory
+                        .getDeletePhotoAction()
+                        .execute(reader, userLogged);
 
             case LIKE_PHOTO:
-                return actionFactory.getLikePhotoAction().execute(reader, userLogged);
+                return actionFactory
+                        .getAddPhotoLikeAction()
+                        .execute(reader, userLogged);
 
             case UNLIKE_PHOTO:
-                return actionFactory.getUnlikePhotoAction().execute(reader, userLogged);
+                return actionFactory
+                        .getDeletePhotoLikeAction()
+                        .execute(reader, userLogged);
 
             case ADD_FRIEND:
-                return actionFactory.getAddFriendAction().execute(reader, userLogged);
+                return actionFactory
+                        .getAddFriendAction()
+                        .execute(reader, userLogged);
 
             case DELETE_FRIEND:
-                return actionFactory.getDeleteFriendAction().execute(reader, userLogged);
+                return actionFactory
+                        .getDeleteFriendAction()
+                        .execute(reader, userLogged);
 
             case SHOW_FRIENDS:
-                return actionFactory.getShowFriendsAction().execute(userLogged);
+                return actionFactory
+                        .getShowFriendsAction()
+                        .execute(userLogged);
 
             case DELETE_ACCOUNT:
-                return actionFactory.getDeleteAccountAction().execute(reader, userLogged);
+                return actionFactory
+                        .getDeleteAccountAction()
+                        .execute(reader, userLogged);
 
             case LOGOUT:
-                return actionFactory.getLogoutAction().execute(reader, userLogged);
+                return actionFactory
+                        .getLogoutAction()
+                        .execute(reader, userLogged);
 
             default:
                 return MenuResult.CONTINUE;

@@ -24,15 +24,15 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.friend.DeleteFri
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photo.AddPhotoHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photo.DeletePhotoHandler;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photolike.PhotoLikeHandler;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photolike.UnlikePhotoHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photolike.AddPhotoLikeHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photolike.DeletePhotoLikeHandler;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.AddPhotoAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.DeletePhotoAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.ShowPhotosAction;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike.LikePhotoAction;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike.UnlikePhotoAction;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike.AddPhotoLikeAction;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike.DeletePhotoLikeAction;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.FriendService;
@@ -59,14 +59,14 @@ public class ActionFactory {
     private final AddPhotoHandler addPhotoHandler;
     private final DeletePhotoHandler deletePhotoHandler;
 
-    private final PhotoLikeHandler photoLikeHandler;
-    private final UnlikePhotoHandler unlikePhotoHandler;
+    private final AddPhotoLikeHandler addPhotoLikeHandler;
+    private final DeletePhotoLikeHandler deletePhotoLikeHandler;
 
     private final AddFriendHandler addFriendHandler;
     private final DeleteFriendHandler deleteFriendHandler;
 
-    private final LikePhotoAction likePhotoAction;
-    private final UnlikePhotoAction unlikePhotoAction;
+    private final AddPhotoLikeAction addPhotoLikeAction;
+    private final DeletePhotoLikeAction deletePhotoLikeAction;
 
     private final AddFriendAction addFriendAction;
     private final DeleteFriendAction deleteFriendAction;
@@ -98,15 +98,11 @@ public class ActionFactory {
         this.deletePhotoHandler =
                 new DeletePhotoHandler();
 
-        this.photoLikeHandler =
-                new PhotoLikeHandler(
-                        photoLikeService
-                );
+        this.addPhotoLikeHandler =
+                new AddPhotoLikeHandler();
 
-        this.unlikePhotoHandler =
-                new UnlikePhotoHandler(
-                        photoLikeService
-                );
+        this.deletePhotoLikeHandler =
+                new DeletePhotoLikeHandler();
 
         this.addFriendHandler =
                 new AddFriendHandler();
@@ -145,7 +141,6 @@ public class ActionFactory {
                         friendService,
                         consolePrinter
                 );
-
         this.showPhotosAction =
                 new ShowPhotosAction(
                         albumService,
@@ -165,24 +160,22 @@ public class ActionFactory {
                         deletePhotoHandler
                 );
 
-        this.likePhotoAction =
-                new LikePhotoAction(
-                        userService,
-                        friendService,
-                        albumService,
-                        photoService,
+        this.addPhotoLikeAction =
+                new AddPhotoLikeAction(
                         photoLikeService,
-                        photoLikeHandler
+                        addPhotoLikeHandler,
+                        userService,
+                        albumService,
+                        photoService
                 );
 
-        this.unlikePhotoAction =
-                new UnlikePhotoAction(
-                        userService,
-                        friendService,
-                        albumService,
-                        photoService,
+        this.deletePhotoLikeAction =
+                new DeletePhotoLikeAction(
                         photoLikeService,
-                        unlikePhotoHandler
+                        deletePhotoLikeHandler,
+                        userService,
+                        albumService,
+                        photoService
                 );
 
         this.addFriendAction =
@@ -243,12 +236,12 @@ public class ActionFactory {
         return deletePhotoAction;
     }
 
-    public LikePhotoAction getLikePhotoAction() {
-        return likePhotoAction;
+    public AddPhotoLikeAction getAddPhotoLikeAction() {
+        return addPhotoLikeAction;
     }
 
-    public UnlikePhotoAction getUnlikePhotoAction() {
-        return unlikePhotoAction;
+    public DeletePhotoLikeAction getDeletePhotoLikeAction() {
+        return deletePhotoLikeAction;
     }
 
     public AddFriendAction getAddFriendAction() {

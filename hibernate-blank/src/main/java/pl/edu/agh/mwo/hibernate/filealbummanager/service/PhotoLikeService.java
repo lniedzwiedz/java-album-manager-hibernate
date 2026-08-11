@@ -4,7 +4,8 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.repository.PhotoLikeRepository;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.PhotoLikeStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.PhotoLikeAddResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.PhotoLikeDeleteResult;
 
 public class PhotoLikeService {
 
@@ -14,36 +15,70 @@ public class PhotoLikeService {
         this.photoLikeRepository = photoLikeRepository;
     }
 
-    public PhotoLikeStatus checkPhotoLikeStatus(User user, User ownerUser, Album album, Photo photo) {
-        if (user == null || ownerUser == null || album == null || photo == null)
-            return PhotoLikeStatus.PHOTO_LIKE_ERROR;
+    public PhotoLikeAddResult addPhotoLike(User user, User friend, Album album, Photo photo) {
+        if (user == null || user.getId() <= 0)
+            return PhotoLikeAddResult.LOGGED_USER_NOT_FOUND;
 
-        boolean areFriends =
-                user.getId() == ownerUser.getId()
-                        || user.getUsers().contains(ownerUser)
-                        || ownerUser.getUsers().contains(user);
+        if (friend == null || friend.getId() <= 0)
+            return PhotoLikeAddResult.PHOTO_OWNER_NOT_FOUND;
+
+        boolean areFriends = user.getId() == friend.getId() ||
+                        user.getUsers().contains(friend) ||
+                        friend.getUsers().contains(user);
 
         if (!areFriends)
-            return PhotoLikeStatus.NOT_FRIEND_PHOTO_OWNER;
+            return PhotoLikeAddResult.NOT_FRIEND_PHOTO_OWNER;
+
+        if (album == null || album.getId() <= 0)
+            return PhotoLikeAddResult.ALBUM_NOT_FOUND;
+
+        if (photo == null || photo.getId() <= 0)
+            return PhotoLikeAddResult.PHOTO_NOT_FOUND;
 
         if (photo.getAlbumId() != album.getId())
-            return PhotoLikeStatus.PHOTO_NOT_IN_ALBUM;
+            return PhotoLikeAddResult.PHOTO_NOT_IN_ALBUM;
 
         if (photo.getUsers().contains(user))
-            return PhotoLikeStatus.ALREADY_LIKED;
+            return PhotoLikeAddResult.ALREADY_LIKED;
 
-        return PhotoLikeStatus.NEVER_LIKED;
+        photoLikeRepository.addPhotoLike(user, photo);
+        return PhotoLikeAddResult.PHOTO_LIKE_ADDED;
     }
 
-    public boolean addPhotoLike(Photo photo, User user) {
-        return photoLikeRepository.addPhotoLike(photo, user);
-    }
+    public PhotoLikeDeleteResult deletePhotoLike(User user, User ownerUser, Album album, Photo photo) {
+        if (user == null || user.getId() <= 0)
+            return PhotoLikeDeleteResult.LOGGED_USER_NOT_FOUND;
 
-    public boolean deletePhotoLike(User user, Photo photo) {
-        return photoLikeRepository.deletePhotoLike(user, photo);
+        if (ownerUser == null || ownerUser.getId() <= 0)
+            return PhotoLikeDeleteResult.PHOTO_OWNER_NOT_FOUND;
+
+        boolean areFriends = user.getId() == ownerUser.getId() ||
+                            user.getUsers().contains(ownerUser) ||
+                            ownerUser.getUsers().contains(user);
+
+        if (!areFriends)
+            return PhotoLikeDeleteResult.NOT_FRIEND_PHOTO_OWNER;
+
+        if (album == null || album.getId() <= 0)
+            return PhotoLikeDeleteResult.ALBUM_NOT_FOUND;
+
+        if (photo == null || photo.getId() <= 0)
+            return PhotoLikeDeleteResult.PHOTO_NOT_FOUND;
+
+        if (photo.getAlbumId() != album.getId())
+            return PhotoLikeDeleteResult.PHOTO_NOT_IN_ALBUM;
+
+        if (!photo.getUsers().contains(user))
+            return PhotoLikeDeleteResult.NOT_LIKED;
+
+        photoLikeRepository.deletePhotoLike(user, photo);
+        return PhotoLikeDeleteResult.PHOTO_LIKE_DELETED;
     }
 
     public int countPhotoLikes(Photo photo) {
+        if (photo == null || photo.getId() <= 0)
+            return 0;
+
         return photoLikeRepository.countPhotoLikes(photo);
     }
 }

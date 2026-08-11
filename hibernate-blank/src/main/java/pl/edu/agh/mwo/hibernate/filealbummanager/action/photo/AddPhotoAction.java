@@ -6,7 +6,6 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.photo.PhotoAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
 import java.io.IOException;
@@ -29,7 +28,7 @@ public class AddPhotoAction {
         String albumName = reader.readLine();
 
         if (albumName == null || albumName.isBlank()) {
-            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
+            System.out.println(PhotoMessages.ALBUM_DATA_NOT_FOUND);
             return MenuResult.CONTINUE;
         }
 
@@ -37,7 +36,6 @@ public class AddPhotoAction {
         String photoName = reader.readLine();
 
         if (photoName == null || photoName.isBlank()) {
-//            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
             System.out.println(PhotoMessages.ALBUM_DATA_NOT_FOUND);
             return MenuResult.CONTINUE;
         }

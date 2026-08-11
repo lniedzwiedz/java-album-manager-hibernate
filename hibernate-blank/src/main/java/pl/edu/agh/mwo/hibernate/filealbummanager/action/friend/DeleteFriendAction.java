@@ -28,7 +28,6 @@ public class DeleteFriendAction {
         String friendName = reader.readLine();
 
         if (friendName == null || friendName.isBlank()) {
-//            System.out.println(ApplicationMessages.INVALID_INPUT_E3);
             System.out.println(FriendMessages.FRIEND_DATA_NOT_FOUND);
             return MenuResult.CONTINUE;
         }
