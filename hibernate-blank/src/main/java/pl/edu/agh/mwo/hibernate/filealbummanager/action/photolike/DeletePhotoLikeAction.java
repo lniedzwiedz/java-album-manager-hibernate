@@ -52,7 +52,9 @@ public class DeletePhotoLikeAction {
             return MenuResult.CONTINUE;
         }
 
-        boolean areFriends = userLogged.getId() == friend.getId() || userLogged.getUsers().contains(friend) || friend.getUsers().contains(userLogged);
+        boolean areFriends = userLogged.getId() == friend.getId() ||
+                userLogged.getUsers().contains(friend) ||
+                friend.getUsers().contains(userLogged);
 
         if (!areFriends) {
             System.out.println(PhotoLikeMessages.NOT_FRIEND_PHOTO_OWNER);

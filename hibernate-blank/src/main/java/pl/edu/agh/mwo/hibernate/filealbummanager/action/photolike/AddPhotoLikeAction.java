@@ -11,11 +11,7 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoLikeService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.friend.FriendMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
 import java.io.IOException;
 
