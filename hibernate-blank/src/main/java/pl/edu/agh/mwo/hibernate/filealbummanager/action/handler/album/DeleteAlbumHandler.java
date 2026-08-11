@@ -17,12 +17,16 @@ public class DeleteAlbumHandler {
                 System.out.println(AlbumMessages.LOGGED_USER_NOT_FOUND);
                 break;
 
+            case ALBUM_DATA_NOT_FOUND:
+                System.out.println(AlbumMessages.ALBUM_DATA_NOT_FOUND);
+                break;
+
             case ALBUM_NOT_FOUND:
                 System.out.println(AlbumMessages.ALBUM_NOT_FOUND);
                 break;
 
-            case ALBUM_DATA_NOT_FOUND:
-                System.out.println(AlbumMessages.ALBUM_DATA_NOT_FOUND);
+            case ALBUM_NOT_OWNED_BY_USER:
+                System.out.println(AlbumMessages.ALBUM_NOT_OWNED_BY_USER);
                 break;
 
             case ALBUM_DELETED:

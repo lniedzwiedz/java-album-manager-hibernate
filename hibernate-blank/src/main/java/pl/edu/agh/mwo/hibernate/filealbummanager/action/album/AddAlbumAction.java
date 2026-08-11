@@ -1,6 +1,7 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.album;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.album.AddAlbumHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.album.AlbumAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
@@ -21,8 +22,10 @@ public class AddAlbumAction {
     }
 
     public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
-        if (userLogged == null)
+        if (userLogged == null || userLogged.getId() <= 0) {
+            System.out.println(AlbumMessages.LOGGED_USER_NOT_FOUND);
             return MenuResult.CONTINUE;
+        }
 
         System.out.println(AlbumMessages.ADD_ALBUM_NAME);
         String albumName = reader.readLine();

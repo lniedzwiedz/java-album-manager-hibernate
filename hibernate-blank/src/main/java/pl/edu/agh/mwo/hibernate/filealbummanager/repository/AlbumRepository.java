@@ -69,10 +69,8 @@ public class AlbumRepository {
             Transaction transaction = session.beginTransaction();
             try {
                 Album managedAlbum = session.get(Album.class, album.getId());
-                if (managedAlbum == null) {
-                    transaction.rollback();
+                if (managedAlbum == null)
                     return;
-                }
 
                 List<Photo> photos = new ArrayList<>(managedAlbum.getPhotos());
                 for (Photo photo : photos) {

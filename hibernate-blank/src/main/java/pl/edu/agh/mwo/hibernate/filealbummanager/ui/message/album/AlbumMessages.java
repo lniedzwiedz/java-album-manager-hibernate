@@ -17,6 +17,9 @@ public final class AlbumMessages {
     public static final String ALBUM_NOT_FOUND =
             "Album not found.";
 
+    public static final String ALBUM_NOT_OWNED_BY_USER =
+            "This album does not belong to this user.";
+
     public static final String ALBUM_OR_PHOTO_NOT_EXIST =
             "Album or photo not found.";
 

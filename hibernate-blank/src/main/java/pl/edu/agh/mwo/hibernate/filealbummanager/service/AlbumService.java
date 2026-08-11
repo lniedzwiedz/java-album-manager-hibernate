@@ -47,21 +47,21 @@ public class AlbumService {
         return AlbumAddResult.ALBUM_ADDED;
     }
 
-    public AlbumDeleteResult deleteAlbum(User user, String albumName) {
+    public AlbumDeleteResult deleteAlbum(User user, Album album) {
         if (user == null || user.getId() <= 0)
             return AlbumDeleteResult.LOGGED_USER_NOT_FOUND;
 
-        if (albumName == null || albumName.isBlank())
+        if (album == null || album.getId() <= 0)
             return AlbumDeleteResult.ALBUM_DATA_NOT_FOUND;
 
-        Album album = albumRepository.getAlbum(albumName, user.getId());
-        if (album == null)
-            return AlbumDeleteResult.ALBUM_NOT_FOUND;
+        if (album.getUserId() != user.getId())
+            return AlbumDeleteResult.ALBUM_NOT_OWNED_BY_USER;
 
         albumRepository.delete(album);
         return AlbumDeleteResult.ALBUM_DELETED;
     }
 
+    // TODO: Modify or remove this method
     public boolean albumExistsForUser(User userLogged, String albumName) {
         if (userLogged == null)
             return false;
