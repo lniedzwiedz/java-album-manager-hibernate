@@ -23,8 +23,8 @@ public class DeletePhotoLikeAction {
     private final AlbumService albumService;
     private final PhotoService photoService;
 
-    public DeletePhotoLikeAction(PhotoLikeService photoLikeService, DeletePhotoLikeHandler deletePhotoLikeHandler, UserService userService, AlbumService albumService, PhotoService photoService) {
-
+    public DeletePhotoLikeAction(PhotoLikeService photoLikeService, DeletePhotoLikeHandler deletePhotoLikeHandler,
+                                 UserService userService, AlbumService albumService, PhotoService photoService) {
         this.photoLikeService = photoLikeService;
         this.deletePhotoLikeHandler = deletePhotoLikeHandler;
         this.userService = userService;
@@ -33,7 +33,7 @@ public class DeletePhotoLikeAction {
     }
 
     public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
-        if (userLogged == null) {
+        if (userLogged == null || userLogged.getId() <= 0) {
             System.out.println(PhotoLikeMessages.LOGGED_USER_NOT_FOUND);
             return MenuResult.CONTINUE;
         }
@@ -47,7 +47,7 @@ public class DeletePhotoLikeAction {
         }
 
         User friend = userService.getUser(friendName);
-        if (friend == null) {
+        if (friend == null || friend.getId() <= 0){
             System.out.println(PhotoLikeMessages.PHOTO_OWNER_NOT_FOUND);
             return MenuResult.CONTINUE;
         }

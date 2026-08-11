@@ -33,15 +33,11 @@ public class PhotoService {
         return photoRepository.getPhotos(user, albumName);
     }
 
-    public PhotoAddResult addPhoto(User user, String albumName, String photoName) {
+    public PhotoAddResult addPhoto(User user, Album album, String photoName) {
         if (user == null || user.getId() <= 0)
             return PhotoAddResult.LOGGED_USER_NOT_FOUND;
 
-        if (albumName == null || albumName.isBlank())
-            return PhotoAddResult.ALBUM_DATA_NOT_FOUND;
-
-        Album album = albumRepository.getAlbum(albumName, user.getId());
-        if (album == null)
+        if (album == null || album.getId() <= 0)
             return PhotoAddResult.ALBUM_NOT_FOUND;
 
         if (photoName == null || photoName.isBlank())
@@ -60,22 +56,14 @@ public class PhotoService {
         return PhotoAddResult.PHOTO_ADDED;
     }
 
-    public PhotoDeleteResult deletePhoto(User user, String albumName, String photoName) {
+    public PhotoDeleteResult deletePhoto(User user, Album album, Photo photo) {
         if (user == null || user.getId() <= 0)
             return PhotoDeleteResult.LOGGED_USER_NOT_FOUND;
 
-        if (albumName == null || albumName.isBlank())
-            return PhotoDeleteResult.ALBUM_DATA_NOT_FOUND;
-
-        Album album = albumRepository.getAlbum(albumName, user.getId());
-        if (album == null)
+        if (album == null || album.getId() <= 0)
             return PhotoDeleteResult.ALBUM_NOT_FOUND;
 
-        if (photoName == null || photoName.isBlank())
-            return PhotoDeleteResult.PHOTO_DATA_NOT_FOUND;
-
-        Photo photo = photoRepository.getPhoto(photoName, album.getId());
-        if (photo == null)
+        if (photo == null || photo.getId() <= 0)
             return PhotoDeleteResult.PHOTO_NOT_FOUND;
 
         photoRepository.delete(photo);

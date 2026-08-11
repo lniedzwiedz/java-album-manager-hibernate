@@ -150,12 +150,14 @@ public class ActionFactory {
 
         this.addPhotoAction =
                 new AddPhotoAction(
+                        albumService,
                         photoService,
                         addPhotoHandler
                 );
 
         this.deletePhotoAction =
                 new DeletePhotoAction(
+                        albumService,
                         photoService,
                         deletePhotoHandler
                 );

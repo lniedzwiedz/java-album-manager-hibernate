@@ -11,23 +11,26 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoLikeService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.friend.FriendMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessages;
+import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
 import java.io.IOException;
 
 public class AddPhotoLikeAction {
 
     private final PhotoLikeService photoLikeService;
-    private final AddPhotoLikeHandler addPhotoLikeHandler;
+    private final AddPhotoLikeHandler AddPhotoLikeHandler;
     private final UserService userService;
     private final AlbumService albumService;
     private final PhotoService photoService;
 
-    public AddPhotoLikeAction(PhotoLikeService photoLikeService, AddPhotoLikeHandler addPhotoLikeHandler,
-                              UserService userService, AlbumService albumService, PhotoService photoService) {
+    public AddPhotoLikeAction(PhotoLikeService photoLikeService, AddPhotoLikeHandler addPhotoLikeHandler, UserService userService, AlbumService albumService, PhotoService photoService) {
 
         this.photoLikeService = photoLikeService;
-        this.addPhotoLikeHandler = addPhotoLikeHandler;
+        this.AddPhotoLikeHandler = addPhotoLikeHandler;
         this.userService = userService;
         this.albumService = albumService;
         this.photoService = photoService;
@@ -43,18 +46,17 @@ public class AddPhotoLikeAction {
         String friendName = reader.readLine();
 
         if (friendName == null || friendName.isBlank()) {
-            System.out.println(PhotoLikeMessages.FRIEND_DATA_NOT_FOUND);
-            return MenuResult.CONTINUE;
-        }
-
-        User friend = userService.getUser(friendName);
-        if (friend == null) {
             System.out.println(PhotoLikeMessages.PHOTO_OWNER_NOT_FOUND);
             return MenuResult.CONTINUE;
         }
 
-        boolean areFriends =
-                userLogged.getId() == friend.getId() ||
+        User friend = userService.getUser(friendName);
+        if (friend == null || friend.getId() <= 0) {
+            System.out.println(PhotoLikeMessages.PHOTO_OWNER_NOT_FOUND);
+            return MenuResult.CONTINUE;
+        }
+
+        boolean areFriends = userLogged.getId() == friend.getId() ||
                 userLogged.getUsers().contains(friend) ||
                 friend.getUsers().contains(userLogged);
 
@@ -72,9 +74,8 @@ public class AddPhotoLikeAction {
         }
 
         Album album = albumService.getAlbum(albumName, friend.getId());
-
         if (album == null || album.getId() <= 0) {
-            System.out.println(PhotoLikeMessages.ALBUM_NOT_FOUND);
+            System.out.println(AlbumMessages.ALBUM_NOT_FOUND);
             return MenuResult.CONTINUE;
         }
 
@@ -88,11 +89,11 @@ public class AddPhotoLikeAction {
 
         Photo photo = photoService.getPhoto(photoName, album.getId());
         if (photo == null || photo.getId() <= 0) {
-            System.out.println(PhotoLikeMessages.PHOTO_NOT_FOUND);
+            System.out.println(PhotoLikeMessages.PHOTO_NOT_IN_ALBUM);
             return MenuResult.CONTINUE;
         }
 
         PhotoLikeAddResult result = photoLikeService.addPhotoLike(userLogged, friend, album, photo);
-        return addPhotoLikeHandler.handle(result);
+        return AddPhotoLikeHandler.handle(result);
     }
 }
