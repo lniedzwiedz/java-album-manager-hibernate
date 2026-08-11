@@ -19,7 +19,9 @@ public class AddPhotoAction {
     private final PhotoService photoService;
     private final AddPhotoHandler addPhotoHandler;
 
-    public AddPhotoAction(AlbumService albumService, PhotoService photoService, AddPhotoHandler addPhotoHandler) {
+    public AddPhotoAction(AlbumService albumService,
+                          PhotoService photoService,
+                          AddPhotoHandler addPhotoHandler) {
         this.albumService = albumService;
         this.photoService = photoService;
         this.addPhotoHandler = addPhotoHandler;

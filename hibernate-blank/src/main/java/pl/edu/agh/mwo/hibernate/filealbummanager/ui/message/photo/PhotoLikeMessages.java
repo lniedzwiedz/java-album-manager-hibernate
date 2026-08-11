@@ -53,9 +53,6 @@ public final class PhotoLikeMessages {
     public static final String PHOTO_LIKE_REMOVED =
             "You no longer like this photo.";
 
-    public static final String ALREADY_LIKE_PHOTO =
-            "%s has already liked the photo.";
-
     public static final String ALREADY_LIKED =
             "You have already liked this photo.";
 

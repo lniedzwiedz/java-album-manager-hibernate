@@ -17,18 +17,20 @@ import java.util.List;
 
 public class ShowUserAlbumsAction {
 
-    private final AlbumService albumService;
     private final UserService userService;
     private final FriendService friendService;
+    private final AlbumService albumService;
     private final ConsolePrinter consolePrinter;
 
-    public ShowUserAlbumsAction(AlbumService albumService,
-                                UserService userService,
-                                FriendService friendService,
-                                ConsolePrinter consolePrinter) {
-        this.albumService = albumService;
+    public ShowUserAlbumsAction(
+            UserService userService,
+            FriendService friendService,
+            AlbumService albumService,
+            ConsolePrinter consolePrinter) {
+
         this.userService = userService;
         this.friendService = friendService;
+        this.albumService = albumService;
         this.consolePrinter = consolePrinter;
     }
 

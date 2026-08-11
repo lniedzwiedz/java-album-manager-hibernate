@@ -17,19 +17,24 @@ import java.io.IOException;
 
 public class DeletePhotoLikeAction {
 
-    private final PhotoLikeService photoLikeService;
-    private final DeletePhotoLikeHandler deletePhotoLikeHandler;
     private final UserService userService;
     private final AlbumService albumService;
     private final PhotoService photoService;
+    private final PhotoLikeService photoLikeService;
+    private final DeletePhotoLikeHandler deletePhotoLikeHandler;
 
-    public DeletePhotoLikeAction(PhotoLikeService photoLikeService, DeletePhotoLikeHandler deletePhotoLikeHandler,
-                                 UserService userService, AlbumService albumService, PhotoService photoService) {
-        this.photoLikeService = photoLikeService;
-        this.deletePhotoLikeHandler = deletePhotoLikeHandler;
+    public DeletePhotoLikeAction(
+            UserService userService,
+            AlbumService albumService,
+            PhotoService photoService,
+            PhotoLikeService photoLikeService,
+            DeletePhotoLikeHandler deletePhotoLikeHandler
+    ) {
         this.userService = userService;
         this.albumService = albumService;
         this.photoService = photoService;
+        this.photoLikeService = photoLikeService;
+        this.deletePhotoLikeHandler = deletePhotoLikeHandler;
     }
 
     public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {

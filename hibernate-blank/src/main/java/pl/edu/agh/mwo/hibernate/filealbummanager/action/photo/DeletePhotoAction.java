@@ -9,8 +9,6 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.result.photo.PhotoDeleteResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
 import java.io.IOException;
@@ -21,14 +19,16 @@ public class DeletePhotoAction {
     private final PhotoService photoService;
     private final DeletePhotoHandler deletePhotoHandler;
 
-    public DeletePhotoAction(AlbumService albumService, PhotoService photoService, DeletePhotoHandler deletePhotoHandler) {
+    public DeletePhotoAction(AlbumService albumService,
+                             PhotoService photoService,
+                             DeletePhotoHandler deletePhotoHandler) {
         this.albumService = albumService;
         this.photoService = photoService;
         this.deletePhotoHandler = deletePhotoHandler;
     }
 
     public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
-        if (userLogged == null || userLogged.getId() <= 0){
+        if (userLogged == null || userLogged.getId() <= 0) {
             System.out.println(PhotoMessages.LOGGED_USER_NOT_FOUND);
             return MenuResult.CONTINUE;
         }

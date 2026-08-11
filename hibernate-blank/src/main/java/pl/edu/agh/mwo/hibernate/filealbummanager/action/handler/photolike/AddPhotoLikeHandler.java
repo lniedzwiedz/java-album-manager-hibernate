@@ -7,7 +7,6 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessa
 public class AddPhotoLikeHandler {
 
     public MenuResult handle(PhotoLikeAddResult result) {
-
         if (result == null) {
             System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
             return MenuResult.CONTINUE;

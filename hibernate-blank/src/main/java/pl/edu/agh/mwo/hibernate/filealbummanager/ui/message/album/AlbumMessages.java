@@ -41,9 +41,6 @@ public final class AlbumMessages {
     public static final String ALBUM_DELETE_ERROR =
             "An unexpected error occurred while deleting the album.";
 
-    public static final String ALBUM_NAME =
-            "Enter album name: ";
-
     public static final String ALBUMS_HEADER =
             "### Albums";
 

@@ -136,9 +136,9 @@ public class ActionFactory {
 
         this.showUserAlbumsAction =
                 new ShowUserAlbumsAction(
-                        albumService,
                         userService,
                         friendService,
+                        albumService,
                         consolePrinter
                 );
         this.showPhotosAction =
@@ -164,20 +164,20 @@ public class ActionFactory {
 
         this.addPhotoLikeAction =
                 new AddPhotoLikeAction(
-                        photoLikeService,
-                        addPhotoLikeHandler,
                         userService,
                         albumService,
-                        photoService
+                        photoService,
+                        photoLikeService,
+                        addPhotoLikeHandler
                 );
 
         this.deletePhotoLikeAction =
                 new DeletePhotoLikeAction(
-                        photoLikeService,
-                        deletePhotoLikeHandler,
                         userService,
                         albumService,
-                        photoService
+                        photoService,
+                        photoLikeService,
+                        deletePhotoLikeHandler
                 );
 
         this.addFriendAction =

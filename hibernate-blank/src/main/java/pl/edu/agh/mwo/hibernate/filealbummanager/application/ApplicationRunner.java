@@ -16,15 +16,19 @@ import java.io.IOException;
 
 public class ApplicationRunner {
 
-    private final MenuActionHandler menuActionHandler;
     private final LoginActionHandler loginActionHandler;
+    private final MenuActionHandler menuActionHandler;
     private final ConsolePrinter consolePrinter;
     private final ConsoleReader consoleReader;
     private final ConsoleMenu consoleMenu;
 
-    public ApplicationRunner(MenuActionHandler menuActionHandler, LoginActionHandler loginActionHandler, ConsolePrinter consolePrinter, ConsoleReader consoleReader, ConsoleMenu consoleMenu) {
-        this.menuActionHandler = menuActionHandler;
+    public ApplicationRunner(LoginActionHandler loginActionHandler,
+                             MenuActionHandler menuActionHandler,
+                             ConsolePrinter consolePrinter,
+                             ConsoleReader consoleReader,
+                             ConsoleMenu consoleMenu) {
         this.loginActionHandler = loginActionHandler;
+        this.menuActionHandler = menuActionHandler;
         this.consolePrinter = consolePrinter;
         this.consoleReader = consoleReader;
         this.consoleMenu = consoleMenu;

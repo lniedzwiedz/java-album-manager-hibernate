@@ -16,7 +16,6 @@ public class AddAlbumAction {
     private final AddAlbumHandler albumHandler;
 
     public AddAlbumAction(AlbumService albumService, AddAlbumHandler albumHandler) {
-
         this.albumService = albumService;
         this.albumHandler = albumHandler;
     }

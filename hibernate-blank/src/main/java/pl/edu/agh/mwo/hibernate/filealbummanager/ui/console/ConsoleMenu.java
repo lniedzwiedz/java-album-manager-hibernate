@@ -6,12 +6,12 @@ import java.io.IOException;
 
 public class ConsoleMenu {
 
-    private final ConsolePrinter printer;
     private final ConsoleReader reader;
+    private final ConsolePrinter printer;
 
-    public ConsoleMenu(ConsolePrinter printer, ConsoleReader reader) {
-        this.printer = printer;
+    public ConsoleMenu(ConsoleReader reader, ConsolePrinter printer) {
         this.reader = reader;
+        this.printer = printer;
     }
 
     public MenuOption readMenuOption() throws IOException {

@@ -21,7 +21,9 @@ public class ShowPhotosAction {
     private final PhotoService photoService;
     private final PhotoLikeService photoLikeService;
 
-    public ShowPhotosAction(AlbumService albumService, PhotoService photoService, PhotoLikeService photoLikeService) {
+    public ShowPhotosAction(AlbumService albumService,
+                            PhotoService photoService,
+                            PhotoLikeService photoLikeService) {
         this.albumService = albumService;
         this.photoService = photoService;
         this.photoLikeService = photoLikeService;

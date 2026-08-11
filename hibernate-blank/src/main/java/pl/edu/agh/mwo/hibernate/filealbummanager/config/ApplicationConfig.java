@@ -111,8 +111,7 @@ public class ApplicationConfig {
 
         LoginAction loginAction =
                 new LoginAction(
-                        userService,
-                        createAccountAction
+                        userService
                 );
 
         LoginActionHandler loginActionHandler =
@@ -128,13 +127,13 @@ public class ApplicationConfig {
 
         ConsoleMenu consoleMenu =
                 new ConsoleMenu(
-                        consolePrinter,
-                        consoleReader
+                        consoleReader,
+                        consolePrinter
                 );
 
         return new ApplicationRunner(
-                menuActionHandler,
                 loginActionHandler,
+                menuActionHandler,
                 consolePrinter,
                 consoleReader,
                 consoleMenu

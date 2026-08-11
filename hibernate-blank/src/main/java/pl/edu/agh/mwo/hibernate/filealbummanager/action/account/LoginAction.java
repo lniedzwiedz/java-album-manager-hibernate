@@ -11,11 +11,9 @@ import java.io.IOException;
 public class LoginAction {
 
     private final UserService userService;
-    private final CreateAccountAction createAccountAction;
 
-    public LoginAction(UserService userService, CreateAccountAction createAccountAction) {
+    public LoginAction(UserService userService) {
         this.userService = userService;
-        this.createAccountAction = createAccountAction;
     }
 
     public User execute(ConsoleReader reader) throws IOException {

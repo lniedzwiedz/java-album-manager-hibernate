@@ -12,28 +12,30 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.friend.FriendMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessages;
-import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
 import java.io.IOException;
 
 public class AddPhotoLikeAction {
-
-    private final PhotoLikeService photoLikeService;
-    private final AddPhotoLikeHandler AddPhotoLikeHandler;
     private final UserService userService;
     private final AlbumService albumService;
     private final PhotoService photoService;
+    private final PhotoLikeService photoLikeService;
+    private final AddPhotoLikeHandler AddPhotoLikeHandler;
 
-    public AddPhotoLikeAction(PhotoLikeService photoLikeService, AddPhotoLikeHandler addPhotoLikeHandler, UserService userService, AlbumService albumService, PhotoService photoService) {
+    public AddPhotoLikeAction(
+            UserService userService,
+            AlbumService albumService,
+            PhotoService photoService,
+            PhotoLikeService photoLikeService,
+            AddPhotoLikeHandler addPhotoLikeHandler
+    ) {
 
-        this.photoLikeService = photoLikeService;
-        this.AddPhotoLikeHandler = addPhotoLikeHandler;
         this.userService = userService;
         this.albumService = albumService;
         this.photoService = photoService;
+        this.photoLikeService = photoLikeService;
+        this.AddPhotoLikeHandler = addPhotoLikeHandler;
     }
 
     public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
