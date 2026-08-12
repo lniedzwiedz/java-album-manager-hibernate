@@ -1,11 +1,11 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.application;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.AuthenticationMenuActionHandler;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.MenuActionHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.account.AuthenticationMenuActionHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.MenuActionHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.menu.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.AuthenticationResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.AuthenticationStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.status.account.AuthenticationStatus;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleMenu;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsolePrinter;

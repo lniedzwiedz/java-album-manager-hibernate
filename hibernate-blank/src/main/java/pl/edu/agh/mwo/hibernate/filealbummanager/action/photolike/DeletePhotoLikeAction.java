@@ -1,10 +1,10 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photolike.DeletePhotoLikeHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.photolike.DeletePhotoLikeHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.PhotoLikeDeleteResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.PhotoLikeDeleteStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.menu.MenuResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.DeletePhotoLikeResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.status.photolike.DeletePhotoLikeStatus;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoLikeService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessages;
@@ -32,8 +32,8 @@ public class DeletePhotoLikeAction {
         System.out.println(PhotoLikeMessages.REMOVE_PHOTO_LIKE_NAME);
         String photoName = reader.readLine();
 
-        PhotoLikeDeleteStatus status = photoLikeService.deletePhotoLike(userLogged, friendName, albumName, photoName);
-        PhotoLikeDeleteResult result = new PhotoLikeDeleteResult(status, friendName, albumName, photoName);
+        DeletePhotoLikeStatus status = photoLikeService.deletePhotoLike(userLogged, friendName, albumName, photoName);
+        DeletePhotoLikeResult result = new DeletePhotoLikeResult(status, friendName, albumName, photoName);
 
         deletePhotoLikeHandler.handle(result);
         return MenuResult.CONTINUE;

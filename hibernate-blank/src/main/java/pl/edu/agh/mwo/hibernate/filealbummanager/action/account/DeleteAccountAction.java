@@ -1,9 +1,9 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.account;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.DeleteAccountHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.account.DeleteAccountHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.AccountDeleteResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.AccountDeleteStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.status.account.AccountDeleteStatus;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account.AccountMessages;

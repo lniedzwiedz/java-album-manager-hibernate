@@ -3,8 +3,8 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.service;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.repository.AlbumRepository;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.album.AlbumAddStatus;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.album.AlbumDeleteStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.status.album.AddAlbumStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.status.album.DeleteAlbumStatus;
 
 import java.util.List;
 
@@ -28,42 +28,42 @@ public class AlbumService {
         return albumRepository.getAlbums(userId);
     }
 
-    public AlbumAddStatus addAlbum(User user, String albumName) {
+    public AddAlbumStatus addAlbum(User user, String albumName) {
 
         if (user == null || user.getId() <= 0)
-            return AlbumAddStatus.LOGGED_USER_NOT_FOUND;
+            return AddAlbumStatus.LOGGED_USER_NOT_FOUND;
 
         if (albumName == null || albumName.isBlank())
-            return AlbumAddStatus.ALBUM_DATA_NOT_FOUND;
+            return AddAlbumStatus.ALBUM_DATA_NOT_FOUND;
 
         Album existingAlbum = albumRepository.getAlbum(albumName, user.getId());
         if (existingAlbum != null)
-            return AlbumAddStatus.ALBUM_ALREADY_EXISTS;
+            return AddAlbumStatus.ALBUM_ALREADY_EXISTS;
 
         Album album = new Album();
         album.setName(albumName);
         album.setUserId(user.getId());
 
         albumRepository.save(album);
-        return AlbumAddStatus.ALBUM_ADDED;
+        return AddAlbumStatus.ALBUM_ADDED;
     }
 
-    public AlbumDeleteStatus deleteAlbum(User user, String albumName) {
+    public DeleteAlbumStatus deleteAlbum(User user, String albumName) {
         if (user == null || user.getId() <= 0)
-            return AlbumDeleteStatus.LOGGED_USER_NOT_FOUND;
+            return DeleteAlbumStatus.LOGGED_USER_NOT_FOUND;
 
         if (albumName == null || albumName.isBlank())
-            return AlbumDeleteStatus.ALBUM_DATA_NOT_FOUND;
+            return DeleteAlbumStatus.ALBUM_DATA_NOT_FOUND;
 
         Album album = albumRepository.getAlbum(albumName, user.getId());
         if (album == null || album.getId() <= 0)
-            return AlbumDeleteStatus.ALBUM_NOT_FOUND;
+            return DeleteAlbumStatus.ALBUM_NOT_FOUND;
 
         if (album.getUserId() != user.getId())
-            return AlbumDeleteStatus.ALBUM_NOT_OWNED_BY_USER;
+            return DeleteAlbumStatus.ALBUM_NOT_OWNED_BY_USER;
 
         albumRepository.delete(album);
-        return AlbumDeleteStatus.ALBUM_DELETED;
+        return DeleteAlbumStatus.ALBUM_DELETED;
     }
 
     public boolean albumExistsForUser(User userLogged, String albumName) {

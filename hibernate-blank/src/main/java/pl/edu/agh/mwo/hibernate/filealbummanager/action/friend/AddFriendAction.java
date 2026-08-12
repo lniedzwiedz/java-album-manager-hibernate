@@ -1,10 +1,10 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.friend;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.friend.AddFriendHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.friend.AddFriendHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.friend.FriendAddResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.friend.FriendAddStatus;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.friend.AddFriendResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.status.friend.AddFriendStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.menu.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.FriendService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.friend.FriendMessages;
@@ -26,9 +26,9 @@ public class AddFriendAction {
         System.out.println(FriendMessages.ADD_FRIEND_USERNAME);
         String friendName = reader.readLine();
 
-        FriendAddStatus status = friendService.addFriend(userLogged, friendName);
+        AddFriendStatus status = friendService.addFriend(userLogged, friendName);
 
-        FriendAddResult result = new FriendAddResult(status, friendName);
+        AddFriendResult result = new AddFriendResult(status, friendName);
 
         addFriendHandler.handle(result);
         return MenuResult.CONTINUE;

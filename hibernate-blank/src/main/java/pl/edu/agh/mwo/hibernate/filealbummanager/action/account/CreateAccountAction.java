@@ -1,8 +1,8 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.account;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.CreateAccountHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.account.CreateAccountHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.AccountCreateResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.AccountCreateStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.status.account.AccountCreateStatus;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account.AccountMessages;

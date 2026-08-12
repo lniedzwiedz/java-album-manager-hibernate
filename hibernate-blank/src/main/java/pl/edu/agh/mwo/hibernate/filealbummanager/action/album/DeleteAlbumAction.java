@@ -1,10 +1,10 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.album;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.album.DeleteAlbumHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.album.DeleteAlbumHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.album.AlbumDeleteResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.album.AlbumDeleteStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.menu.MenuResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.album.DeleteAlbumResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.status.album.DeleteAlbumStatus;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.AlbumService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
@@ -26,8 +26,8 @@ public class DeleteAlbumAction {
         System.out.println(AlbumMessages.DELETE_ALBUM_NAME);
         String albumName = reader.readLine();
 
-        AlbumDeleteStatus status = albumService.deleteAlbum(userLogged, albumName);
-        AlbumDeleteResult result = new AlbumDeleteResult(status, albumName);
+        DeleteAlbumStatus status = albumService.deleteAlbum(userLogged, albumName);
+        DeleteAlbumResult result = new DeleteAlbumResult(status, albumName);
 
         deleteAlbumHandler.handle(result);
         return MenuResult.CONTINUE;

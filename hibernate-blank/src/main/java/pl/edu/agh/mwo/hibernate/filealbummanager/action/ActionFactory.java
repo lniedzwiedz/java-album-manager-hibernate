@@ -12,20 +12,20 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.action.friend.AddFriendAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.friend.DeleteFriendAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.friend.ShowFriendsAction;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.DeleteAccountHandler;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.LogoutHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.account.DeleteAccountHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.account.LogoutHandler;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.album.AddAlbumHandler;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.album.DeleteAlbumHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.album.AddAlbumHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.album.DeleteAlbumHandler;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.friend.AddFriendHandler;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.friend.DeleteFriendHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.friend.AddFriendHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.friend.DeleteFriendHandler;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photo.AddPhotoHandler;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photo.DeletePhotoHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.photo.AddPhotoHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.photo.DeletePhotoHandler;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photolike.AddPhotoLikeHandler;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photolike.DeletePhotoLikeHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.photolike.AddPhotoLikeHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.photolike.DeletePhotoLikeHandler;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.AddPhotoAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.photo.DeletePhotoAction;

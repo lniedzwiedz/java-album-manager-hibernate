@@ -1,5 +1,7 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.result.account;
 
+import pl.edu.agh.mwo.hibernate.filealbummanager.status.account.AuthenticationStatus;
+
 public class AuthenticationResult {
 
     private final AuthenticationStatus status;

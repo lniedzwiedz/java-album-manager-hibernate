@@ -1,10 +1,10 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.friend;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.friend.DeleteFriendHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.friend.DeleteFriendHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.friend.FriendDeleteResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.friend.FriendDeleteStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.menu.MenuResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.friend.DeleteFriendResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.status.friend.DeleteFriendStatus;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.FriendService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.friend.FriendMessages;
@@ -26,8 +26,8 @@ public class DeleteFriendAction {
         System.out.println(FriendMessages.DELETE_FRIEND_USERNAME);
         String friendName = reader.readLine();
 
-        FriendDeleteStatus status = friendService.deleteFriend(userLogged, friendName);
-        FriendDeleteResult result = new FriendDeleteResult(status, friendName);
+        DeleteFriendStatus status = friendService.deleteFriend(userLogged, friendName);
+        DeleteFriendResult result = new DeleteFriendResult(status, friendName);
 
         deleteFriendHandler.handle(result);
         return MenuResult.CONTINUE;

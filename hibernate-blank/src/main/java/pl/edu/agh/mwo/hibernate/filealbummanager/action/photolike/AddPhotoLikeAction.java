@@ -1,10 +1,10 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.photolike;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photolike.AddPhotoLikeHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.handler.photolike.AddPhotoLikeHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.PhotoLikeAddResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.PhotoLikeAddStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.menu.MenuResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.AddPhotoLikeResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.status.photolike.AddPhotoLikeStatus;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.PhotoLikeService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessages;
@@ -32,8 +32,8 @@ public class AddPhotoLikeAction {
         System.out.println(PhotoLikeMessages.ADD_LIKE_PHOTO_NAME);
         String photoName = reader.readLine();
 
-        PhotoLikeAddStatus status = photoLikeService.addPhotoLike(userLogged, friendName, albumName, photoName);
-        PhotoLikeAddResult result = new PhotoLikeAddResult(status, friendName, albumName, photoName);
+        AddPhotoLikeStatus status = photoLikeService.addPhotoLike(userLogged, friendName, albumName, photoName);
+        AddPhotoLikeResult result = new AddPhotoLikeResult(status, friendName, albumName, photoName);
 
         addPhotoLikeHandler.handle(result);
         return MenuResult.CONTINUE;
