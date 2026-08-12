@@ -1,9 +1,20 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.result.friend;
 
-public enum FriendDeleteResult {
+public class FriendDeleteResult {
 
-    LOGGED_USER_NOT_FOUND,
-    FRIEND_NOT_FOUND,
-    NOT_FRIEND,
-    FRIEND_DELETED,
+    private final FriendDeleteStatus status;
+    private final String userName;
+
+    public FriendDeleteResult(FriendDeleteStatus status, String userName) {
+        this.status = status;
+        this.userName = userName;
+    }
+
+    public FriendDeleteStatus getStatus() {
+        return status;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
 }

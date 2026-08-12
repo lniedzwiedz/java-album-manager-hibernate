@@ -1,10 +1,20 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.result.friend;
 
-public enum FriendAddResult {
+public class FriendAddResult {
 
-    LOGGED_USER_NOT_FOUND,
-    FRIEND_DATA_NOT_FOUND,
-    FRIEND_NOT_FOUND,
-    ALREADY_FRIEND,
-    NOW_FRIEND,
+    private final FriendAddStatus status;
+    private final String userName;
+
+    public FriendAddResult(FriendAddStatus status, String userName) {
+        this.status = status;
+        this.userName = userName;
+    }
+
+    public FriendAddStatus getStatus() {
+        return status;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
 }

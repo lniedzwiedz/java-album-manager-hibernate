@@ -100,7 +100,6 @@ public class ActionFactory {
 
         this.addFriendAction =
                 new AddFriendAction(
-                        userService,
                         friendService,
                         addFriendHandler
                 );
