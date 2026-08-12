@@ -1,15 +1,20 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.result.photo;
 
-public enum PhotoDeleteResult {
+public class PhotoDeleteResult {
 
-    LOGGED_USER_NOT_FOUND,
-    ALBUM_DATA_NOT_FOUND,
-    ALBUM_NOT_FOUND,
-    ALBUM_NOT_OWNED_BY_USER,
-    PHOTO_DATA_NOT_FOUND,
-    PHOTO_NOT_FOUND,
-    PHOTO_NOT_IN_ALBUM,
-    PHOTO_DELETED,
+    private final PhotoDeleteStatus status;
+    private final String photoName;
+
+    public PhotoDeleteResult(PhotoDeleteStatus status, String photoName) {
+        this.status = status;
+        this.photoName = photoName;
+    }
+
+    public PhotoDeleteStatus getStatus() {
+        return status;
+    }
+
+    public String getPhotoName() {
+        return photoName;
+    }
 }
-
-

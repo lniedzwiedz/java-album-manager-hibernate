@@ -98,6 +98,7 @@ public class ApplicationConfig {
 
         PhotoService photoService =
                 new PhotoService(
+                        albumRepository,
                         photoRepository
                 );
 

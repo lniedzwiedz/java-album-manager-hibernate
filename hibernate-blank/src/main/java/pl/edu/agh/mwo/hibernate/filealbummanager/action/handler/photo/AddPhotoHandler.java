@@ -1,21 +1,25 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photo;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.photo.PhotoAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoMessages;
 
 public class AddPhotoHandler {
 
-    public MenuResult handle(PhotoAddResult result, User userLogged) {
-        if (result == null) {
-            System.out.println(PhotoMessages.PHOTO_ADD_ERROR);
-            return MenuResult.CONTINUE;
-        }
+    public void handle(PhotoAddResult result) {
+        if (result == null)
+            return;
 
-        switch (result) {
-            case LOGGED_USER_NOT_FOUND:
-                System.out.println(PhotoMessages.LOGGED_USER_NOT_FOUND);
+        switch (result.getStatus()) {
+            case PHOTO_ADDED:
+                System.out.println(String.format(PhotoMessages.PHOTO_ADDED, result.getPhotoName()));
+                break;
+
+            case PHOTO_ALREADY_EXISTS:
+                System.out.println(String.format(PhotoMessages.PHOTO_ALREADY_EXISTS, result.getPhotoName()));
+                break;
+
+            case PHOTO_DATA_NOT_FOUND:
+                System.out.println(PhotoMessages.PHOTO_DATA_NOT_FOUND);
                 break;
 
             case ALBUM_DATA_NOT_FOUND:
@@ -30,22 +34,9 @@ public class AddPhotoHandler {
                 System.out.println(PhotoMessages.ALBUM_NOT_OWNED_BY_USER);
                 break;
 
-            case PHOTO_DATA_NOT_FOUND:
-                System.out.println(PhotoMessages.PHOTO_DATA_NOT_FOUND);
-                break;
-
-            case PHOTO_ALREADY_EXISTS:
-                System.out.println(PhotoMessages.PHOTO_ALREADY_EXISTS);
-                break;
-
-            case PHOTO_ADDED:
-                System.out.println(PhotoMessages.PHOTO_ADDED);
-                break;
-
-            default:
-                System.out.println(PhotoMessages.PHOTO_ADD_ERROR);
+            case LOGGED_USER_NOT_FOUND:
+                System.out.println(PhotoMessages.LOGGED_USER_NOT_FOUND);
                 break;
         }
-        return MenuResult.CONTINUE;
     }
 }

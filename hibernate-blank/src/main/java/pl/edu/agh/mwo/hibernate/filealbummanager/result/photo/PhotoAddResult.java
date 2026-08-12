@@ -1,12 +1,20 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.result.photo;
 
-public enum PhotoAddResult {
+public class PhotoAddResult {
 
-    LOGGED_USER_NOT_FOUND,
-    ALBUM_DATA_NOT_FOUND,
-    ALBUM_NOT_FOUND,
-    ALBUM_NOT_OWNED_BY_USER,
-    PHOTO_DATA_NOT_FOUND,
-    PHOTO_ALREADY_EXISTS,
-    PHOTO_ADDED,
+    private final PhotoAddStatus status;
+    private final String photoName;
+
+    public PhotoAddResult(PhotoAddStatus status, String photoName) {
+        this.status = status;
+        this.photoName = photoName;
+    }
+
+    public PhotoAddStatus getStatus() {
+        return status;
+    }
+
+    public String getPhotoName() {
+        return photoName;
+    }
 }

@@ -3,18 +3,21 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.service;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
+import pl.edu.agh.mwo.hibernate.filealbummanager.repository.AlbumRepository;
 import pl.edu.agh.mwo.hibernate.filealbummanager.repository.PhotoRepository;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.photo.PhotoAddResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.photo.PhotoDeleteResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.photo.PhotoAddStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.photo.PhotoDeleteStatus;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class PhotoService {
 
+    private final AlbumRepository albumRepository;
     private final PhotoRepository photoRepository;
 
-    public PhotoService(PhotoRepository photoRepository) {
+    public PhotoService(AlbumRepository albumRepository, PhotoRepository photoRepository) {
+        this.albumRepository = albumRepository;
         this.photoRepository = photoRepository;
     }
 
@@ -30,22 +33,26 @@ public class PhotoService {
         return photoRepository.getPhotos(user, albumName);
     }
 
-    public PhotoAddResult addPhoto(User user, Album album, String photoName) {
-        if (user == null || user.getId() <= 0)
-            return PhotoAddResult.LOGGED_USER_NOT_FOUND;
+    public PhotoAddStatus addPhoto(User userLogged, String albumName, String photoName) {
+        if (userLogged == null || userLogged.getId() <= 0)
+            return PhotoAddStatus.LOGGED_USER_NOT_FOUND;
 
+        if (albumName == null || albumName.isBlank())
+            return PhotoAddStatus.ALBUM_DATA_NOT_FOUND;
+
+        Album album = albumRepository.getAlbum(albumName, userLogged.getId());
         if (album == null || album.getId() <= 0)
-            return PhotoAddResult.ALBUM_NOT_FOUND;
+            return PhotoAddStatus.ALBUM_NOT_FOUND;
 
-        if (album.getUserId() != user.getId())
-            return PhotoAddResult.ALBUM_NOT_OWNED_BY_USER;
+        if (album.getUserId() != userLogged.getId())
+            return PhotoAddStatus.ALBUM_NOT_OWNED_BY_USER;
 
         if (photoName == null || photoName.isBlank())
-            return PhotoAddResult.PHOTO_DATA_NOT_FOUND;
+            return PhotoAddStatus.PHOTO_DATA_NOT_FOUND;
 
         Photo existingPhoto = photoRepository.getPhoto(photoName, album.getId());
         if (existingPhoto != null)
-            return PhotoAddResult.PHOTO_ALREADY_EXISTS;
+            return PhotoAddStatus.PHOTO_ALREADY_EXISTS;
 
         Photo photo = new Photo();
         photo.setName(photoName);
@@ -53,26 +60,34 @@ public class PhotoService {
         photo.setDate(LocalDate.now().toString());
 
         photoRepository.save(photo);
-        return PhotoAddResult.PHOTO_ADDED;
+        return PhotoAddStatus.PHOTO_ADDED;
     }
 
-    public PhotoDeleteResult deletePhoto(User user, Album album, Photo photo) {
-        if (user == null || user.getId() <= 0)
-            return PhotoDeleteResult.LOGGED_USER_NOT_FOUND;
+    public PhotoDeleteStatus deletePhoto(User userLogged, String albumName, String photoName) {
+        if (userLogged == null || userLogged.getId() <= 0)
+            return PhotoDeleteStatus.LOGGED_USER_NOT_FOUND;
 
+        if (albumName == null || albumName.isBlank())
+            return PhotoDeleteStatus.ALBUM_DATA_NOT_FOUND;
+
+        Album album = albumRepository.getAlbum(albumName, userLogged.getId());
         if (album == null || album.getId() <= 0)
-            return PhotoDeleteResult.ALBUM_NOT_FOUND;
+            return PhotoDeleteStatus.ALBUM_NOT_FOUND;
 
-        if (album.getUserId() != user.getId())
-            return PhotoDeleteResult.ALBUM_NOT_OWNED_BY_USER;
+        if (album.getUserId() != userLogged.getId())
+            return PhotoDeleteStatus.ALBUM_NOT_OWNED_BY_USER;
 
+        if (photoName == null || photoName.isBlank())
+            return PhotoDeleteStatus.PHOTO_DATA_NOT_FOUND;
+
+        Photo photo = photoRepository.getPhoto(photoName, album.getId());
         if (photo == null || photo.getId() <= 0)
-            return PhotoDeleteResult.PHOTO_NOT_FOUND;
+            return PhotoDeleteStatus.PHOTO_NOT_FOUND;
 
         if (photo.getAlbumId() != album.getId())
-            return PhotoDeleteResult.PHOTO_NOT_IN_ALBUM;
+            return PhotoDeleteStatus.PHOTO_NOT_IN_ALBUM;
 
         photoRepository.delete(photo);
-        return PhotoDeleteResult.PHOTO_DELETED;
+        return PhotoDeleteStatus.PHOTO_DELETED;
     }
 }
