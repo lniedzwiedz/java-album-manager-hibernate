@@ -5,8 +5,9 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.action.ActionFactory;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.CreateAccountAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.account.LoginAction;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.MenuActionHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.AuthenticationMenuActionHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.CreateAccountHandler;
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.LoginActionHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.LoginHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.application.ApplicationRunner;
 import pl.edu.agh.mwo.hibernate.filealbummanager.repository.AlbumRepository;
 import pl.edu.agh.mwo.hibernate.filealbummanager.repository.FriendRepository;
@@ -43,20 +44,41 @@ public class ApplicationConfig {
                         new InputStreamReader(System.in)
                 );
 
+        ConsoleReader consoleReader =
+                new ConsoleReader(
+                        bufferedReader
+                );
+
+        ConsoleMenu consoleMenu =
+                new ConsoleMenu(
+                        consoleReader,
+                        consolePrinter
+                );
+
         UserRepository userRepository =
-                new UserRepository(sessionFactory);
+                new UserRepository(
+                        sessionFactory
+                );
 
         AlbumRepository albumRepository =
-                new AlbumRepository(sessionFactory);
+                new AlbumRepository(
+                        sessionFactory
+                );
 
         FriendRepository friendRepository =
-                new FriendRepository(sessionFactory);
+                new FriendRepository(
+                        sessionFactory
+                );
 
         PhotoRepository photoRepository =
-                new PhotoRepository(sessionFactory);
+                new PhotoRepository(
+                        sessionFactory
+                );
 
         PhotoLikeRepository photoLikeRepository =
-                new PhotoLikeRepository(sessionFactory);
+                new PhotoLikeRepository(
+                        sessionFactory
+                );
 
         UserService userService =
                 new UserService(
@@ -87,20 +109,8 @@ public class ApplicationConfig {
         CreateAccountHandler createAccountHandler =
                 new CreateAccountHandler();
 
-        ActionFactory actionFactory =
-                new ActionFactory(
-                        albumService,
-                        photoService,
-                        photoLikeService,
-                        friendService,
-                        userService,
-                        consolePrinter
-                );
-
-        MenuActionHandler menuActionHandler =
-                new MenuActionHandler(
-                        actionFactory
-                );
+        LoginHandler loginHandler =
+                new LoginHandler();
 
         CreateAccountAction createAccountAction =
                 new CreateAccountAction(
@@ -110,31 +120,37 @@ public class ApplicationConfig {
 
         LoginAction loginAction =
                 new LoginAction(
-                        userService
+                        userService,
+                        loginHandler
                 );
 
-        LoginActionHandler loginActionHandler =
-                new LoginActionHandler(
+        AuthenticationMenuActionHandler authenticationMenuActionHandler =
+                new AuthenticationMenuActionHandler(
                         loginAction,
                         createAccountAction
                 );
 
-        ConsoleReader consoleReader =
-                new ConsoleReader(
-                        bufferedReader
-                );
-
-        ConsoleMenu consoleMenu =
-                new ConsoleMenu(
-                        consoleReader,
+        ActionFactory actionFactory =
+                new ActionFactory(
+                        userService,
+                        friendService,
+                        albumService,
+                        photoService,
+                        photoLikeService,
                         consolePrinter
                 );
 
+        MenuActionHandler menuActionHandler =
+                new MenuActionHandler(
+                        actionFactory
+                );
+
         return new ApplicationRunner(
-                loginActionHandler,
+                authenticationMenuActionHandler,
                 menuActionHandler,
-                consolePrinter,
+                userService,
                 consoleReader,
+                consolePrinter,
                 consoleMenu
         );
     }

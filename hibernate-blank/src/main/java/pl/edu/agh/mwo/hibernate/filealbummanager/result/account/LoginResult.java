@@ -1,16 +1,16 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.result.account;
 
-public class LogoutResult {
+public class LoginResult {
 
-    private final LogoutStatus status;
+    private final LoginStatus status;
     private final String userName;
 
-    public LogoutResult(LogoutStatus status, String userName) {
+    public LoginResult(LoginStatus status, String userName) {
         this.status = status;
         this.userName = userName;
     }
 
-    public LogoutStatus getStatus() {
+    public LoginStatus getStatus() {
         return status;
     }
 

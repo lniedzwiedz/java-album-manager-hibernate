@@ -44,77 +44,78 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsolePrinter;
 
 public class ActionFactory {
 
-    private final AddAlbumAction addAlbumAction;
-    private final DeleteAlbumAction deleteAlbumAction;
-    private final ShowMyAlbumsAction showMyAlbumsAction;
-    private final ShowUserAlbumsAction showUserAlbumsAction;
-
-    private final ShowPhotosAction showPhotosAction;
-    private final AddPhotoAction addPhotoAction;
-    private final DeletePhotoAction deletePhotoAction;
-
-    private final AddAlbumHandler addAlbumHandler;
-    private final DeleteAlbumHandler deleteAlbumHandler;
-
-    private final AddPhotoHandler addPhotoHandler;
-    private final DeletePhotoHandler deletePhotoHandler;
-
-    private final AddPhotoLikeHandler addPhotoLikeHandler;
-    private final DeletePhotoLikeHandler deletePhotoLikeHandler;
-
-    private final AddFriendHandler addFriendHandler;
-    private final DeleteFriendHandler deleteFriendHandler;
-
-    private final AddPhotoLikeAction addPhotoLikeAction;
-    private final DeletePhotoLikeAction deletePhotoLikeAction;
+    private final DeleteAccountAction deleteAccountAction;
+    private final LogoutAction logoutAction;
 
     private final AddFriendAction addFriendAction;
     private final DeleteFriendAction deleteFriendAction;
     private final ShowFriendsAction showFriendsAction;
 
-    private final DeleteAccountHandler deleteAccountHandler;
-    private final DeleteAccountAction deleteAccountAction;
+    private final AddAlbumAction addAlbumAction;
+    private final DeleteAlbumAction deleteAlbumAction;
+    private final ShowMyAlbumsAction showMyAlbumsAction;
+    private final ShowUserAlbumsAction showUserAlbumsAction;
 
-    private final LogoutHandler logoutHandler;
-    private final LogoutAction logoutAction;
+    private final AddPhotoAction addPhotoAction;
+    private final DeletePhotoAction deletePhotoAction;
+    private final ShowPhotosAction showPhotosAction;
+
+    private final AddPhotoLikeAction addPhotoLikeAction;
+    private final DeletePhotoLikeAction deletePhotoLikeAction;
+
 
     public ActionFactory(
+            UserService userService,
+            FriendService friendService,
             AlbumService albumService,
             PhotoService photoService,
             PhotoLikeService photoLikeService,
-            FriendService friendService,
-            UserService userService,
             ConsolePrinter consolePrinter) {
 
-        this.addAlbumHandler =
-                new AddAlbumHandler();
+        DeleteAccountHandler deleteAccountHandler = new DeleteAccountHandler();
+        LogoutHandler logoutHandler = new LogoutHandler();
 
-        this.deleteAlbumHandler =
-                new DeleteAlbumHandler();
+        AddFriendHandler addFriendHandler = new AddFriendHandler();
+        DeleteFriendHandler deleteFriendHandler = new DeleteFriendHandler();
 
-        this.addPhotoHandler =
-                new AddPhotoHandler();
+        AddAlbumHandler addAlbumHandler = new AddAlbumHandler();
+        DeleteAlbumHandler deleteAlbumHandler = new DeleteAlbumHandler();
 
-        this.deletePhotoHandler =
-                new DeletePhotoHandler();
+        AddPhotoHandler addPhotoHandler = new AddPhotoHandler();
+        DeletePhotoHandler deletePhotoHandler = new DeletePhotoHandler();
 
-        this.addPhotoLikeHandler =
-                new AddPhotoLikeHandler();
+        AddPhotoLikeHandler addPhotoLikeHandler = new AddPhotoLikeHandler();
+        DeletePhotoLikeHandler deletePhotoLikeHandler = new DeletePhotoLikeHandler();
 
-        this.deletePhotoLikeHandler =
-                new DeletePhotoLikeHandler();
+        this.deleteAccountAction =
+                new DeleteAccountAction(
+                        userService,
+                        deleteAccountHandler
+                );
 
-        this.addFriendHandler =
-                new AddFriendHandler();
+        this.logoutAction =
+                new LogoutAction(
+                        logoutHandler
+                );
 
-        this.deleteFriendHandler =
-                new DeleteFriendHandler();
+        this.addFriendAction =
+                new AddFriendAction(
+                        userService,
+                        friendService,
+                        addFriendHandler
+                );
 
-        this.deleteAccountHandler =
-                new DeleteAccountHandler();
+        this.deleteFriendAction =
+                new DeleteFriendAction(
+                        friendService,
+                        deleteFriendHandler
+                );
 
-        this.logoutHandler =
-                new LogoutHandler();
+        this.showFriendsAction =
+                new ShowFriendsAction(
+                        friendService,
+                        consolePrinter
+                );
 
         this.addAlbumAction =
                 new AddAlbumAction(
@@ -141,6 +142,7 @@ public class ActionFactory {
                         albumService,
                         consolePrinter
                 );
+
         this.showPhotosAction =
                 new ShowPhotosAction(
                         albumService,
@@ -178,36 +180,6 @@ public class ActionFactory {
                         photoService,
                         photoLikeService,
                         deletePhotoLikeHandler
-                );
-
-        this.addFriendAction =
-                new AddFriendAction(
-                        userService,
-                        friendService,
-                        addFriendHandler
-                );
-
-        this.deleteFriendAction =
-                new DeleteFriendAction(
-                        friendService,
-                        deleteFriendHandler
-                );
-
-        this.showFriendsAction =
-                new ShowFriendsAction(
-                        friendService,
-                        consolePrinter
-                );
-
-        this.deleteAccountAction =
-                new DeleteAccountAction(
-                        userService,
-                        deleteAccountHandler
-                );
-
-        this.logoutAction =
-                new LogoutAction(
-                        logoutHandler
                 );
     }
 

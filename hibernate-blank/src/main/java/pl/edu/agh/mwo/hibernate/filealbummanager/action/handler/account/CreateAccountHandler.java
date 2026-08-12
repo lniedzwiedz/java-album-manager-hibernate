@@ -1,34 +1,27 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.AccountCreateResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account.AccountMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
 
 public class CreateAccountHandler {
 
-    public MenuResult handle(AccountCreateResult result, User user) {
+    public void handle(AccountCreateResult result) {
         if (result == null)
-            return MenuResult.CONTINUE;
+            return;
 
-        switch (result) {
+        switch (result.getStatus()) {
             case ACCOUNT_CREATED:
-                System.out.println(String.format(AccountMessages.WELCOME_ACCOUNT_CREATED, user.getName()));
+                System.out.println(String.format(AccountMessages.ACCOUNT_CREATED, result.getUserName()));
                 break;
 
             case ACCOUNT_EXISTS:
-                System.out.println(String.format(AccountMessages.WELCOME, user.getName()));
-                System.out.println(AccountMessages.ACCOUNT_EXISTS_AUTO_LOGIN);
+                System.out.println(String.format(AccountMessages.ACCOUNT_EXISTS, result.getUserName()));
                 break;
 
             case INVALID_INPUT:
                 System.out.println(ApplicationMessages.INVALID_INPUT_E3);
                 break;
-
-            default:
-                break;
         }
-        return MenuResult.CONTINUE;
     }
 }

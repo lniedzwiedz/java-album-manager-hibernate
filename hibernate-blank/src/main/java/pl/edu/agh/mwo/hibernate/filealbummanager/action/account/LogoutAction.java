@@ -2,8 +2,8 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.action.account;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.LogoutHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.LogoutResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.LogoutStatus;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account.AccountMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.option.ConfirmationOption;
@@ -18,23 +18,35 @@ public class LogoutAction {
         this.logoutHandler = logoutHandler;
     }
 
-    public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
-        if (userLogged == null)
-            return MenuResult.EXIT;
+    public LogoutResult execute(ConsoleReader reader, User userLogged) throws IOException {
 
-        System.out.println(AccountMessages.CONFIRM_LOGOUT);
-        Integer input = reader.readInteger();
+        LogoutResult result;
 
-        if (input == null)
-            return logoutHandler.handle(LogoutResult.INVALID_INPUT, userLogged.getName());
+        if (userLogged == null || userLogged.getId() <= 0) {
+            result = new LogoutResult(LogoutStatus.INVALID_INPUT, null);
 
-        ConfirmationOption option = ConfirmationOption.fromInt(input);
-        if (option == ConfirmationOption.YES)
-            return logoutHandler.handle(LogoutResult.LOGGED_OUT, userLogged.getName());
+        } else {
+            System.out.println(AccountMessages.CONFIRM_LOGOUT);
+            Integer input = reader.readInteger();
 
-        if (option == ConfirmationOption.NO)
-            return logoutHandler.handle(LogoutResult.LOGOUT_CANCELLED, userLogged.getName());
+            if (input == null) {
+                result = new LogoutResult(LogoutStatus.INVALID_INPUT, userLogged.getName());
 
-        return logoutHandler.handle(LogoutResult.INVALID_INPUT, userLogged.getName());
+            } else {
+                ConfirmationOption option = ConfirmationOption.fromInt(input);
+
+                if (option == ConfirmationOption.YES) {
+                    result = new LogoutResult(LogoutStatus.LOGGED_OUT, userLogged.getName());
+
+                } else if (option == ConfirmationOption.NO) {
+                    result = new LogoutResult(LogoutStatus.LOGOUT_CANCELLED, userLogged.getName());
+
+                } else {
+                    result = new LogoutResult(LogoutStatus.INVALID_INPUT, userLogged.getName());
+                }
+            }
+        }
+        logoutHandler.handle(result);
+        return result;
     }
 }

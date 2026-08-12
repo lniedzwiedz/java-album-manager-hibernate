@@ -1,8 +1,8 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.account;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.CreateAccountHandler;
-import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.AccountCreateResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.AccountCreateStatus;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account.AccountMessages;
@@ -19,25 +19,23 @@ public class CreateAccountAction {
         this.createAccountHandler = createAccountHandler;
     }
 
-    public User execute(ConsoleReader reader) throws IOException {
-        while (true) {
-            System.out.println(AccountMessages.CREATE_ACCOUNT_USERNAME);
-            String userName = reader.readLine();
+    public AccountCreateResult execute(ConsoleReader reader) throws IOException {
 
-            if (userName == null || userName.isBlank()) {
-                createAccountHandler.handle(AccountCreateResult.INVALID_INPUT, null);
-                continue;
-            }
+        System.out.println(AccountMessages.CREATE_ACCOUNT_USERNAME);
+        String userName = reader.readLine();
+        AccountCreateResult result;
 
-            User user = userService.getUser(userName);
-            if (user != null) {
-                createAccountHandler.handle(AccountCreateResult.ACCOUNT_EXISTS, user);
-                return user;
-            }
+        if (userName == null || userName.isBlank()) {
+            result = new AccountCreateResult(AccountCreateStatus.INVALID_INPUT, null);
+
+        } else if (userService.getUser(userName) != null) {
+            result = new AccountCreateResult(AccountCreateStatus.ACCOUNT_EXISTS, userName);
+
+        } else {
             userService.createUser(userName);
-            user = userService.getUser(userName);
-            createAccountHandler.handle(AccountCreateResult.ACCOUNT_CREATED, user);
-            return user;
+            result = new AccountCreateResult(AccountCreateStatus.ACCOUNT_CREATED, userName);
         }
+        createAccountHandler.handle(result);
+        return result;
     }
 }

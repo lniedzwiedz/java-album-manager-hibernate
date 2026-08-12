@@ -48,6 +48,9 @@ public class UserRepository {
     }
 
     public void save(User user) {
+        if (user == null)
+            return;
+
         try (Session session = sessionFactory.openSession()) {
 
             Transaction transaction = session.beginTransaction();

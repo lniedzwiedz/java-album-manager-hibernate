@@ -1,8 +1,20 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.result.account;
 
-public enum AccountDeleteResult {
+public class AccountDeleteResult {
 
-    ACCOUNT_DELETED,
-    ACCOUNT_NOT_DELETED,
-    INVALID_INPUT
+    private final AccountDeleteStatus status;
+    private final String userName;
+
+    public AccountDeleteResult(AccountDeleteStatus status, String userName) {
+        this.status = status;
+        this.userName = userName;
+    }
+
+    public AccountDeleteStatus getStatus() {
+        return status;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
 }

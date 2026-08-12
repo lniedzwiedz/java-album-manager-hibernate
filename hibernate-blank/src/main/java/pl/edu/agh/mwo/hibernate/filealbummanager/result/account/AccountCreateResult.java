@@ -1,8 +1,20 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.result.account;
 
-public enum AccountCreateResult {
+public class AccountCreateResult {
 
-    ACCOUNT_CREATED,
-    ACCOUNT_EXISTS,
-    INVALID_INPUT
+    private final AccountCreateStatus status;
+    private final String userName;
+
+    public AccountCreateResult(AccountCreateStatus status, String userName) {
+        this.status = status;
+        this.userName = userName;
+    }
+
+    public AccountCreateStatus getStatus() {
+        return status;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
 }

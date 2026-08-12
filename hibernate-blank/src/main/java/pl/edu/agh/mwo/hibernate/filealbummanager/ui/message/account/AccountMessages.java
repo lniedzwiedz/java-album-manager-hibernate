@@ -13,7 +13,9 @@ public final class AccountMessages {
                     + LoginOption.LOGIN.getValue()
                     + " - log in, "
                     + LoginOption.CREATE_ACCOUNT.getValue()
-                    + " - create a new account";
+                    + " - create a new account, "
+                    + LoginOption.EXIT.getValue()
+                    + " - exit";
 
     public static final String LOGIN_USERNAME =
             "Log in. Please enter your username: ";
@@ -27,11 +29,11 @@ public final class AccountMessages {
     public static final String USER_NOT_FOUND_LOGIN =
             "User not found. Please try again.";
 
-    public static final String WELCOME_ACCOUNT_CREATED =
-            "Welcome, %s! Your new account is ready.";
+    public static final String ACCOUNT_CREATED =
+            "Account created: %s";
 
-    public static final String ACCOUNT_EXISTS_AUTO_LOGIN =
-            "Welcome back! Your account already exists, so you have been logged in automatically.";
+    public static final String ACCOUNT_EXISTS =
+            "Account already exists: %s";
 
     public static final String USERS_HEADER =
             "### Users";

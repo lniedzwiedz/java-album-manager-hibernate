@@ -1,9 +1,12 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.application;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.LoginActionHandler;
+import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.AuthenticationMenuActionHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.MenuActionHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.AuthenticationResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.AuthenticationStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleMenu;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsolePrinter;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
@@ -16,52 +19,70 @@ import java.io.IOException;
 
 public class ApplicationRunner {
 
-    private final LoginActionHandler loginActionHandler;
+    private final AuthenticationMenuActionHandler authenticationMenuActionHandler;
     private final MenuActionHandler menuActionHandler;
-    private final ConsolePrinter consolePrinter;
+    private final UserService userService;
     private final ConsoleReader consoleReader;
+    private final ConsolePrinter consolePrinter;
     private final ConsoleMenu consoleMenu;
 
-    public ApplicationRunner(LoginActionHandler loginActionHandler,
-                             MenuActionHandler menuActionHandler,
-                             ConsolePrinter consolePrinter,
-                             ConsoleReader consoleReader,
-                             ConsoleMenu consoleMenu) {
-        this.loginActionHandler = loginActionHandler;
+    public ApplicationRunner(AuthenticationMenuActionHandler authenticationMenuActionHandler, MenuActionHandler menuActionHandler, UserService userService, ConsoleReader consoleReader, ConsolePrinter consolePrinter, ConsoleMenu consoleMenu) {
+
+        this.authenticationMenuActionHandler = authenticationMenuActionHandler;
         this.menuActionHandler = menuActionHandler;
-        this.consolePrinter = consolePrinter;
+        this.userService = userService;
         this.consoleReader = consoleReader;
+        this.consolePrinter = consolePrinter;
         this.consoleMenu = consoleMenu;
     }
 
     public void run() throws IOException {
-        while (true) {
+
+        boolean applicationRunning = true;
+
+        while (applicationRunning) {
+
             consolePrinter.printApplicationTitle();
 
-            User userLogged = login();
-            if (userLogged == null) continue;
+            AuthenticationResult authenticationResult = login();
 
-            runMenu(userLogged);
+            if (authenticationResult.getStatus() == AuthenticationStatus.EXIT) {
+                applicationRunning = false;
+                continue;
+            }
+
+            if (authenticationResult.getStatus() == AuthenticationStatus.LOGGED_IN) {
+                User userLogged = userService.getUser(authenticationResult.getUserName());
+                runMenu(userLogged);
+            }
         }
     }
 
     private void runMenu(User userLogged) throws IOException {
+
         boolean menuRunning = true;
 
         while (menuRunning && userLogged != null) {
+
             MenuOption menuOption = consoleMenu.readMenuOption();
 
-            if (menuOption == null) continue;
+            if (menuOption == null)
+                continue;
 
             MenuResult menuResult = menuActionHandler.execute(menuOption, consoleReader, userLogged);
-            if (menuResult == MenuResult.EXIT) menuRunning = false;
+            if (menuResult == MenuResult.EXIT) {
+                menuRunning = false;
+            }
         }
     }
 
-    private User login() throws IOException {
+    private AuthenticationResult login() throws IOException {
+
         while (true) {
+
             System.out.println(AccountMessages.SELECT_LOGIN_OR_CREATE);
             Integer input = consoleReader.readInteger();
+
             if (input == null) {
                 System.out.println(ApplicationMessages.INVALID_INPUT_E3);
                 continue;
@@ -73,10 +94,12 @@ public class ApplicationRunner {
                 continue;
             }
 
-            User userLogged = loginActionHandler.execute(loginOption, consoleReader);
-            if (userLogged != null) {
-                return userLogged;
-            }
+            AuthenticationResult result = authenticationMenuActionHandler.execute(consoleReader, loginOption);
+            if (result.getStatus() == AuthenticationStatus.LOGGED_IN)
+                return result;
+
+            if (result.getStatus() == AuthenticationStatus.EXIT)
+                return result;
         }
     }
 }

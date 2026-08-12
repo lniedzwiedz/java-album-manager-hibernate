@@ -7,6 +7,12 @@ public final class ApplicationMessages {
     private ApplicationMessages() {
     }
 
+    public static final String LOGGED_USER_NOT_FOUND =
+            "Logged user not found.";
+
+    public static final String USER_NOT_FOUND =
+            "User not found.";
+
     public static final String ALBUM_MANAGER_TITLE =
             "------------------------------------------------------------\n" +
                     "                   ***** ALBUM MANAGER *****\n" +

@@ -2,8 +2,8 @@ package pl.edu.agh.mwo.hibernate.filealbummanager.action.account;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account.DeleteAccountHandler;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.AccountDeleteResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.AccountDeleteStatus;
 import pl.edu.agh.mwo.hibernate.filealbummanager.service.UserService;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.console.ConsoleReader;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account.AccountMessages;
@@ -21,26 +21,36 @@ public class DeleteAccountAction {
         this.deleteAccountHandler = deleteAccountHandler;
     }
 
-    public MenuResult execute(ConsoleReader reader, User userLogged) throws IOException {
-        if (userLogged == null)
-            return MenuResult.CONTINUE;
+    public AccountDeleteResult execute(ConsoleReader reader, User userLogged) throws IOException {
+        AccountDeleteResult result;
 
-        System.out.println(AccountMessages.CONFIRM_DELETE_ACCOUNT);
-        Integer input = reader.readInteger();
+        if (userLogged == null || userLogged.getId() <= 0) {
+            result = new AccountDeleteResult(AccountDeleteStatus.INVALID_INPUT, null);
 
-        if (input == null)
-            return deleteAccountHandler.handle(AccountDeleteResult.INVALID_INPUT, userLogged.getName());
+        } else {
+            System.out.println(AccountMessages.CONFIRM_DELETE_ACCOUNT);
+            Integer input = reader.readInteger();
 
-        ConfirmationOption option = ConfirmationOption.fromInt(input);
-        if (option == ConfirmationOption.YES) {
-            String deletedUserName = userLogged.getName();
-            userService.delete(userLogged);
-            return deleteAccountHandler.handle(AccountDeleteResult.ACCOUNT_DELETED, deletedUserName);
+            if (input == null) {
+                result = new AccountDeleteResult(AccountDeleteStatus.INVALID_INPUT, userLogged.getName());
+
+            } else {
+                ConfirmationOption option = ConfirmationOption.fromInt(input);
+
+                if (option == ConfirmationOption.YES) {
+                    String deletedUserName = userLogged.getName();
+                    userService.delete(userLogged);
+                    result = new AccountDeleteResult(AccountDeleteStatus.ACCOUNT_DELETED, deletedUserName);
+
+                } else if (option == ConfirmationOption.NO) {
+                    result = new AccountDeleteResult(AccountDeleteStatus.ACCOUNT_NOT_DELETED, userLogged.getName());
+
+                } else {
+                    result = new AccountDeleteResult(AccountDeleteStatus.INVALID_INPUT, userLogged.getName());
+                }
+            }
         }
-
-        if (option == ConfirmationOption.NO)
-            return deleteAccountHandler.handle(AccountDeleteResult.ACCOUNT_NOT_DELETED, userLogged.getName());
-
-        return deleteAccountHandler.handle(AccountDeleteResult.INVALID_INPUT, userLogged.getName());
+        deleteAccountHandler.handle(result);
+        return result;
     }
 }

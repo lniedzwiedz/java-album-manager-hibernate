@@ -1,22 +1,22 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.account;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.LogoutResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.account.LoginResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.account.AccountMessages;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.application.ApplicationMessages;
 
-public class LogoutHandler {
+public class LoginHandler {
 
-    public void handle(LogoutResult result) {
+    public void handle(LoginResult result) {
         if (result == null)
             return;
 
         switch (result.getStatus()) {
-            case LOGGED_OUT:
-                System.out.println(String.format(AccountMessages.GOODBYE, result.getUserName()));
+            case LOGGED_IN:
+                System.out.println(String.format(AccountMessages.WELCOME, result.getUserName()));
                 break;
 
-            case LOGOUT_CANCELLED:
-                System.out.println(AccountMessages.LOGOUT_CANCELLED);
+            case USER_NOT_FOUND:
+                System.out.println(AccountMessages.USER_NOT_FOUND_LOGIN);
                 break;
 
             case INVALID_INPUT:
