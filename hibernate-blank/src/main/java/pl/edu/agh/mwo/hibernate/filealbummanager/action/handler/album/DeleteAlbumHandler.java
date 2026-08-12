@@ -1,18 +1,15 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.album;
 
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.album.AlbumDeleteResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.album.AlbumMessages;
 
 public class DeleteAlbumHandler {
 
-    public MenuResult handleDelete(AlbumDeleteResult result) {
-        if (result == null) {
-            System.out.println(AlbumMessages.ALBUM_DELETE_ERROR);
-            return MenuResult.CONTINUE;
-        }
+    public void handle(AlbumDeleteResult result) {
+        if (result == null)
+            return;
 
-        switch (result) {
+        switch (result.getStatus()) {
             case LOGGED_USER_NOT_FOUND:
                 System.out.println(AlbumMessages.LOGGED_USER_NOT_FOUND);
                 break;
@@ -22,21 +19,16 @@ public class DeleteAlbumHandler {
                 break;
 
             case ALBUM_NOT_FOUND:
-                System.out.println(AlbumMessages.ALBUM_NOT_FOUND);
+                System.out.println(String.format(AlbumMessages.ALBUM_NOT_FOUND, result.getAlbumName()));
                 break;
 
             case ALBUM_NOT_OWNED_BY_USER:
-                System.out.println(AlbumMessages.ALBUM_NOT_OWNED_BY_USER);
+                System.out.println(String.format(AlbumMessages.ALBUM_NOT_OWNED_BY_USER, result.getAlbumName()));
                 break;
 
             case ALBUM_DELETED:
-                System.out.println(AlbumMessages.ALBUM_DELETED);
-                break;
-
-            default:
-                System.out.println(AlbumMessages.ALBUM_DELETE_ERROR);
+                System.out.println(String.format(AlbumMessages.ALBUM_DELETED, result.getAlbumName()));
                 break;
         }
-        return MenuResult.CONTINUE;
     }
 }

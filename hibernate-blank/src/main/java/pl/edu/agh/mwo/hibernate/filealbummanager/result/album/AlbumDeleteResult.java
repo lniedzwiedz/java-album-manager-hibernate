@@ -1,12 +1,20 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.result.album;
 
-public enum AlbumDeleteResult {
+public class AlbumDeleteResult {
 
-    LOGGED_USER_NOT_FOUND,
-    ALBUM_DATA_NOT_FOUND,
-    ALBUM_NOT_FOUND,
-    ALBUM_NOT_OWNED_BY_USER,
-    ALBUM_DELETED,
+    private final AlbumDeleteStatus status;
+    private final String albumName;
+
+    public AlbumDeleteResult(AlbumDeleteStatus status, String albumName) {
+        this.status = status;
+        this.albumName = albumName;
+    }
+
+    public AlbumDeleteStatus getStatus() {
+        return status;
+    }
+
+    public String getAlbumName() {
+        return albumName;
+    }
 }
-
-

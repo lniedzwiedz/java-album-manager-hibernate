@@ -1,9 +1,20 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.result.album;
 
-public enum AlbumAddResult {
+public class AlbumAddResult {
 
-    LOGGED_USER_NOT_FOUND,
-    ALBUM_DATA_NOT_FOUND,
-    ALBUM_ALREADY_EXISTS,
-    ALBUM_ADDED,
+    private final AlbumAddStatus status;
+    private final String albumName;
+
+    public AlbumAddResult(AlbumAddStatus status, String albumName) {
+        this.status = status;
+        this.albumName = albumName;
+    }
+
+    public AlbumAddStatus getStatus() {
+        return status;
+    }
+
+    public String getAlbumName() {
+        return albumName;
+    }
 }
