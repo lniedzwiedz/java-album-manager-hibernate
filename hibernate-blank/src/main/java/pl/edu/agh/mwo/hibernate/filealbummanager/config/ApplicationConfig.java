@@ -104,6 +104,9 @@ public class ApplicationConfig {
 
         PhotoLikeService photoLikeService =
                 new PhotoLikeService(
+                        userService,
+                        albumService,
+                        photoService,
                         photoLikeRepository
                 );
 

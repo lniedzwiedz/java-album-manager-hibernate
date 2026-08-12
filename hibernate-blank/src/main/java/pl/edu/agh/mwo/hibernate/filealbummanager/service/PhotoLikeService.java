@@ -4,85 +4,116 @@ import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Album;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.Photo;
 import pl.edu.agh.mwo.hibernate.filealbummanager.entity.User;
 import pl.edu.agh.mwo.hibernate.filealbummanager.repository.PhotoLikeRepository;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.PhotoLikeAddResult;
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.PhotoLikeDeleteResult;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.PhotoLikeAddStatus;
+import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.PhotoLikeDeleteStatus;
 
 public class PhotoLikeService {
 
+    private final UserService userService;
+    private final AlbumService albumService;
+    private final PhotoService photoService;
     private final PhotoLikeRepository photoLikeRepository;
 
-    public PhotoLikeService(PhotoLikeRepository photoLikeRepository) {
+    public PhotoLikeService(UserService userService, AlbumService albumService,
+                            PhotoService photoService, PhotoLikeRepository photoLikeRepository) {
+        this.userService = userService;
+        this.albumService = albumService;
+        this.photoService = photoService;
         this.photoLikeRepository = photoLikeRepository;
     }
 
-    public PhotoLikeAddResult addPhotoLike(User user, User friend, Album album, Photo photo) {
+    public PhotoLikeAddStatus addPhotoLike(User user, String friendName, String albumName, String photoName) {
         if (user == null || user.getId() <= 0)
-            return PhotoLikeAddResult.LOGGED_USER_NOT_FOUND;
+            return PhotoLikeAddStatus.LOGGED_USER_NOT_FOUND;
 
+        if (friendName == null || friendName.isBlank())
+            return PhotoLikeAddStatus.FRIEND_DATA_NOT_FOUND;
+
+        User friend = userService.getUser(friendName);
         if (friend == null || friend.getId() <= 0)
-            return PhotoLikeAddResult.USER_NOT_FOUND;
+            return PhotoLikeAddStatus.USER_NOT_FOUND;
 
         if (user.getId() == friend.getId())
-            return PhotoLikeAddResult.NOT_FRIENDS;
+            return PhotoLikeAddStatus.NOT_FRIENDS;
 
         boolean areFriends = user.getUsers().contains(friend) ||
                 friend.getUsers().contains(user);
 
         if (!areFriends)
-            return PhotoLikeAddResult.NOT_FRIENDS;
+            return PhotoLikeAddStatus.NOT_FRIENDS;
 
+        if (albumName == null || albumName.isBlank())
+            return PhotoLikeAddStatus.ALBUM_DATA_NOT_FOUND;
+
+        Album album = albumService.getAlbum(albumName, friend.getId());
         if (album == null || album.getId() <= 0)
-            return PhotoLikeAddResult.ALBUM_NOT_FOUND;
+            return PhotoLikeAddStatus.ALBUM_NOT_FOUND;
 
         if (album.getUserId() != friend.getId())
-            return PhotoLikeAddResult.ALBUM_NOT_OWNED_BY_USER;
+            return PhotoLikeAddStatus.ALBUM_NOT_OWNED_BY_USER;
 
+        if (photoName == null || photoName.isBlank())
+            return PhotoLikeAddStatus.PHOTO_DATA_NOT_FOUND;
+
+        Photo photo = photoService.getPhoto(photoName, album.getId());
         if (photo == null || photo.getId() <= 0)
-            return PhotoLikeAddResult.PHOTO_NOT_FOUND;
+            return PhotoLikeAddStatus.PHOTO_NOT_FOUND;
 
         if (photo.getAlbumId() != album.getId())
-            return PhotoLikeAddResult.PHOTO_NOT_IN_ALBUM;
+            return PhotoLikeAddStatus.PHOTO_NOT_IN_ALBUM;
 
         if (photo.getUsers().contains(user))
-            return PhotoLikeAddResult.PHOTO_ALREADY_LIKED;
+            return PhotoLikeAddStatus.PHOTO_ALREADY_LIKED;
 
         photoLikeRepository.addPhotoLike(user, photo);
-        return PhotoLikeAddResult.PHOTO_LIKE_ADDED;
+        return PhotoLikeAddStatus.PHOTO_LIKE_ADDED;
     }
 
-    public PhotoLikeDeleteResult deletePhotoLike(User user, User friend, Album album, Photo photo) {
+    public PhotoLikeDeleteStatus deletePhotoLike(User user, String friendName, String albumName, String photoName) {
         if (user == null || user.getId() <= 0)
-            return PhotoLikeDeleteResult.LOGGED_USER_NOT_FOUND;
+            return PhotoLikeDeleteStatus.LOGGED_USER_NOT_FOUND;
 
+        if (friendName == null || friendName.isBlank())
+            return PhotoLikeDeleteStatus.FRIEND_DATA_NOT_FOUND;
+
+        User friend = userService.getUser(friendName);
         if (friend == null || friend.getId() <= 0)
-            return PhotoLikeDeleteResult.USER_NOT_FOUND;
+            return PhotoLikeDeleteStatus.USER_NOT_FOUND;
 
         if (user.getId() == friend.getId())
-            return PhotoLikeDeleteResult.NOT_FRIENDS;
+            return PhotoLikeDeleteStatus.NOT_FRIENDS;
 
         boolean areFriends = user.getUsers().contains(friend) ||
                 friend.getUsers().contains(user);
 
         if (!areFriends)
-            return PhotoLikeDeleteResult.NOT_FRIENDS;
+            return PhotoLikeDeleteStatus.NOT_FRIENDS;
 
+        if (albumName == null || albumName.isBlank())
+            return PhotoLikeDeleteStatus.ALBUM_DATA_NOT_FOUND;
+
+        Album album = albumService.getAlbum(albumName, friend.getId());
         if (album == null || album.getId() <= 0)
-            return PhotoLikeDeleteResult.ALBUM_NOT_FOUND;
+            return PhotoLikeDeleteStatus.ALBUM_NOT_FOUND;
 
         if (album.getUserId() != friend.getId())
-            return PhotoLikeDeleteResult.ALBUM_NOT_OWNED_BY_USER;
+            return PhotoLikeDeleteStatus.ALBUM_NOT_OWNED_BY_USER;
 
+        if (photoName == null || photoName.isBlank())
+            return PhotoLikeDeleteStatus.PHOTO_DATA_NOT_FOUND;
+
+        Photo photo = photoService.getPhoto(photoName, album.getId());
         if (photo == null || photo.getId() <= 0)
-            return PhotoLikeDeleteResult.PHOTO_NOT_FOUND;
+            return PhotoLikeDeleteStatus.PHOTO_NOT_FOUND;
 
         if (photo.getAlbumId() != album.getId())
-            return PhotoLikeDeleteResult.PHOTO_NOT_IN_ALBUM;
+            return PhotoLikeDeleteStatus.PHOTO_NOT_IN_ALBUM;
 
         if (!photo.getUsers().contains(user))
-            return PhotoLikeDeleteResult.PHOTO_NOT_LIKED;
+            return PhotoLikeDeleteStatus.PHOTO_NOT_LIKED;
 
         photoLikeRepository.deletePhotoLike(user, photo);
-        return PhotoLikeDeleteResult.PHOTO_LIKE_DELETED;
+        return PhotoLikeDeleteStatus.PHOTO_LIKE_DELETED;
     }
 
     public int countPhotoLikes(Photo photo) {

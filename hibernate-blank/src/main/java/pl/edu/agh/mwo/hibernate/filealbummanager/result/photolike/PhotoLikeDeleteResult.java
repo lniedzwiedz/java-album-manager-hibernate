@@ -1,19 +1,32 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike;
 
-public enum PhotoLikeDeleteResult {
+public class PhotoLikeDeleteResult {
 
-    LOGGED_USER_NOT_FOUND,
-    USER_NOT_FOUND,
-    FRIEND_DATA_NOT_FOUND,
-    NOT_FRIENDS,
-    ALBUM_DATA_NOT_FOUND,
-    ALBUM_NOT_FOUND,
-    ALBUM_NOT_OWNED_BY_USER,
-    PHOTO_DATA_NOT_FOUND,
-    PHOTO_NOT_FOUND,
-    PHOTO_NOT_IN_ALBUM,
-    PHOTO_ALREADY_LIKED,
-    PHOTO_LIKE_ADDED,
-    PHOTO_NOT_LIKED,
-    PHOTO_LIKE_DELETED,
+    private final PhotoLikeDeleteStatus status;
+    private final String friendName;
+    private final String albumName;
+    private final String photoName;
+
+    public PhotoLikeDeleteResult(PhotoLikeDeleteStatus status, String friendName, String albumName, String photoName) {
+        this.status = status;
+        this.friendName = friendName;
+        this.albumName = albumName;
+        this.photoName = photoName;
+    }
+
+    public PhotoLikeDeleteStatus getStatus() {
+        return status;
+    }
+
+    public String getFriendName() {
+        return friendName;
+    }
+
+    public String getAlbumName() {
+        return albumName;
+    }
+
+    public String getPhotoName() {
+        return photoName;
+    }
 }

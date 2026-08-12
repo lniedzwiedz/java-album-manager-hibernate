@@ -1,24 +1,21 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photolike;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.PhotoLikeAddResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessages;
 
 public class AddPhotoLikeHandler {
 
-    public MenuResult handle(PhotoLikeAddResult result) {
-        if (result == null) {
-            System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
-            return MenuResult.CONTINUE;
-        }
+    public void handle(PhotoLikeAddResult result) {
+        if (result == null)
+            return;
 
-        switch (result) {
+        switch (result.getStatus()) {
             case LOGGED_USER_NOT_FOUND:
                 System.out.println(PhotoLikeMessages.LOGGED_USER_NOT_FOUND);
                 break;
 
             case USER_NOT_FOUND:
-                System.out.println(PhotoLikeMessages.USER_NOT_FOUND);
+                System.out.println(String.format(PhotoLikeMessages.USER_NOT_FOUND, result.getUserName()));
                 break;
 
             case FRIEND_DATA_NOT_FOUND:
@@ -34,15 +31,19 @@ public class AddPhotoLikeHandler {
                 break;
 
             case ALBUM_NOT_FOUND:
-                System.out.println(PhotoLikeMessages.ALBUM_NOT_FOUND);
+                System.out.println(String.format(PhotoLikeMessages.ALBUM_NOT_FOUND, result.getAlbumName()));
+                break;
+
+            case ALBUM_NOT_OWNED_BY_USER:
+                System.out.println(PhotoLikeMessages.ALBUM_NOT_OWNED_BY_USER);
                 break;
 
             case PHOTO_DATA_NOT_FOUND:
-                System.out.println(PhotoLikeMessages.PHOTO_OWNER_NOT_FOUND);
+                System.out.println(PhotoLikeMessages.PHOTO_DATA_NOT_FOUND);
                 break;
 
             case PHOTO_NOT_FOUND:
-                System.out.println(PhotoLikeMessages.PHOTO_NOT_FOUND);
+                System.out.println(String.format(PhotoLikeMessages.PHOTO_NOT_FOUND, result.getPhotoName()));
                 break;
 
             case PHOTO_NOT_IN_ALBUM:
@@ -56,12 +57,6 @@ public class AddPhotoLikeHandler {
             case PHOTO_LIKE_ADDED:
                 System.out.println(PhotoLikeMessages.PHOTO_LIKE_ADDED);
                 break;
-
-            default:
-                System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
-                break;
         }
-
-        return MenuResult.CONTINUE;
     }
 }

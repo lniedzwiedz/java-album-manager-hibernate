@@ -163,18 +163,12 @@ public class ActionFactory {
 
         this.addPhotoLikeAction =
                 new AddPhotoLikeAction(
-                        userService,
-                        albumService,
-                        photoService,
                         photoLikeService,
                         addPhotoLikeHandler
                 );
 
         this.deletePhotoLikeAction =
                 new DeletePhotoLikeAction(
-                        userService,
-                        albumService,
-                        photoService,
                         photoLikeService,
                         deletePhotoLikeHandler
                 );

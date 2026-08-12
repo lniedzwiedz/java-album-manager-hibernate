@@ -1,18 +1,15 @@
 package pl.edu.agh.mwo.hibernate.filealbummanager.action.handler.photolike;
 
-import pl.edu.agh.mwo.hibernate.filealbummanager.result.MenuResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.result.photolike.PhotoLikeDeleteResult;
 import pl.edu.agh.mwo.hibernate.filealbummanager.ui.message.photo.PhotoLikeMessages;
 
 public class DeletePhotoLikeHandler {
 
-    public MenuResult handle(PhotoLikeDeleteResult result) {
-        if (result == null) {
-            System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
-            return MenuResult.CONTINUE;
-        }
+    public void handle(PhotoLikeDeleteResult result) {
+        if (result == null)
+            return;
 
-        switch (result) {
+        switch (result.getStatus()) {
             case LOGGED_USER_NOT_FOUND:
                 System.out.println(PhotoLikeMessages.LOGGED_USER_NOT_FOUND);
                 break;
@@ -37,8 +34,12 @@ public class DeletePhotoLikeHandler {
                 System.out.println(PhotoLikeMessages.ALBUM_NOT_FOUND);
                 break;
 
+            case ALBUM_NOT_OWNED_BY_USER:
+                System.out.println(PhotoLikeMessages.ALBUM_NOT_OWNED_BY_USER);
+                break;
+
             case PHOTO_DATA_NOT_FOUND:
-                System.out.println(PhotoLikeMessages.PHOTO_OWNER_NOT_FOUND);
+                System.out.println(PhotoLikeMessages.PHOTO_DATA_NOT_FOUND);
                 break;
 
             case PHOTO_NOT_FOUND:
@@ -61,7 +62,5 @@ public class DeletePhotoLikeHandler {
                 System.out.println(PhotoLikeMessages.PHOTO_LIKE_ERROR);
                 break;
         }
-
-        return MenuResult.CONTINUE;
     }
 }
